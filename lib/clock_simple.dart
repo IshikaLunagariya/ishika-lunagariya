@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:clock_simple/modules/setting_screen/presentation/setting_screen.dart';
 import 'package:clock_simple/utils/app_binding.dart';
 import 'package:clock_simple/utils/app_color.dart';
 import 'package:clock_simple/utils/navigation_utils/routes.dart';
@@ -19,7 +16,6 @@ class ClockSimple extends StatefulWidget {
 }
 
 class _ClockSimpleState extends State<ClockSimple> {
-
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -28,21 +24,20 @@ class _ClockSimpleState extends State<ClockSimple> {
       debugShowCheckedModeBanner: false,
       title: AppString.appName,
       theme: ThemeData(
-        scrollbarTheme: const ScrollbarThemeData().copyWith(
-          thickness: MaterialStateProperty.all(5),
-        ),
-        appBarTheme: const AppBarTheme(
-          systemOverlayStyle: SystemUiOverlayStyle.dark,
-        ),
-        brightness: Brightness.dark,
-        splashColor: Colors.transparent,
-        disabledColor: Colors.transparent,
-        scaffoldBackgroundColor: AppColor.blackColor
-      ),
+          scrollbarTheme: const ScrollbarThemeData().copyWith(
+            thickness: MaterialStateProperty.all(5),
+          ),
+          appBarTheme: const AppBarTheme(
+            systemOverlayStyle: SystemUiOverlayStyle.dark,
+          ),
+          brightness: Brightness.dark,
+          splashColor: Colors.transparent,
+          disabledColor: Colors.transparent,
+          scaffoldBackgroundColor: AppColor.blackColor),
       initialRoute: Routes.homeScreen,
       unknownRoute: GetPage(
         name: Routes.homeScreen,
-        page: () =>  HomeScreen(),
+        page: () => HomeScreen(),
       ),
     );
   }

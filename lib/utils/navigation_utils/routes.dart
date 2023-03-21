@@ -7,7 +7,6 @@ mixin Routes {
   static const defaultTransition = Transition.rightToLeft;
   static const defaultTransitionDuration = Duration(milliseconds: 200);
 
-  // get started
   static const String splash = '/splash';
   static const String homeScreen = '/homeScreen';
   static const String settingScreen = '/SettingScreen';

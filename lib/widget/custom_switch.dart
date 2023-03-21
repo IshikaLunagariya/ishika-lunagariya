@@ -2,19 +2,21 @@ import 'package:clock_simple/utils/app_color.dart';
 import 'package:clock_simple/widget/app_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import '../utils/size_utils.dart';
 
 class CustomSwitchWidget extends StatelessWidget {
-   CustomSwitchWidget({Key? key,required this.value,required this.onChange,required this.title,this.subTitle}) : super(key: key);
+  CustomSwitchWidget({Key? key, required this.value, required this.onChange, required this.title, this.subTitle})
+      : super(key: key);
 
-  bool value;
-  Function(bool)? onChange;
-  String title;
-  String? subTitle;
+  final bool value;
+  final Function(bool)? onChange;
+  final String title;
+  final String? subTitle;
 
   @override
   Widget build(BuildContext context) {
-    return  Row(
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CupertinoSwitch(
@@ -24,7 +26,7 @@ class CustomSwitchWidget extends StatelessWidget {
           activeColor: CupertinoColors.inactiveGray,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 15),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
