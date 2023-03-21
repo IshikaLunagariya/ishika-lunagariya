@@ -6,10 +6,12 @@ import 'package:screen_brightness/screen_brightness.dart';
 
 class HomeController extends GetxController {
   RxString timeString = "".obs;
+  RxString timeString24 = "".obs;
 
   @override
   void onInit() {
     timeString.value = DateFormat('hh:mm:ss a').format(DateTime.now());
+    timeString24.value = DateFormat('HH:mm:ss a').format(DateTime.now());
     Timer.periodic(const Duration(seconds: 1), (Timer t) => _getCurrentTime());
     super.onInit();
   }
@@ -18,6 +20,7 @@ class HomeController extends GetxController {
 
   void _getCurrentTime() {
     timeString.value = DateFormat('hh:mm:ss a').format(DateTime.now());
+    timeString24.value = DateFormat('HH:mm:ss a').format(DateTime.now());
   }
 
   Future<double> get currentBrightness async {

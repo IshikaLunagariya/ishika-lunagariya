@@ -17,56 +17,77 @@ class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:  Padding(
+      body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 40),
         child: Obx(() {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          return Stack(
             children: [
-              IconButton(
-                splashColor: Colors.transparent,
-                onPressed: () {
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
                   Navigation.pushNamed(Routes.homeScreen);
                 },
-                icon: Icon(Icons.close, color: AppColor.whiteColor),
-              ),
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CustomSwitchWidget(
-                      title: AppString.preventLocking,
-                      subTitle: AppString.preventLockingDes,
-                      onChange: (value) {
-                        settingController.preventLocking.value = value;
-                      },
-                      value: settingController.preventLocking.value,
-                    ),
-                    CustomSwitchWidget(
-                      title: AppString.dimmer,
-                      subTitle: AppString.dimmerDes,
-                      onChange: (value) {
-                        settingController.dimmer.value = value;
-                      },
-                      value: settingController.dimmer.value,
-                    ),
-                    const Divider(),
-                    CustomSwitchWidget(
-                      title: AppString.hourFormate,
-                      onChange: (value) {
-                        settingController.hourFormate.value = value;
-                      },
-                      value: settingController.hourFormate.value,
-                    ),
-                    CustomSwitchWidget(
-                      title: AppString.leadingZero,
-                      onChange: (value) {
-                        settingController.leadingZero.value = value;
-                      },
-                      value: settingController.leadingZero.value,
-                    ),
-                  ],
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
                 ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  IconButton(
+                    splashColor: Colors.transparent,
+                    onPressed: () {
+                      Navigation.pushNamed(Routes.homeScreen);
+                    },
+                    icon: Icon(Icons.close, color: AppColor.whiteColor),
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: SizeUtils.horizontalBlockSize * 20, vertical: SizeUtils.verticalBlockSize * 10),
+                      child: Column(
+                        children: [
+                          CustomSwitchWidget(
+                            title: AppString.preventLocking,
+                            subTitle: AppString.preventLockingDes,
+                            onChange: (value) {
+                              settingController.preventLocking.value = value;
+                            },
+                            value: settingController.preventLocking.value,
+                          ),
+                          CustomSwitchWidget(
+                            title: AppString.dimmer,
+                            subTitle: AppString.dimmerDes,
+                            onChange: (value) {
+                              settingController.dimmer.value = value;
+                            },
+                            value: settingController.dimmer.value,
+                          ),
+                          Divider(
+                            color: AppColor.gray,
+                            height: SizeUtils.verticalBlockSize * 7,
+                            thickness: 1,
+                          ),
+                          CustomSwitchWidget(
+                            title: AppString.hourFormate,
+                            onChange: (value) {
+                              settingController.hourFormate.value = value;
+                            },
+                            value: settingController.hourFormate.value,
+                          ),
+                          CustomSwitchWidget(
+                            title: AppString.leadingZero,
+                            onChange: (value) {
+                              settingController.leadingZero.value = value;
+                            },
+                            value: settingController.leadingZero.value,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           );

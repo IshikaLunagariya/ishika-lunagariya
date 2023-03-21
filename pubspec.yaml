@@ -38,6 +38,7 @@ dependencies:
   get: ^4.6.5
   screen_brightness: ^0.2.2
   intl: ^0.18.0
+  wakelock: ^0.6.2
 
 dev_dependencies:
   flutter_test:

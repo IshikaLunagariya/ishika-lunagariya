@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import '../utils/size_utils.dart';
 
 class CustomSwitchWidget extends StatelessWidget {
-  CustomSwitchWidget({Key? key, required this.value, required this.onChange, required this.title, this.subTitle})
+  const CustomSwitchWidget({Key? key, required this.value, required this.onChange, required this.title, this.subTitle})
       : super(key: key);
 
   final bool value;
@@ -22,8 +22,8 @@ class CustomSwitchWidget extends StatelessWidget {
         CupertinoSwitch(
           value: value,
           onChanged: onChange,
-          thumbColor: CupertinoColors.white,
-          activeColor: CupertinoColors.inactiveGray,
+          thumbColor: Colors.white,
+          activeColor: Colors.grey,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -39,7 +39,7 @@ class CustomSwitchWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 5),
                 child: AppText(
                   text: subTitle ?? "",
-                  color: AppColor.gray.shade500,
+                  color: AppColor.gray,
                   fontSize: SizeUtils.fSize_12(),
                 ),
               ),
