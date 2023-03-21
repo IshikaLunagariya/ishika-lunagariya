@@ -17,6 +17,7 @@ class HomeController extends GetxController {
   }
 
   RxDouble currentSliderValue = 1.0.obs;
+  RxBool isVisible = true.obs;
 
   void _getCurrentTime() {
     timeString.value = DateFormat('hh:mm:ss a').format(DateTime.now());
