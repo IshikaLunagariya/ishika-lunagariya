@@ -1,6 +1,7 @@
 import 'package:clock_simple/clock_simple.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:screen_brightness/screen_brightness.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,5 +11,6 @@ Future main() async {
       DeviceOrientation.portraitDown,
     ],
   );
+  ScreenBrightness();
   runApp(const ClockSimple());
 }

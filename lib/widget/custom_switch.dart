@@ -35,10 +35,13 @@ class CustomSwitchWidget extends StatelessWidget {
                 color: AppColor.whiteColor,
                 fontSize: SizeUtils.fSize_17(),
               ),
-              AppText(
-                text: subTitle ?? "",
-                color: AppColor.gray.shade500,
-                fontSize: SizeUtils.fSize_12(),
+              Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: AppText(
+                  text: subTitle ?? "",
+                  color: AppColor.gray.shade500,
+                  fontSize: SizeUtils.fSize_12(),
+                ),
               ),
             ],
           ),
