@@ -30,6 +30,7 @@ class HomeScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 40),
         child: Obx(() => Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 settingController.dimmer.value
                     ? Center(
@@ -48,6 +49,9 @@ class HomeScreen extends StatelessWidget {
                         ),
                       )
                     : const SizedBox(),
+                SizedBox(
+                  height: SizeUtils.verticalBlockSize * 33,
+                ),
                 Obx(
                   () => Center(
                     child: RichText(
