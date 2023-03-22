@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 
+import 'utils/preferences.dart';
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Preferences().initialAppPreference();
+
   await SystemChrome.setPreferredOrientations(
     [
       DeviceOrientation.portraitUp,

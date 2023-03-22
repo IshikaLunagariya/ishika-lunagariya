@@ -10,6 +10,7 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
+    // SettingController.to.preventLocking.value = Preferences.instance.prefs?.getBool("preventLocking") ?? false;
     timeString.value = DateFormat('hh:mm:ss a').format(DateTime.now());
     timeString24.value = DateFormat('HH:mm:ss a').format(DateTime.now());
     Timer.periodic(const Duration(seconds: 1), (Timer t) => _getCurrentTime());

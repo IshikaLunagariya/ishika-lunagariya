@@ -1,5 +1,6 @@
 import 'package:clock_simple/modules/setting_screen/controller/setting_controller.dart';
 import 'package:clock_simple/utils/app_color.dart';
+import 'package:clock_simple/utils/preferences.dart';
 import 'package:clock_simple/utils/size_utils.dart';
 import 'package:clock_simple/utils/string_utils.dart';
 import 'package:flutter/material.dart';
@@ -51,16 +52,19 @@ class SettingScreen extends StatelessWidget {
                           CustomSwitchWidget(
                             title: AppString.preventLocking,
                             subTitle: AppString.preventLockingDes,
-                            onChange: (value) {
+                            onChange: (value) async {
                               settingController.preventLocking.value = value;
+                              await Preferences.instance.prefs
+                                  ?.setBool("preventLocking", settingController.preventLocking.value);
                             },
                             value: settingController.preventLocking.value,
                           ),
                           CustomSwitchWidget(
                             title: AppString.dimmer,
                             subTitle: AppString.dimmerDes,
-                            onChange: (value) {
+                            onChange: (value) async {
                               settingController.dimmer.value = value;
+                              await Preferences.instance.prefs?.setBool("dimmer", settingController.dimmer.value);
                             },
                             value: settingController.dimmer.value,
                           ),
@@ -71,15 +75,19 @@ class SettingScreen extends StatelessWidget {
                           ),
                           CustomSwitchWidget(
                             title: AppString.hourFormate,
-                            onChange: (value) {
+                            onChange: (value) async {
                               settingController.hourFormate.value = value;
+                              await Preferences.instance.prefs
+                                  ?.setBool("hourFormate", settingController.hourFormate.value);
                             },
                             value: settingController.hourFormate.value,
                           ),
                           CustomSwitchWidget(
                             title: AppString.leadingZero,
-                            onChange: (value) {
+                            onChange: (value) async {
                               settingController.leadingZero.value = value;
+                              await Preferences.instance.prefs
+                                  ?.setBool("leadingZero", settingController.leadingZero.value);
                             },
                             value: settingController.leadingZero.value,
                           ),
