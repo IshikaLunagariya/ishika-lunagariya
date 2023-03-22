@@ -65,7 +65,7 @@ class HomeScreen extends StatelessWidget {
                   Center(
                     child: RichText(
                       text: TextSpan(
-                        text: settingController.hourFormate.value
+                        text: settingController.hourFormat.value
                             ? homeController.timeString24.value.substring(0, 8)
                             : settingController.leadingZero.value == false &&
                                     homeController.timeString.value.substring(0, 1) == "0"

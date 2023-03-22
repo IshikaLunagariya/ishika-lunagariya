@@ -5,14 +5,14 @@ class SettingController extends GetxController {
   static SettingController get to => SettingController();
   RxBool preventLocking = false.obs;
   RxBool dimmer = false.obs;
-  RxBool hourFormate = false.obs;
+  RxBool hourFormat = false.obs;
   RxBool leadingZero = true.obs;
 
   @override
   void onInit() {
     preventLocking.value = Preferences.instance.prefs?.getBool("preventLocking") ?? false;
     dimmer.value = Preferences.instance.prefs?.getBool("dimmer") ?? false;
-    hourFormate.value = Preferences.instance.prefs?.getBool("hourFormate") ?? false;
+    hourFormat.value = Preferences.instance.prefs?.getBool("hourFormat") ?? false;
     leadingZero.value = Preferences.instance.prefs?.getBool("leadingZero") ?? true;
     super.onInit();
   }

@@ -76,11 +76,11 @@ class SettingScreen extends StatelessWidget {
                           CustomSwitchWidget(
                             title: AppString.hourFormate,
                             onChange: (value) async {
-                              settingController.hourFormate.value = value;
+                              settingController.hourFormat.value = value;
                               await Preferences.instance.prefs
-                                  ?.setBool("hourFormate", settingController.hourFormate.value);
+                                  ?.setBool("hourFormat", settingController.hourFormat.value);
                             },
-                            value: settingController.hourFormate.value,
+                            value: settingController.hourFormat.value,
                           ),
                           CustomSwitchWidget(
                             title: AppString.leadingZero,
