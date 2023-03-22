@@ -13,7 +13,7 @@ class SettingController extends GetxController {
     preventLocking.value = Preferences.instance.prefs?.getBool("preventLocking") ?? false;
     dimmer.value = Preferences.instance.prefs?.getBool("dimmer") ?? false;
     hourFormate.value = Preferences.instance.prefs?.getBool("hourFormate") ?? false;
-    leadingZero.value = Preferences.instance.prefs?.getBool("leadingZero") ?? false;
+    leadingZero.value = Preferences.instance.prefs?.getBool("leadingZero") ?? true;
     super.onInit();
   }
 }
