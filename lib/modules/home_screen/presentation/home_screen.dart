@@ -28,12 +28,21 @@ class HomeScreen extends StatelessWidget {
     SizeUtils().init(context);
     return Scaffold(
       backgroundColor: AppColor.blackColor.withOpacity(homeController.currentSliderValue.value),
-      floatingActionButton: IconButton(
-        splashColor: Colors.transparent,
-        onPressed: () {
-          Navigation.pushNamed(Routes.settingScreen);
-        },
-        icon: Icon(Icons.settings, color: AppColor.whiteColor),
+      floatingActionButton: Stack(
+        children: [
+          Obx(
+            () => Visibility(
+              visible: homeController.isButtonVisible.value,
+              child: IconButton(
+                splashColor: Colors.transparent,
+                onPressed: () {
+                  Navigation.pushNamed(Routes.settingScreen);
+                },
+                icon: Icon(Icons.settings, color: AppColor.whiteColor),
+              ),
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: SizeUtils.verticalBlockSize * 10),
@@ -94,10 +103,16 @@ class HomeScreen extends StatelessWidget {
               ),
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  homeController.isButtonVisible.value = !homeController.isButtonVisible.value;
+                },
                 onPanEnd: (val) {
-                  Timer.periodic(const Duration(seconds: 2), (Timer t) {
+                  Future.delayed(const Duration(seconds: 2)).then((value) {
                     homeController.isVisible.value = false;
                   });
+                  // Timer.periodic(const Duration(seconds: 2), (Timer t) {
+                  //   homeController.isVisible.value = false;
+                  // });
                 },
                 onPanUpdate: (details) {
                   if (settingController.dimmer.value) {

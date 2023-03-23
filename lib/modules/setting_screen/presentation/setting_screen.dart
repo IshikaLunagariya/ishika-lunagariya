@@ -46,7 +46,7 @@ class SettingScreen extends StatelessWidget {
                   Center(
                     child: Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: SizeUtils.horizontalBlockSize * 20, vertical: SizeUtils.verticalBlockSize * 10),
+                          horizontal: SizeUtils.horizontalBlockSize * 15, vertical: SizeUtils.verticalBlockSize * 10),
                       child: Column(
                         children: [
                           CustomSwitchWidget(
