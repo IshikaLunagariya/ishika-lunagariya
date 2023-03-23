@@ -37,7 +37,12 @@ class HomeScreen extends StatelessWidget {
                 onPressed: () {
                   Navigation.pushNamed(Routes.settingScreen);
                 },
-                icon: Icon(Icons.settings, color: AppColor.whiteColor),
+                icon: Icon(
+                  Icons.settings,
+                  color: homeController.currentSliderValueForColor.value <= 0.5
+                      ? AppColor.blackColor
+                      : AppColor.whiteColor,
+                ),
               ),
             )),
         body: Obx(() => Center(
@@ -63,7 +68,9 @@ class HomeScreen extends StatelessWidget {
                                         value: homeController.currentSliderValue.value,
                                         max: 1,
                                         min: 0.1,
-                                        activeColor: AppColor.whiteColor,
+                                        activeColor: homeController.currentSliderValueForColor.value <= 0.5
+                                            ? AppColor.blackColor
+                                            : AppColor.whiteColor,
                                         thumbColor: Colors.transparent,
                                         onChanged: (double value) {},
                                       ),
@@ -76,13 +83,14 @@ class HomeScreen extends StatelessWidget {
                               text: TextSpan(
                                 text: settingController.hourFormat.value
                                     ? homeController.timeString24.value.substring(0, 8)
-                                    : settingController.leadingZero.value == false && homeController.timeString.value.substring(0, 1) == "0"
+                                    : settingController.leadingZero.value == false &&
+                                            homeController.timeString.value.substring(0, 1) == "0"
                                         ? homeController.timeString.value.substring(1, 8)
                                         : homeController.timeString.value.substring(0, 8),
                                 style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: SizeUtils.fSize_60(),
-                                    color:  (homeController.currentSliderValueForColor.value <= 0.5)
+                                    color: (homeController.currentSliderValueForColor.value <= 0.5)
                                         ? Colors.black.withOpacity(homeController.currentSliderValue.value)
                                         : AppColor.whiteColor.withOpacity(homeController.currentSliderValue.value)),
                                 children: <TextSpan>[
@@ -113,10 +121,13 @@ class HomeScreen extends StatelessWidget {
                               overlays: SystemUiOverlay.values);
                         },
                         onPanEnd: (val) {
-
-                          Timer.periodic(const Duration(seconds: 2), (Timer t) {
+                          Future.delayed(Duration(seconds: 2)).then((value) {
                             homeController.isVisible.value = false;
                           });
+                          // Timer.periodic(const Duration(seconds: 2), (Timer t) {
+                          // homeController.isVisible.value = false;
+
+                          // });
                         },
                         onPanUpdate: (details) {
                           print("onVerticalDragUpdate x : ${details.delta.dx}");
@@ -126,7 +137,8 @@ class HomeScreen extends StatelessWidget {
                               homeController.isVisible.value = true;
                               if (homeController.currentSliderValue.value.toDouble() < 1) {
                                 homeController.currentSliderValue.value += 0.01;
-                              } else if (homeController.currentSliderValue.value.isNegative || homeController.currentSliderValue.value <= 0.9) {
+                              } else if (homeController.currentSliderValue.value.isNegative ||
+                                  homeController.currentSliderValue.value <= 0.9) {
                                 homeController.currentSliderValue.value = 1.0;
                               }
                             } else if (details.delta.dy > 0 && details.delta.dx == 0) {
@@ -140,7 +152,7 @@ class HomeScreen extends StatelessWidget {
                             } else if (details.delta.dx > 0 && details.delta.dy == 0) {
                               homeController.isVisible.value = false;
                               if (homeController.currentSliderValueForColor.value.toDouble() < 1) {
-                                homeController.currentSliderValueForColor.value += 0.01;
+                                homeController.currentSliderValueForColor.value += 0.05;
                               } else if (homeController.currentSliderValueForColor.value.isNegative ||
                                   homeController.currentSliderValueForColor.value <= 0.9) {
                                 homeController.currentSliderValueForColor.value = 1.0;
@@ -148,7 +160,7 @@ class HomeScreen extends StatelessWidget {
                             } else if (details.delta.dx < 0 && details.delta.dy == 0) {
                               homeController.isVisible.value = false;
                               if (homeController.currentSliderValueForColor.value.toDouble() > 0.1) {
-                                homeController.currentSliderValueForColor.value -= 0.01;
+                                homeController.currentSliderValueForColor.value -= 0.05;
                               } else if (homeController.currentSliderValueForColor.value.isNegative &&
                                   homeController.currentSliderValueForColor.value.toDouble() <= 0.1) {
                                 homeController.currentSliderValueForColor.value = 0.0;
