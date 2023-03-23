@@ -8,6 +8,7 @@ class HomeController extends GetxController {
   RxString timeString24 = "".obs;
   RxDouble currentSliderValue = 1.0.obs;
   RxBool isVisible = true.obs;
+  RxBool isButtonVisible = true.obs;
 
   @override
   void onInit() {
