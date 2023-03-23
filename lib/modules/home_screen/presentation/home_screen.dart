@@ -83,7 +83,7 @@ class HomeScreen extends StatelessWidget {
                                     fontWeight: FontWeight.w400,
                                     fontSize: SizeUtils.fSize_60(),
                                     color:  (homeController.currentSliderValueForColor.value <= 0.5)
-                                        ? Colors.black
+                                        ? Colors.black.withOpacity(homeController.currentSliderValue.value)
                                         : AppColor.whiteColor.withOpacity(homeController.currentSliderValue.value)),
                                 children: <TextSpan>[
                                   TextSpan(
@@ -92,7 +92,7 @@ class HomeScreen extends StatelessWidget {
                                         fontWeight: FontWeight.w300,
                                         fontSize: SizeUtils.fSize_24(),
                                         color: (homeController.currentSliderValueForColor.value <= 0.5)
-                                            ? Colors.black
+                                            ? Colors.black.withOpacity(homeController.currentSliderValue.value)
                                             : AppColor.whiteColor.withOpacity(homeController.currentSliderValue.value)),
                                   )
                                 ],
@@ -113,6 +113,7 @@ class HomeScreen extends StatelessWidget {
                               overlays: SystemUiOverlay.values);
                         },
                         onPanEnd: (val) {
+
                           Timer.periodic(const Duration(seconds: 2), (Timer t) {
                             homeController.isVisible.value = false;
                           });
@@ -121,7 +122,6 @@ class HomeScreen extends StatelessWidget {
                           print("onVerticalDragUpdate x : ${details.delta.dx}");
                           print("onVerticalDragUpdate y : ${details.delta.dy}");
                           if (settingController.dimmer.value) {
-                            homeController.isVisible.value = true;
                             if (details.delta.dy < 0 && details.delta.dx == 0) {
                               homeController.isVisible.value = true;
                               if (homeController.currentSliderValue.value.toDouble() < 1) {
@@ -137,19 +137,21 @@ class HomeScreen extends StatelessWidget {
                                   homeController.currentSliderValue.value.toDouble() <= 0.2) {
                                 homeController.currentSliderValue.value = 0.2;
                               }
-                            } else if (details.delta.dx < 0 && details.delta.dy == 0) {
+                            } else if (details.delta.dx > 0 && details.delta.dy == 0) {
+                              homeController.isVisible.value = false;
                               if (homeController.currentSliderValueForColor.value.toDouble() < 1) {
                                 homeController.currentSliderValueForColor.value += 0.01;
                               } else if (homeController.currentSliderValueForColor.value.isNegative ||
                                   homeController.currentSliderValueForColor.value <= 0.9) {
                                 homeController.currentSliderValueForColor.value = 1.0;
                               }
-                            } else if (details.delta.dx > 0 && details.delta.dy == 0) {
+                            } else if (details.delta.dx < 0 && details.delta.dy == 0) {
+                              homeController.isVisible.value = false;
                               if (homeController.currentSliderValueForColor.value.toDouble() > 0.1) {
                                 homeController.currentSliderValueForColor.value -= 0.01;
                               } else if (homeController.currentSliderValueForColor.value.isNegative &&
                                   homeController.currentSliderValueForColor.value.toDouble() <= 0.1) {
-                                homeController.currentSliderValueForColor.value = 0.1;
+                                homeController.currentSliderValueForColor.value = 0.0;
                               }
                             }
                           }
