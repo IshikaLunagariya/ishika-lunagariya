@@ -28,9 +28,6 @@ class SettingController extends GetxController {
     leadingZero.value = Preferences.instance.prefs?.getBool("leadingZero") ?? true;
     intervalSwitch.value = Preferences.instance.prefs?.getBool("intervalSwitch") ?? false;
     secondsUntil.value = Preferences.instance.prefs?.getBool("secondsUntil") ?? false;
-    if(intervalSwitch.value){
-      setIntervalRemainder();
-    }
     super.onInit();
   }
 

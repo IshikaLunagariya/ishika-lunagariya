@@ -228,13 +228,14 @@ class _SettingScreenState extends State<SettingScreen> {
                               children: [
                                 settingController.secondsUntil.value
                                     ? DropdownButton<String>(
+                                        style: const TextStyle(color: Colors.white),
                                         value: settingController.dropdownvalue,
                                         items: settingController.secondList.map((String items) {
                                           return DropdownMenuItem(
                                             value: items,
                                             child: Text(
                                               items,
-                                              style: const TextStyle(color: Colors.white),
+                                              style: const TextStyle(color: Colors.black),
                                             ),
                                           );
                                         }).toList(),
@@ -242,6 +243,17 @@ class _SettingScreenState extends State<SettingScreen> {
                                           setState(() {
                                             settingController.dropdownvalue = newValue!;
                                           });
+                                        },
+                                        selectedItemBuilder: (context) {
+                                          return settingController.secondList.map((String items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(
+                                                items,
+                                                style: const TextStyle(color: Colors.white),
+                                              ),
+                                            );
+                                          }).toList();
                                         },
                                       )
                                     : AppText(
