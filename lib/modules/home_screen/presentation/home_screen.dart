@@ -121,7 +121,7 @@ class HomeScreen extends StatelessWidget {
                               overlays: SystemUiOverlay.values);
                         },
                         onPanEnd: (val) {
-                          Future.delayed(Duration(seconds: 2)).then((value) {
+                          Future.delayed(const Duration(seconds: 2)).then((value) {
                             homeController.isVisible.value = false;
                           });
                           // Timer.periodic(const Duration(seconds: 2), (Timer t) {

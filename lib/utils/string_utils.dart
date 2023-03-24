@@ -6,4 +6,6 @@ class AppString {
   static String dimmerDes = "Swipe up and down to\nchange clock brightness";
   static String hourFormate = "24h";
   static String leadingZero = "Leading Zero";
+  static String interval = "Interval";
+  static String secondsUntil = "Seconds until";
 }

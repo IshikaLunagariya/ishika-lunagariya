@@ -11,7 +11,7 @@ class CustomSwitchWidget extends StatelessWidget {
 
   final bool value;
   final Function(bool)? onChange;
-  final String title;
+  final Widget title;
   final String? subTitle;
 
   @override
@@ -30,11 +30,12 @@ class CustomSwitchWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppText(
-                text: title,
-                color: AppColor.whiteColor,
-                fontSize: SizeUtils.fSize_17(),
-              ),
+              title,
+              // AppText(
+              //   text: title,
+              //   color: AppColor.whiteColor,
+              //   fontSize: SizeUtils.fSize_17(),
+              // ),
               Padding(
                 padding: const EdgeInsets.only(top: 5),
                 child: AppText(
