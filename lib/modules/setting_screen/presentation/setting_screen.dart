@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:clock_simple/modules/setting_screen/controller/setting_controller.dart';
 import 'package:clock_simple/utils/app_color.dart';
 import 'package:clock_simple/utils/preferences.dart';
@@ -135,6 +137,9 @@ class SettingScreen extends StatelessWidget {
                                   color: AppColor.whiteColor,
                                   fontWeight: FontWeight.w400,
                                 ),
+                                onTap: () {
+                                  settingController.minutesController.clear();
+                                },
                                 onChanged: (value) {
                                   settingController.minutesController.clear();
                                   settingController.minutesController.text = value;
@@ -143,27 +148,31 @@ class SettingScreen extends StatelessWidget {
                                   if (value.isEmpty) {
                                     Fluttertoast.showToast(
                                         msg: "Enter Number",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.CENTER,
-                                        timeInSecForIosWeb: 1,
-                                        backgroundColor: Colors.red,
-                                        textColor: Colors.white,
-                                        fontSize: 16.0
-                                    );
-                                  }else if(int.parse(value) > 60){
-                                    Fluttertoast.showToast(
-                                        msg: "Enter valid Number",
-                                        toastLength: Toast.LENGTH_SHORT,
+                                        toastLength: Toast.LENGTH_LONG,
                                         gravity: ToastGravity.TOP,
                                         timeInSecForIosWeb: 1,
                                         backgroundColor: Colors.white,
-                                        textColor: Colors.white,
-                                        fontSize: 16.0
+                                        textColor: Colors.black,
+                                        fontSize: 16.0);
+                                  } else if (int.parse(value) > 60 || int.parse(value) < 1) {
+                                    Fluttertoast.showToast(
+                                        msg: "Enter valid Number",
+                                        toastLength: Toast.LENGTH_LONG,
+                                        gravity: ToastGravity.TOP,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.white,
+                                        textColor: Colors.black,
+                                        fontSize: 16.0);
+                                  } else {
+                                    settingController.minutesController.clear();
+                                    settingController.minutesController.text = value;
+                                    log("Set Interval");
+                                    settingController.setIntervalRemainder(
+                                      minutes: int.parse(
+                                        settingController.minutesController.text,
+                                      ),
                                     );
                                   }
-                                  return null;
-                                  settingController.minutesController.clear();
-                                  settingController.minutesController.text = value;
                                 },
                                 readOnly: settingController.intervalSwitch.value ? false : true,
                                 decoration: InputDecoration(

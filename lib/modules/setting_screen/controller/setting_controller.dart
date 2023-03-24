@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:clock_simple/utils/preferences.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class SettingController extends GetxController {
@@ -21,6 +25,24 @@ class SettingController extends GetxController {
     leadingZero.value = Preferences.instance.prefs?.getBool("leadingZero") ?? true;
     intervalSwitch.value = Preferences.instance.prefs?.getBool("intervalSwitch") ?? false;
     secondsUntil.value = Preferences.instance.prefs?.getBool("secondsUntil") ?? false;
+    if(intervalSwitch.value){
+      setIntervalRemainder();
+    }
     super.onInit();
   }
+
+
+  setIntervalRemainder({int? minutes}){
+    Timer.periodic(Duration(minutes: minutes!), (Timer t) {
+      Fluttertoast.showToast(
+          msg: "Interval",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.TOP,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0);
+    });
+  }
+
 }
