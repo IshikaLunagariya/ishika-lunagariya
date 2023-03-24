@@ -1,14 +1,11 @@
 import 'dart:async';
-
 import 'package:clock_simple/modules/home_screen/controller/home_controller.dart';
 import 'package:clock_simple/utils/navigation_utils/routes.dart';
 import 'package:clock_simple/utils/size_utils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:wakelock/wakelock.dart';
-
 import '../../../utils/app_color.dart';
 import '../../../utils/navigation_utils/navigation.dart';
 import '../../setting_screen/controller/setting_controller.dart';
@@ -39,9 +36,7 @@ class HomeScreen extends StatelessWidget {
                 },
                 icon: Icon(
                   Icons.settings,
-                  color: homeController.currentSliderValueForColor.value <= 0.5
-                      ? AppColor.blackColor
-                      : AppColor.whiteColor,
+                  color: homeController.currentSliderValueForColor.value <= 0.5 ? AppColor.blackColor : AppColor.whiteColor,
                 ),
               ),
             )),
