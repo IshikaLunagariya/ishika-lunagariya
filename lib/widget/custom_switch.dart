@@ -3,8 +3,6 @@ import 'package:clock_simple/widget/app_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../utils/size_utils.dart';
-
 class CustomSwitchWidget extends StatelessWidget {
   const CustomSwitchWidget({Key? key, required this.value, required this.onChange, required this.title, this.subTitle})
       : super(key: key);
@@ -41,7 +39,7 @@ class CustomSwitchWidget extends StatelessWidget {
                 child: AppText(
                   text: subTitle ?? "",
                   color: AppColor.gray,
-                  fontSize: SizeUtils.fSize_12(),
+                  fontSize: 12,
                 ),
               ),
             ],

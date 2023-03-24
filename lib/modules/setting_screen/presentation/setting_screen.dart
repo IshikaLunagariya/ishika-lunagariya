@@ -19,12 +19,12 @@ class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.symmetric(vertical: SizeUtils.verticalBlockSize * 6),
-        child: Obx(() {
-          return SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Stack(
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: SizeUtils.verticalBlockSize * 5),
+          child: Obx(() {
+            return Stack(
               children: [
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
@@ -54,7 +54,7 @@ class SettingScreen extends StatelessWidget {
                             title: AppText(
                               text: AppString.preventLocking,
                               color: AppColor.whiteColor,
-                              fontSize: SizeUtils.fSize_17(),
+                              fontSize: 17,
                             ),
                             subTitle: AppString.preventLockingDes,
                             onChange: (value) async {
@@ -68,7 +68,7 @@ class SettingScreen extends StatelessWidget {
                             title: AppText(
                               text: AppString.dimmer,
                               color: AppColor.whiteColor,
-                              fontSize: SizeUtils.fSize_17(),
+                              fontSize: 17,
                             ),
                             subTitle: AppString.dimmerDes,
                             onChange: (value) async {
@@ -86,7 +86,7 @@ class SettingScreen extends StatelessWidget {
                             title: AppText(
                               text: AppString.hourFormate,
                               color: AppColor.whiteColor,
-                              fontSize: SizeUtils.fSize_17(),
+                              fontSize: 17,
                             ),
                             onChange: (value) async {
                               settingController.hourFormat.value = value;
@@ -99,7 +99,7 @@ class SettingScreen extends StatelessWidget {
                             title: AppText(
                               text: AppString.leadingZero,
                               color: AppColor.whiteColor,
-                              fontSize: SizeUtils.fSize_17(),
+                              fontSize: 17,
                             ),
                             onChange: (value) async {
                               settingController.leadingZero.value = value;
@@ -108,11 +108,16 @@ class SettingScreen extends StatelessWidget {
                             },
                             value: settingController.leadingZero.value,
                           ),
+                          Divider(
+                            color: AppColor.gray,
+                            height: SizeUtils.verticalBlockSize * 7,
+                            thickness: 1,
+                          ),
                           CustomSwitchWidget(
                             title: AppText(
                               text: AppString.interval,
                               color: AppColor.whiteColor,
-                              fontSize: SizeUtils.fSize_17(),
+                              fontSize: 17,
                             ),
                             onChange: (value) async {
                               settingController.intervalSwitch.value = value;
@@ -125,7 +130,7 @@ class SettingScreen extends StatelessWidget {
                             title: AppText(
                               text: AppString.secondsUntil,
                               color: AppColor.whiteColor,
-                              fontSize: SizeUtils.fSize_17(),
+                              fontSize: 17,
                             ),
                             onChange: (value) async {
                               settingController.secondsUntil.value = value;
@@ -140,9 +145,9 @@ class SettingScreen extends StatelessWidget {
                   ],
                 ),
               ],
-            ),
-          );
-        }),
+            );
+          }),
+        ),
       ),
     );
   }

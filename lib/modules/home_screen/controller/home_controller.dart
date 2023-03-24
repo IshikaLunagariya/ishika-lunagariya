@@ -10,6 +10,7 @@ class HomeController extends GetxController {
   RxDouble currentSliderValueForColor = 1.0.obs;
   RxBool isVisible = true.obs;
   RxBool isButtonVisible = true.obs;
+  RxBool showAppBar = true.obs;
 
   @override
   void onInit() {
