@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:clock_simple/modules/setting_screen/controller/setting_controller.dart';
 import 'package:clock_simple/utils/app_color.dart';
 import 'package:clock_simple/utils/preferences.dart';
@@ -119,87 +121,101 @@ class _SettingScreenState extends State<SettingScreen> {
                             thickness: 1,
                           ),
                           CustomSwitchWidget(
-                            // title: SizedBox(
-                            //   width: 100,
-                            //   height: 20,
-                            //   child: TextFormField(
-                            //     inputFormatters: [
-                            //       FilteringTextInputFormatter.digitsOnly,
-                            //       LengthLimitingTextInputFormatter(2),
-                            //       FilteringTextInputFormatter.deny(" "),
-                            //       FilteringTextInputFormatter.deny("."),
-                            //     ],
-                            //     toolbarOptions: const ToolbarOptions(
-                            //       selectAll: false,
-                            //       cut: false,
-                            //       copy: false,
-                            //       paste: false,
-                            //     ),
-                            //     cursorColor: AppColor.whiteColor,
-                            //     keyboardType: TextInputType.number,
-                            //     style: TextStyle(
-                            //       color: AppColor.whiteColor,
-                            //       fontWeight: FontWeight.w400,
-                            //     ),
-                            //     onChanged: (value) {
-                            //       settingController.minutesController.clear();
-                            //       settingController.minutesController.text = value;
-                            //     },
-                            //     onFieldSubmitted: (value) {
-                            //       if (value.isEmpty) {
-                            //         Fluttertoast.showToast(
-                            //             msg: "Enter Number",
-                            //             toastLength: Toast.LENGTH_SHORT,
-                            //             gravity: ToastGravity.CENTER,
-                            //             timeInSecForIosWeb: 1,
-                            //             backgroundColor: Colors.red,
-                            //             textColor: Colors.white,
-                            //             fontSize: 16.0);
-                            //       } else if (int.parse(value) > 60) {
-                            //         Fluttertoast.showToast(
-                            //             msg: "Enter valid Number",
-                            //             toastLength: Toast.LENGTH_SHORT,
-                            //             gravity: ToastGravity.TOP,
-                            //             timeInSecForIosWeb: 1,
-                            //             backgroundColor: Colors.white,
-                            //             textColor: Colors.white,
-                            //             fontSize: 16.0);
-                            //       }
-                            //       return null;
-                            //       settingController.minutesController.clear();
-                            //       settingController.minutesController.text = value;
-                            //     },
-                            //     readOnly: settingController.intervalSwitch.value ? false : true,
-                            //     decoration: InputDecoration(
-                            //       hintText: settingController.intervalSwitch.value
-                            //           ? settingController.minutesController.text ?? "Type Minute"
-                            //           : AppString.interval,
-                            //       hintStyle: TextStyle(
-                            //         color: AppColor.whiteColor,
-                            //         fontWeight: FontWeight.w400,
-                            //       ),
-                            //       focusedBorder: UnderlineInputBorder(
-                            //         borderSide: BorderSide(
-                            //           color: AppColor.whiteColor,
-                            //         ),
-                            //       ),
-                            //       disabledBorder: UnderlineInputBorder(
-                            //         borderSide: BorderSide(
-                            //           color: AppColor.whiteColor,
-                            //         ),
-                            //       ),
-                            //       enabledBorder: UnderlineInputBorder(
-                            //         borderSide: BorderSide(
-                            //           color: AppColor.whiteColor,
-                            //         ),
-                            //       ),
-                            //       errorBorder: const UnderlineInputBorder(
-                            //         borderSide: BorderSide(
-                            //           color: Colors.red,
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
+                            title: SizedBox(
+                              width: 100,
+                              height: 20,
+                              child: TextFormField(
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(2),
+                                  FilteringTextInputFormatter.deny(" "),
+                                  FilteringTextInputFormatter.deny("."),
+                                ],
+                                toolbarOptions: const ToolbarOptions(
+                                  selectAll: false,
+                                  cut: false,
+                                  copy: false,
+                                  paste: false,
+                                ),
+                                cursorColor: AppColor.whiteColor,
+                                keyboardType: TextInputType.number,
+                                style: TextStyle(
+                                  color: AppColor.whiteColor,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                onTap: () {
+                                  settingController.minutesController.clear();
+                                },
+                                onChanged: (value) {
+                                  settingController.minutesController.clear();
+                                  settingController.minutesController.text = value;
+                                },
+                                onFieldSubmitted: (value) {
+                                  if (value.isEmpty) {
+                                    Fluttertoast.showToast(
+                                        msg: "Enter Number",
+                                        toastLength: Toast.LENGTH_LONG,
+                                        gravity: ToastGravity.TOP,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.white,
+                                        textColor: Colors.black,
+                                        fontSize: 16.0);
+                                  } else if (int.parse(value) > 60 || int.parse(value) < 1) {
+                                    Fluttertoast.showToast(
+                                        msg: "Enter valid Number",
+                                        toastLength: Toast.LENGTH_LONG,
+                                        gravity: ToastGravity.TOP,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.white,
+                                        textColor: Colors.black,
+                                        fontSize: 16.0);
+                                  } else {
+                                    settingController.minutesController.clear();
+                                    settingController.minutesController.text = value;
+                                    log("Set Interval");
+                                    settingController.setIntervalRemainder(
+                                      minutes: int.parse(
+                                        settingController.minutesController.text,
+                                      ),
+                                    );
+                                  }
+                                },
+                                readOnly: settingController.intervalSwitch.value ? false : true,
+                                decoration: InputDecoration(
+                                  hintText: settingController.intervalSwitch.value
+                                      ? settingController.minutesController.text ?? "Type Minute"
+                                      : AppString.interval,
+                                  hintStyle: TextStyle(
+                                    color: AppColor.whiteColor,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColor.whiteColor,
+                                    ),
+                                  ),
+                                  disabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColor.whiteColor,
+                                    ),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColor.whiteColor,
+                                    ),
+                                  ),
+                                  errorBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            // title: AppText(
+                            //   text: AppString.interval,
+                            //   color: AppColor.whiteColor,
+                            //   fontSize: 17,
                             // ),
                             title: AppText(
                               text: AppString.interval,
@@ -217,30 +233,41 @@ class _SettingScreenState extends State<SettingScreen> {
                           CustomSwitchWidget(
                             title: Row(
                               children: [
-                                // settingController.secondsUntil.value
-                                //     ? DropdownButton<String>(
-                                //         value: settingController.dropdownvalue,
-                                //         items: settingController.secondList.map((String items) {
-                                //           return DropdownMenuItem(
-                                //             value: items,
-                                //             child: Text(
-                                //               items,
-                                //               style: const TextStyle(color: Colors.white),
-                                //             ),
-                                //           );
-                                //         }).toList(),
-                                //         onChanged: (String? newValue) {
-                                //           setState(() {
-                                //             settingController.dropdownvalue = newValue!;
-                                //           });
-                                //         },
-                                //       )
-                                //     :
-                                AppText(
-                                  text: AppString.secondsUntil,
-                                  color: AppColor.whiteColor,
-                                  fontSize: 17,
-                                ),
+                                settingController.secondsUntil.value
+                                    ? DropdownButton<String>(
+                                        style: const TextStyle(color: Colors.white),
+                                        value: settingController.dropdownvalue,
+                                        items: settingController.secondList.map((String items) {
+                                          return DropdownMenuItem(
+                                            value: items,
+                                            child: Text(
+                                              items,
+                                              style: const TextStyle(color: Colors.black),
+                                            ),
+                                          );
+                                        }).toList(),
+                                        onChanged: (String? newValue) {
+                                          setState(() {
+                                            settingController.dropdownvalue = newValue!;
+                                          });
+                                        },
+                                        selectedItemBuilder: (context) {
+                                          return settingController.secondList.map((String items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Text(
+                                                items,
+                                                style: const TextStyle(color: Colors.white),
+                                              ),
+                                            );
+                                          }).toList();
+                                        },
+                                      )
+                                    : AppText(
+                                        text: AppString.secondsUntil,
+                                        color: AppColor.whiteColor,
+                                        fontSize: 17,
+                                      ),
                               ],
                             ),
                             onChange: (value) async {
