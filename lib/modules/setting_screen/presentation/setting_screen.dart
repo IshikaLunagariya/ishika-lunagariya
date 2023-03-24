@@ -11,9 +11,14 @@ import '../../../utils/navigation_utils/navigation.dart';
 import '../../../utils/navigation_utils/routes.dart';
 import '../../../widget/custom_switch.dart';
 
-class SettingScreen extends StatelessWidget {
+class SettingScreen extends StatefulWidget {
   SettingScreen({Key? key}) : super(key: key);
 
+  @override
+  State<SettingScreen> createState() => _SettingScreenState();
+}
+
+class _SettingScreenState extends State<SettingScreen> {
   final SettingController settingController = Get.find();
 
   @override
@@ -127,10 +132,32 @@ class SettingScreen extends StatelessWidget {
                             value: settingController.intervalSwitch.value,
                           ),
                           CustomSwitchWidget(
-                            title: AppText(
-                              text: AppString.secondsUntil,
-                              color: AppColor.whiteColor,
-                              fontSize: 17,
+                            title: Row(
+                              children: [
+                                settingController.secondsUntil.value
+                                    ? DropdownButton<String>(
+                                        value: settingController.dropdownvalue,
+                                        items: settingController.secondList.map((String items) {
+                                          return DropdownMenuItem(
+                                            value: items,
+                                            child: Text(
+                                              items,
+                                              style: const TextStyle(color: Colors.white),
+                                            ),
+                                          );
+                                        }).toList(),
+                                        onChanged: (String? newValue) {
+                                          setState(() {
+                                            settingController.dropdownvalue = newValue!;
+                                          });
+                                        },
+                                      )
+                                    : AppText(
+                                        text: AppString.secondsUntil,
+                                        color: AppColor.whiteColor,
+                                        fontSize: 17,
+                                      ),
+                              ],
                             ),
                             onChange: (value) async {
                               settingController.secondsUntil.value = value;
@@ -149,13 +176,6 @@ class SettingScreen extends StatelessWidget {
           }),
         ),
       ),
-    );
-  }
-
-  Widget customTextField({required TextEditingController controller}) {
-    return TextFormField(
-      controller: controller,
-      decoration: InputDecoration(),
     );
   }
 }
