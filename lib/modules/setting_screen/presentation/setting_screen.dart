@@ -5,6 +5,8 @@ import 'package:clock_simple/utils/size_utils.dart';
 import 'package:clock_simple/utils/string_utils.dart';
 import 'package:clock_simple/widget/app_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import '../../../utils/navigation_utils/navigation.dart';
@@ -29,7 +31,7 @@ class SettingScreen extends StatelessWidget {
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
-                    Navigation.pushNamed(Routes.homeScreen);
+                    // Navigation.pushNamed(Routes.homeScreen);
                   },
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height,
@@ -59,8 +61,7 @@ class SettingScreen extends StatelessWidget {
                             subTitle: AppString.preventLockingDes,
                             onChange: (value) async {
                               settingController.preventLocking.value = value;
-                              await Preferences.instance.prefs
-                                  ?.setBool("preventLocking", settingController.preventLocking.value);
+                              await Preferences.instance.prefs?.setBool("preventLocking", settingController.preventLocking.value);
                             },
                             value: settingController.preventLocking.value,
                           ),
@@ -90,8 +91,7 @@ class SettingScreen extends StatelessWidget {
                             ),
                             onChange: (value) async {
                               settingController.hourFormat.value = value;
-                              await Preferences.instance.prefs
-                                  ?.setBool("hourFormat", settingController.hourFormat.value);
+                              await Preferences.instance.prefs?.setBool("hourFormat", settingController.hourFormat.value);
                             },
                             value: settingController.hourFormat.value,
                           ),
@@ -103,8 +103,7 @@ class SettingScreen extends StatelessWidget {
                             ),
                             onChange: (value) async {
                               settingController.leadingZero.value = value;
-                              await Preferences.instance.prefs
-                                  ?.setBool("leadingZero", settingController.leadingZero.value);
+                              await Preferences.instance.prefs?.setBool("leadingZero", settingController.leadingZero.value);
                             },
                             value: settingController.leadingZero.value,
                           ),
@@ -114,15 +113,99 @@ class SettingScreen extends StatelessWidget {
                             thickness: 1,
                           ),
                           CustomSwitchWidget(
-                            title: AppText(
-                              text: AppString.interval,
-                              color: AppColor.whiteColor,
-                              fontSize: 17,
+                            title: SizedBox(
+                              width: 100,
+                              height: 20,
+                              child: TextFormField(
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(2),
+                                  FilteringTextInputFormatter.deny(" "),
+                                  FilteringTextInputFormatter.deny("."),
+                                ],
+                                toolbarOptions: const ToolbarOptions(
+                                  selectAll: false,
+                                  cut: false,
+                                  copy: false,
+                                  paste: false,
+                                ),
+                                cursorColor: AppColor.whiteColor,
+                                keyboardType: TextInputType.number,
+                                style: TextStyle(
+                                  color: AppColor.whiteColor,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                onChanged: (value) {
+                                  settingController.minutesController.clear();
+                                  settingController.minutesController.text = value;
+                                },
+                                onFieldSubmitted: (value) {
+                                  if (value.isEmpty) {
+                                    Fluttertoast.showToast(
+                                        msg: "Enter Number",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.CENTER,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.red,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0
+                                    );
+                                  }else if(int.parse(value) > 60){
+                                    Fluttertoast.showToast(
+                                        msg: "Enter valid Number",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.TOP,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.white,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0
+                                    );
+                                  }
+                                  return null;
+                                  settingController.minutesController.clear();
+                                  settingController.minutesController.text = value;
+                                },
+                                readOnly: settingController.intervalSwitch.value ? false : true,
+                                decoration: InputDecoration(
+                                  hintText: settingController.intervalSwitch.value
+                                      ? settingController.minutesController.text ?? "Type Minute"
+                                      : AppString.interval,
+                                  hintStyle: TextStyle(
+                                    color: AppColor.whiteColor,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColor.whiteColor,
+                                    ),
+                                  ),
+                                  disabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColor.whiteColor,
+                                    ),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColor.whiteColor,
+                                    ),
+                                  ),
+                                  errorBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
+                            // title: AppText(
+                            //   text: AppString.interval,
+                            //   color: AppColor.whiteColor,
+                            //   fontSize: 17,
+                            // ),
                             onChange: (value) async {
                               settingController.intervalSwitch.value = value;
-                              await Preferences.instance.prefs
-                                  ?.setBool("intervalSwitch", settingController.intervalSwitch.value);
+                              await Preferences.instance.prefs?.setBool("intervalSwitch", settingController.intervalSwitch.value);
+                              settingController.minutesController.text = "Type Minute";
                             },
                             value: settingController.intervalSwitch.value,
                           ),
@@ -134,8 +217,7 @@ class SettingScreen extends StatelessWidget {
                             ),
                             onChange: (value) async {
                               settingController.secondsUntil.value = value;
-                              await Preferences.instance.prefs
-                                  ?.setBool("secondsUntil", settingController.secondsUntil.value);
+                              await Preferences.instance.prefs?.setBool("secondsUntil", settingController.secondsUntil.value);
                             },
                             value: settingController.secondsUntil.value,
                           ),
@@ -155,7 +237,7 @@ class SettingScreen extends StatelessWidget {
   Widget customTextField({required TextEditingController controller}) {
     return TextFormField(
       controller: controller,
-      decoration: InputDecoration(),
+      decoration: const InputDecoration(),
     );
   }
 }
