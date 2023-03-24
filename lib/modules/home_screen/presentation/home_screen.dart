@@ -63,16 +63,23 @@ class HomeScreen extends StatelessWidget {
                                   height: 30,
                                   child: Visibility(
                                     visible: homeController.isVisible.value,
-                                    child: Center(
-                                      child: CupertinoSlider(
-                                        value: homeController.currentSliderValue.value,
-                                        max: 1,
-                                        min: 0.1,
-                                        activeColor: homeController.currentSliderValueForColor.value <= 0.5
-                                            ? AppColor.blackColor
-                                            : AppColor.whiteColor,
-                                        thumbColor: Colors.transparent,
-                                        onChanged: (double value) {},
+                                    child: SizedBox(
+                                      width: 130,
+                                      child: SliderTheme(
+                                        data: SliderThemeData(
+                                          thumbShape: SliderComponentShape.noThumb,
+                                          trackHeight: 0.5,
+                                          overlayShape: SliderComponentShape.noThumb,
+                                          inactiveTrackColor: Colors.transparent,
+                                          activeTrackColor:
+                                              homeController.currentSliderValueForColor.value <= 0.5 ? AppColor.blackColor : AppColor.whiteColor,
+                                        ),
+                                        child: Slider(
+                                          value: homeController.currentSliderValue.value,
+                                          max: 1,
+                                          min: 0.1,
+                                          onChanged: (double value) {},
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -83,8 +90,7 @@ class HomeScreen extends StatelessWidget {
                               text: TextSpan(
                                 text: settingController.hourFormat.value
                                     ? homeController.timeString24.value.substring(0, 8)
-                                    : settingController.leadingZero.value == false &&
-                                            homeController.timeString.value.substring(0, 1) == "0"
+                                    : settingController.leadingZero.value == false && homeController.timeString.value.substring(0, 1) == "0"
                                         ? homeController.timeString.value.substring(1, 8)
                                         : homeController.timeString.value.substring(0, 8),
                                 style: TextStyle(
@@ -137,8 +143,7 @@ class HomeScreen extends StatelessWidget {
                               homeController.isVisible.value = true;
                               if (homeController.currentSliderValue.value.toDouble() < 1) {
                                 homeController.currentSliderValue.value += 0.01;
-                              } else if (homeController.currentSliderValue.value.isNegative ||
-                                  homeController.currentSliderValue.value <= 0.9) {
+                              } else if (homeController.currentSliderValue.value.isNegative || homeController.currentSliderValue.value <= 0.9) {
                                 homeController.currentSliderValue.value = 1.0;
                               }
                             } else if (details.delta.dy > 0 && details.delta.dx == 0) {
