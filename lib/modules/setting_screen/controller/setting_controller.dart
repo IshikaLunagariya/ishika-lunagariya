@@ -17,6 +17,8 @@ class SettingController extends GetxController {
   TextEditingController minutesController = TextEditingController();
   TextEditingController secondController = TextEditingController();
   String dropdownvalue = '0 Second';
+  RxDouble height = 0.0.obs;
+  RxDouble width = 0.0.obs;
 
   var secondList = ["0 Second", "15 Seconds", "30 Seconds", "45 Seconds", "60 Seconds"];
 
@@ -31,8 +33,7 @@ class SettingController extends GetxController {
     super.onInit();
   }
 
-
-  setIntervalRemainder({int? minutes}){
+  setIntervalRemainder({int? minutes}) {
     Timer.periodic(Duration(minutes: minutes!), (Timer t) {
       Fluttertoast.showToast(
           msg: "Interval",
@@ -44,5 +45,4 @@ class SettingController extends GetxController {
           fontSize: 16.0);
     });
   }
-
 }

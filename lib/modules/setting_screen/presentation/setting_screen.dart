@@ -7,6 +7,8 @@ import 'package:clock_simple/utils/size_utils.dart';
 import 'package:clock_simple/utils/string_utils.dart';
 import 'package:clock_simple/widget/app_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import '../../../utils/navigation_utils/navigation.dart';
@@ -14,7 +16,7 @@ import '../../../utils/navigation_utils/routes.dart';
 import '../../../widget/custom_switch.dart';
 
 class SettingScreen extends StatefulWidget {
-  SettingScreen({Key? key}) : super(key: key);
+  const SettingScreen({Key? key}) : super(key: key);
 
   @override
   State<SettingScreen> createState() => _SettingScreenState();
@@ -217,11 +219,11 @@ class _SettingScreenState extends State<SettingScreen> {
                             //   color: AppColor.whiteColor,
                             //   fontSize: 17,
                             // ),
-                            title: AppText(
-                              text: AppString.interval,
-                              color: AppColor.whiteColor,
-                              fontSize: 17,
-                            ),
+                            // title: AppText(
+                            //   text: AppString.interval,
+                            //   color: AppColor.whiteColor,
+                            //   fontSize: 17,
+                            // ),
                             onChange: (value) async {
                               settingController.intervalSwitch.value = value;
                               await Preferences.instance.prefs
