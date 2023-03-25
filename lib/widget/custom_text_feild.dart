@@ -127,7 +127,7 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      scrollPadding: scrollPadding ?? const EdgeInsets.all(20.0),
+      scrollPadding: scrollPadding ?? const EdgeInsets.all(0),
       textAlignVertical: TextAlignVertical.center,
       enabled: enabled,
       toolbarOptions: ToolbarOptions(
@@ -167,7 +167,7 @@ class CustomTextFormField extends StatelessWidget {
         prefixIconConstraints: prefixIconConstraints,
         hintText: hint,
         hintStyle: TextStyle(
-          fontSize: SizeUtils.horizontalBlockSize * 3.6,
+          fontSize: 17,
           color: hintColor ?? const Color(0xFFAAAAAA),
           fontWeight: FontWeight.w400,
         ),
