@@ -40,6 +40,8 @@ class HomeScreen extends StatelessWidget {
               },
               icon: Icon(
                 Icons.settings,
+                size:
+                    SizeUtils.screenHeight < 300 ? SizeUtils.verticalBlockSize * 6.8 : SizeUtils.verticalBlockSize * 10,
                 color:
                     homeController.currentSliderValueForColor.value <= 0.5 ? AppColor.blackColor : AppColor.whiteColor,
               ),
