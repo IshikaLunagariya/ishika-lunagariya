@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:developer';
 
 import 'package:clock_simple/modules/setting_screen/controller/setting_controller.dart';
@@ -42,7 +41,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
-                    // Navigation.pushNamed(Routes.homeScreen);
+                    Navigation.pushNamed(Routes.homeScreen);
                   },
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height,
@@ -64,7 +63,7 @@ class _SettingScreenState extends State<SettingScreen> {
                         icon: Icon(
                           Icons.close,
                           color: AppColor.whiteColor,
-                          size: SizeUtils.screenHeight < 300 ? 10 : 24,
+                          size: SizeUtils.screenHeight < 300 ? 10 : 30,
                         ),
                       ),
                     ),
@@ -171,30 +170,26 @@ class _SettingScreenState extends State<SettingScreen> {
                                           settingController.minutesController.clear();
                                           settingController.minutesController.text = value;
                                           log("Set Interval");
-                                          Timer.periodic(
-                                              Duration(
-                                                minutes: int.parse(settingController.minutesController.text),
-                                              ), (Timer t) {
-                                            Fluttertoast.showToast(
-                                                msg: "Interval Created For ${settingController.minutesController.text} minute",
-                                                toastLength: Toast.LENGTH_LONG,
-                                                gravity: ToastGravity.TOP,
-                                                timeInSecForIosWeb: 1,
-                                                backgroundColor: Colors.white,
-                                                textColor: Colors.black,
-                                                fontSize: 16.0);
-                                          });
+                                          if(settingController.secondsUntil.value) {
+                                            // settingController.setIntervalRemainder(
+                                            // minutes: int.parse(settingController.minutesController.text),
+                                          // );
+                                          }else{
+                                            settingController.setIntervalRemainder(
+                                              minutes: int.parse(settingController.minutesController.text),
+                                              second: 0,
+                                            );
+                                          }
                                         }
                                       },
                                       hint: "Type Minute",
                                       hintColor: AppColor.whiteColor,
-
                                     ),
                                   )
                                 : AppText(
                                     text: AppString.interval,
                                     color: AppColor.whiteColor,
-                                    fontSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
+                                    fontSize: SizeUtils.screenHeight < 600 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
                                   ),
                             onChange: (value) async {
                               settingController.intervalSwitch.value = value;
@@ -205,6 +200,7 @@ class _SettingScreenState extends State<SettingScreen> {
                           CustomSwitchWidget(
                             title: settingController.secondsUntil.value
                                 ? DropdownButton<String>(
+                                    isExpanded: false,
                                     alignment: Alignment.center,
                                     value: settingController.dropDownValue,
                                     items: settingController.secondList.map((String items) {
@@ -220,6 +216,10 @@ class _SettingScreenState extends State<SettingScreen> {
                                     onChanged: (String? newValue) {
                                       setState(() {
                                         settingController.dropDownValue = newValue!;
+                                        settingController.setIntervalRemainder(
+                                          minutes: int.parse(settingController.minutesController.text),
+                                          second: int.parse(settingController.dropDownValue.split(" ").first),
+                                        );
                                       });
                                     },
                                     selectedItemBuilder: (context) {
@@ -256,13 +256,6 @@ class _SettingScreenState extends State<SettingScreen> {
           }),
         ),
       ),
-    );
-  }
-
-  Widget customTextField({required TextEditingController controller}) {
-    return TextFormField(
-      controller: controller,
-      decoration: const InputDecoration(),
     );
   }
 }
