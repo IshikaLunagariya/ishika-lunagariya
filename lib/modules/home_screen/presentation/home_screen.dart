@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:clock_simple/modules/home_screen/controller/home_controller.dart';
 import 'package:clock_simple/utils/navigation_utils/navigation.dart';
 import 'package:clock_simple/utils/navigation_utils/routes.dart';
@@ -8,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:wakelock/wakelock.dart';
-
 import '../../../utils/app_color.dart';
 import '../../setting_screen/controller/setting_controller.dart';
 
@@ -47,7 +45,6 @@ class HomeScreen extends StatelessWidget {
           )),
       body: Obx(() => Center(
             child: Container(
-              margin: EdgeInsets.zero,
               height: SizeUtils.screenHeight,
               width: SizeUtils.screenWidth,
               color: Colors.black.withOpacity(homeController.currentSliderValueForColor.value),
@@ -64,7 +61,7 @@ class HomeScreen extends StatelessWidget {
                                 child: Visibility(
                                   visible: homeController.isVisible.value,
                                   child: SizedBox(
-                                    width: 130,
+                                    width: SizeUtils.screenHeight < 300 ? 90 : 130,
                                     child: SliderTheme(
                                       data: SliderThemeData(
                                         thumbShape: SliderComponentShape.noThumb,
@@ -97,7 +94,7 @@ class HomeScreen extends StatelessWidget {
                                     : homeController.timeString.value.substring(0, 8),
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
-                                fontSize: SizeUtils.fSize_60(),
+                                fontSize:  SizeUtils.screenHeight < 300 ? SizeUtils.fSize_50(): SizeUtils.fSize_60(),
                                 color: (homeController.currentSliderValueForColor.value <= 0.5)
                                     ? Colors.black.withOpacity(homeController.currentSliderValue.value)
                                     : AppColor.whiteColor.withOpacity(homeController.currentSliderValue.value)),
@@ -106,7 +103,7 @@ class HomeScreen extends StatelessWidget {
                                 text: " ${homeController.timeString.value.toString().substring(9, 11)}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w300,
-                                    fontSize: SizeUtils.fSize_24(),
+                                    fontSize:SizeUtils.screenHeight < 300 ? SizeUtils.fSize_20():  SizeUtils.fSize_24(),
                                     color: (homeController.currentSliderValueForColor.value <= 0.5)
                                         ? Colors.black.withOpacity(homeController.currentSliderValue.value)
                                         : AppColor.whiteColor.withOpacity(homeController.currentSliderValue.value)),

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:clock_simple/utils/preferences.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,16 +32,19 @@ class SettingController extends GetxController {
     super.onInit();
   }
 
-  setIntervalRemainder({int? minutes}) {
-    Timer.periodic(Duration(minutes: minutes!), (Timer t) {
-      Fluttertoast.showToast(
-          msg: "Interval",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.TOP,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.white,
-          textColor: Colors.black,
-          fontSize: 16.0);
-    });
+  setIntervalRemainder({int? minutes,int? second}) {
+      int minuteToSecond = Duration(minutes: minutes ?? 1).inSeconds;
+      int finalSecond = minuteToSecond - (second ?? 0);
+      Timer.periodic(Duration(seconds: finalSecond), (Timer t) {
+        log("Interval");
+        Fluttertoast.showToast(
+            msg: "Interval",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.TOP,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.white,
+            textColor: Colors.black,
+            fontSize: 16.0);
+      });
   }
 }
