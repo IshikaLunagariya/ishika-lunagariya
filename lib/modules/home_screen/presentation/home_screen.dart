@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:clock_simple/modules/home_screen/controller/home_controller.dart';
 import 'package:clock_simple/utils/navigation_utils/navigation.dart';
@@ -40,18 +39,16 @@ class HomeScreen extends StatelessWidget {
               },
               icon: Icon(
                 Icons.settings,
-                size:
-                    SizeUtils.screenHeight < 300 ? SizeUtils.verticalBlockSize * 6.8 : SizeUtils.verticalBlockSize * 10,
-                color:
-                    homeController.currentSliderValueForColor.value <= 0.5 ? AppColor.blackColor : AppColor.whiteColor,
+                color: homeController.currentSliderValueForColor.value <= 0.5 ? AppColor.blackColor : AppColor.whiteColor,
+                size: SizeUtils.screenHeight < 300 ? 10 : 30,
               ),
             ),
           )),
       body: Obx(() => Center(
             child: Container(
               margin: EdgeInsets.zero,
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
+              height: SizeUtils.screenHeight,
+              width: SizeUtils.screenWidth,
               color: Colors.black.withOpacity(homeController.currentSliderValueForColor.value),
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: SizeUtils.verticalBlockSize * 10),
@@ -73,9 +70,8 @@ class HomeScreen extends StatelessWidget {
                                         trackHeight: 0.5,
                                         overlayShape: SliderComponentShape.noThumb,
                                         inactiveTrackColor: Colors.transparent,
-                                        activeTrackColor: homeController.currentSliderValueForColor.value <= 0.5
-                                            ? AppColor.blackColor
-                                            : AppColor.whiteColor,
+                                        activeTrackColor:
+                                            homeController.currentSliderValueForColor.value <= 0.5 ? AppColor.blackColor : AppColor.whiteColor,
                                       ),
                                       child: Slider(
                                         value: homeController.currentSliderValue.value,
@@ -93,8 +89,7 @@ class HomeScreen extends StatelessWidget {
                           text: TextSpan(
                             text: settingController.hourFormat.value
                                 ? homeController.timeString24.value.substring(0, 8)
-                                : settingController.leadingZero.value == false &&
-                                        homeController.timeString.value.substring(0, 1) == "0"
+                                : settingController.leadingZero.value == false && homeController.timeString.value.substring(0, 1) == "0"
                                     ? homeController.timeString.value.substring(1, 8)
                                     : homeController.timeString.value.substring(0, 8),
                             style: TextStyle(
@@ -127,8 +122,7 @@ class HomeScreen extends StatelessWidget {
                       onTap: () {
                         homeController.isButtonVisible.value = !homeController.isButtonVisible.value;
 
-                        SystemChrome.setEnabledSystemUIMode(
-                            homeController.isButtonVisible.value ? SystemUiMode.manual : SystemUiMode.immersiveSticky,
+                        SystemChrome.setEnabledSystemUIMode(homeController.isButtonVisible.value ? SystemUiMode.manual : SystemUiMode.immersiveSticky,
                             overlays: SystemUiOverlay.values);
                       },
                       onPanEnd: (val) {
@@ -136,44 +130,11 @@ class HomeScreen extends StatelessWidget {
                           homeController.isVisible.value = false;
                         });
                       },
-                      onPanUpdate: (details) {
-                        print("onVerticalDragUpdate x : ${details.delta.dx}");
-                        print("onVerticalDragUpdate y : ${details.delta.dy}");
-                        if (settingController.dimmer.value) {
-                          if (details.delta.dy < 0 && details.delta.dx == 0) {
-                            homeController.isVisible.value = true;
-                            if (homeController.currentSliderValue.value.toDouble() < 1) {
-                              homeController.currentSliderValue.value += 0.01;
-                            } else if (homeController.currentSliderValue.value.isNegative ||
-                                homeController.currentSliderValue.value <= 0.9) {
-                              homeController.currentSliderValue.value = 1.0;
-                            }
-                          } else if (details.delta.dy > 0 && details.delta.dx == 0) {
-                            homeController.isVisible.value = true;
-                            if (homeController.currentSliderValue.value.toDouble() > 0.2) {
-                              homeController.currentSliderValue.value -= 0.01;
-                            } else if (homeController.currentSliderValue.value.isNegative &&
-                                homeController.currentSliderValue.value.toDouble() <= 0.2) {
-                              homeController.currentSliderValue.value = 0.2;
-                            }
-                          } else if (details.delta.dx > 0 && details.delta.dy == 0) {
-                            homeController.isVisible.value = false;
-                            if (homeController.currentSliderValueForColor.value.toDouble() < 1) {
-                              homeController.currentSliderValueForColor.value += 0.05;
-                            } else if (homeController.currentSliderValueForColor.value.isNegative ||
-                                homeController.currentSliderValueForColor.value <= 0.9) {
-                              homeController.currentSliderValueForColor.value = 1.0;
-                            }
-                          } else if (details.delta.dx < 0 && details.delta.dy == 0) {
-                            homeController.isVisible.value = false;
-                            if (homeController.currentSliderValueForColor.value.toDouble() > 0.1) {
-                              homeController.currentSliderValueForColor.value -= 0.05;
-                            } else if (homeController.currentSliderValueForColor.value.isNegative &&
-                                homeController.currentSliderValueForColor.value.toDouble() <= 0.1) {
-                              homeController.currentSliderValueForColor.value = 0.0;
-                            }
-                          }
-                        }
+                      onPanUpdate: (DragUpdateDetails details) {
+                        homeController.changeBrightness(
+                          dimmer: settingController.dimmer.value,
+                          details: details,
+                        );
                       },
                       child: SizedBox(
                         height: MediaQuery.of(context).size.height,

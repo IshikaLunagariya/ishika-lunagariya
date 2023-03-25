@@ -78,7 +78,7 @@ class CustomTextFormField extends StatelessWidget {
     this.password = false,
     this.inputFormatters,
     this.style = const TextStyle(
-      color: Color.fromARGB(255, 60, 60, 60),
+      color: Colors.white,
       fontWeight: FontWeight.w700,
     ),
     this.controller,
@@ -145,7 +145,7 @@ class CustomTextFormField extends StatelessWidget {
       autovalidateMode: autovalidateMode,
       inputFormatters: onlyDigits ? [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))] : inputFormatters,
       style: TextStyle(
-        color: textColor ?? Theme.of(context).textTheme.titleLarge!.color,
+        color: textColor ?? Colors.white,
         fontWeight: fontWeight ?? FontWeight.w500,
         fontSize: textSize ?? SizeUtils.horizontalBlockSize * 3.8,
       ),
