@@ -1,5 +1,7 @@
 import 'dart:async';
+
 import 'package:clock_simple/utils/preferences.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -14,7 +16,7 @@ class SettingController extends GetxController {
   RxBool secondsUntil = false.obs;
   TextEditingController minutesController = TextEditingController();
   TextEditingController secondController = TextEditingController();
-  String dropDownValue = '0 Second';
+  String dropdownvalue = '0 Second';
 
   var secondList = ["0 Second", "15 Seconds", "30 Seconds", "45 Seconds", "60 Seconds"];
 
@@ -29,8 +31,7 @@ class SettingController extends GetxController {
     super.onInit();
   }
 
-
-  setIntervalRemainder({int? minutes}){
+  setIntervalRemainder({int? minutes}) {
     Timer.periodic(Duration(minutes: minutes!), (Timer t) {
       Fluttertoast.showToast(
           msg: "Interval",
@@ -42,5 +43,4 @@ class SettingController extends GetxController {
           fontSize: 16.0);
     });
   }
-
 }
