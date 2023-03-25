@@ -5,8 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomSwitchWidget extends StatelessWidget {
-  const CustomSwitchWidget({Key? key, required this.value, required this.onChange, required this.title, this.subTitle})
-      : super(key: key);
+  const CustomSwitchWidget({Key? key, required this.value, required this.onChange, required this.title, this.subTitle}) : super(key: key);
 
   final bool value;
   final Function(bool)? onChange;
@@ -18,14 +17,21 @@ class CustomSwitchWidget extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CupertinoSwitch(
-          value: value,
-          onChanged: onChange,
-          thumbColor: Colors.white,
-          activeColor: Colors.grey,
+        SizedBox(
+          height: 30,
+          width: 35,
+          child: Transform.scale(
+            scale: SizeUtils.screenHeight < 300 ? 0.4 : 1,
+            child: CupertinoSwitch(
+              value: value,
+              onChanged: onChange,
+              thumbColor: Colors.white,
+              activeColor: Colors.grey,
+            ),
+          ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          padding: EdgeInsets.symmetric(vertical: SizeUtils.screenHeight < 300 ? 4 : 10, horizontal: SizeUtils.screenHeight < 300 ? 8 : 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -40,7 +46,7 @@ class CustomSwitchWidget extends StatelessWidget {
                 child: AppText(
                   text: subTitle ?? "",
                   color: AppColor.gray,
-                  fontSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_2() :SizeUtils.fSize_12(),
+                  fontSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_12() : SizeUtils.fSize_15(),
                 ),
               ),
             ],
