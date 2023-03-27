@@ -15,6 +15,7 @@ class CustomSwitchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
@@ -31,7 +32,7 @@ class CustomSwitchWidget extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(vertical: SizeUtils.screenHeight < 300 ? 4 : 10, horizontal: SizeUtils.screenHeight < 300 ? 8 : 15),
+          padding: EdgeInsets.symmetric(vertical: SizeUtils.screenHeight < 300 ? 4 : 0, horizontal: SizeUtils.screenHeight < 300 ? 8 : 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -46,7 +47,7 @@ class CustomSwitchWidget extends StatelessWidget {
                 child: AppText(
                   text: subTitle ?? "",
                   color: AppColor.gray,
-                  fontSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_12() : SizeUtils.fSize_15(),
+                  fontSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_12() : 15,
                 ),
               ),
             ],

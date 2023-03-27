@@ -35,8 +35,9 @@ class SettingController extends GetxController {
   setIntervalRemainder({int? minutes, int? second}) {
     int minuteToSecond = Duration(minutes: minutes ?? 1).inSeconds;
     int finalSecond = minuteToSecond - (second ?? 0);
+
     Timer.periodic(Duration(seconds: finalSecond), (Timer t) {
-      log("Interval");
+      log("Interval $finalSecond");
       Fluttertoast.showToast(
           msg: "Interval",
           toastLength: Toast.LENGTH_LONG,
