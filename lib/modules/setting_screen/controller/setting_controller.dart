@@ -56,7 +56,7 @@ class SettingController extends GetxController {
       } else {
         log("Interval $finalSecond $minuteToSecond");
         await Alarm.set(alarmSettings: alarmSettings).then((value) async {
-          await Alarm.setNotificationOnAppKillContent("title", "body");
+          await Alarm.setNotificationOnAppKillContent("Interval", "body");
         });
       }
     });
