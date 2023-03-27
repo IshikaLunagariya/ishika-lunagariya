@@ -17,7 +17,7 @@ class SettingController extends GetxController {
   RxBool secondsUntil = false.obs;
   TextEditingController minutesController = TextEditingController();
   TextEditingController secondController = TextEditingController();
-  String dropdownvalue = '0 Second';
+  String dropDownValue = '0 Second';
 
   var secondList = ["0 Second", "15 Seconds", "30 Seconds", "45 Seconds", "60 Seconds"];
 
