@@ -14,6 +14,7 @@ import '../../../utils/app_color.dart';
 import '../../../utils/navigation_utils/routes.dart';
 import '../../../utils/size_utils.dart';
 import '../../../widget/custom_text_feild.dart';
+import '../../home_screen/controller/limit_range_text_input formatter.dart';
 import '../controller/setting_controller.dart';
 
 class LandScapeView extends StatelessWidget {
@@ -131,98 +132,160 @@ class LandScapeView extends StatelessWidget {
                             height: SizeUtils.verticalBlockSize * 4,
                             thickness: 1,
                           ),
-                          Transform(
-                            transform: Matrix4.translationValues(0, -10, 0),
-                            child: SizedBox(
-                              width: SizeUtils.screenHeight < 300 ? 70 : 150,
-                              child: CustomTextFormField(
-                                controller: settingController.minutesController,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly,
-                                  LengthLimitingTextInputFormatter(2),
-                                  FilteringTextInputFormatter.deny(" "),
-                                  FilteringTextInputFormatter.deny("."),
-                                ],
-                                keyboardType: TextInputType.number,
-                                onFieldSubmitted: (value) {
-                                  if (value.isEmpty) {
-                                    Fluttertoast.showToast(
-                                        msg: "Enter Number",
-                                        toastLength: Toast.LENGTH_LONG,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIosWeb: 1,
-                                        backgroundColor: Colors.white,
-                                        textColor: Colors.black,
-                                        fontSize: 16.0);
-                                  } else if (int.parse(value) > 60 || int.parse(value) < 1) {
-                                    Fluttertoast.showToast(
-                                        msg: "Enter valid Number",
-                                        toastLength: Toast.LENGTH_LONG,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIosWeb: 1,
-                                        backgroundColor: Colors.white,
-                                        textColor: Colors.black,
-                                        fontSize: 16.0);
-                                  } else {
-                                    settingController.minutesController.clear();
-                                    settingController.minutesController.text = value;
-                                    log("Set Interval");
-
-                                    settingController.setIntervalRemainder(
-                                      minutes: int.parse(settingController.minutesController.text),
-                                      second: int.parse(settingController.dropDownValue.split(" ").first),
-                                    );
-                                  }
-                                },
-                                hint: "Type Minute",
-                                hintColor: AppColor.whiteColor,
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: SizeUtils.screenHeight < 300 ? 70 : 25,
+                                child: CustomTextFormField(
+                                  textInputAction: TextInputAction.done,
+                                  textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
+                                  controller: settingController.minutesController,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    LengthLimitingTextInputFormatter(2),
+                                    FilteringTextInputFormatter.deny(" "),
+                                    FilteringTextInputFormatter.deny("."),
+                                    LimitRangeTextInputFormatter(1, 60),
+                                  ],
+                                  keyboardType: TextInputType.number,
+                                  onFieldSubmitted: (value) {
+                                   /* if (value.isEmpty) {
+                                      Fluttertoast.showToast(
+                                          msg: "Enter Number",
+                                          toastLength: Toast.LENGTH_LONG,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.white,
+                                          textColor: Colors.black,
+                                          fontSize: 16.0);
+                                    } else if (int.parse(value) > 60 || int.parse(value) < 1) {
+                                      Fluttertoast.showToast(
+                                          msg: "Enter valid Number",
+                                          toastLength: Toast.LENGTH_LONG,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.white,
+                                          textColor: Colors.black,
+                                          fontSize: 16.0);
+                                    } else {*/
+                                      settingController.minutesController.clear();
+                                      settingController.minutesController.text = value;
+                                      log("Set Interval");
+                                      settingController.timer?.cancel();
+                                      settingController.setIntervalRemainder(
+                                        minutes: int.parse(settingController.minutesController.text),
+                                        second: int.parse(
+                                            settingController.secondController.text.isNumericOnly ? settingController.secondController.text : "0"),
+                                      );
+                                    // }
+                                  },
+                                  hintColor: AppColor.whiteColor,
+                                  hint: "00",
+                                ),
                               ),
-                            ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: SizeUtils.screenHeight < 300 ? 4 : 0, horizontal: SizeUtils.screenHeight < 300 ? 8 : 15),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    AppText(
+                                      text: AppString.interval,
+                                      color: AppColor.whiteColor,
+                                      fontSize: SizeUtils.fSize_17(),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 5),
+                                      child: AppText(
+                                        text: AppString.inMinutes,
+                                        color: AppColor.gray,
+                                        fontSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_12() : 13,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                           SizedBox(
-                            width: SizeUtils.screenHeight < 300 ? 70 : 150,
-                            child: CustomTextFormField(
-                              controller: settingController.secondController,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                                LengthLimitingTextInputFormatter(2),
-                                FilteringTextInputFormatter.deny(" "),
-                                FilteringTextInputFormatter.deny("."),
-                              ],
-                              keyboardType: TextInputType.number,
-                              onFieldSubmitted: (value) {
-                                if (value.isEmpty) {
-                                  Fluttertoast.showToast(
-                                      msg: "Enter Number",
-                                      toastLength: Toast.LENGTH_LONG,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.white,
-                                      textColor: Colors.black,
-                                      fontSize: 16.0);
-                                } else if (int.parse(value) > 60 || int.parse(value) < 0) {
-                                  Fluttertoast.showToast(
-                                      msg: "Enter valid Number",
-                                      toastLength: Toast.LENGTH_LONG,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.white,
-                                      textColor: Colors.black,
-                                      fontSize: 16.0);
-                                } else {
-                                  settingController.secondController.clear();
-                                  settingController.secondController.text = value;
-                                  log("Set Interval");
+                            height: SizeUtils.verticalBlockSize * 2,
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: SizeUtils.screenHeight < 300 ? 70 : 25,
+                                child: CustomTextFormField(
 
-                                  settingController.setIntervalRemainder(
-                                    minutes: int.parse(settingController.minutesController.text),
-                                    second: int.parse(settingController.secondController.text),
-                                  );
-                                }
-                              },
-                              hint: "Type Second",
-                              hintColor: AppColor.whiteColor,
-                            ),
+                                  textInputAction: TextInputAction.done,
+                                  textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
+                                  controller: settingController.secondController,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    LengthLimitingTextInputFormatter(2),
+                                    FilteringTextInputFormatter.deny(" "),
+                                    FilteringTextInputFormatter.deny("."),
+                                    LimitRangeTextInputFormatter(0, 60),
+                                  ],
+                                  keyboardType: TextInputType.number,
+                                  onFieldSubmitted: (value) {
+                                   /* if (value.isEmpty) {
+                                      Fluttertoast.showToast(
+                                          msg: "Enter Number",
+                                          toastLength: Toast.LENGTH_LONG,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.white,
+                                          textColor: Colors.black,
+                                          fontSize: 16.0);
+                                    } else if (int.parse(value) > 60 || int.parse(value) < 0) {
+                                      Fluttertoast.showToast(
+                                          msg: "Enter valid Number",
+                                          toastLength: Toast.LENGTH_LONG,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.white,
+                                          textColor: Colors.black,
+                                          fontSize: 16.0);
+                                    } else {*/
+                                      settingController.secondController.clear();
+                                      settingController.secondController.text = value;
+                                      log("Set Interval");
+                                      settingController.timer?.cancel();
+                                      settingController.setIntervalRemainder(
+                                        minutes: int.parse(
+                                            settingController.minutesController.text.isNumericOnly ? settingController.minutesController.text : "1"),
+                                        second: int.parse(settingController.secondController.text),
+                                      );
+                                    // }
+                                  },
+                                  hint: "00",
+                                  hintColor: AppColor.whiteColor,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: SizeUtils.screenHeight < 300 ? 4 : 0, horizontal: SizeUtils.screenHeight < 300 ? 8 : 15),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    AppText(
+                                      text: AppString.secondsUntil,
+                                      color: AppColor.whiteColor,
+                                      fontSize: SizeUtils.fSize_17(),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 5),
+                                      child: AppText(
+                                        text: AppString.inSeconds,
+                                        color: AppColor.gray,
+                                        fontSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_12() : 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           )
                           /*  CustomSwitchWidget(
                             title: settingController.intervalSwitch.value

@@ -46,7 +46,7 @@ class CustomTextFormField extends StatelessWidget {
   final bool enabled;
   final int? maxLength;
   final MaxLengthEnforcement maxLengthEnforcement;
-  final AutovalidateMode autovalidateMode;
+  final AutovalidateMode autoValidateMode;
   final bool readOnly;
   final bool showPrefixAlways;
   final bool onlyDigits;
@@ -107,7 +107,7 @@ class CustomTextFormField extends StatelessWidget {
     this.enabled = true,
     this.maxLength,
     this.maxLengthEnforcement = MaxLengthEnforcement.none,
-    this.autovalidateMode = AutovalidateMode.disabled,
+    this.autoValidateMode = AutovalidateMode.disabled,
     this.readOnly = false,
     this.showPrefixAlways = false,
     this.onlyDigits = false,
@@ -142,7 +142,7 @@ class CustomTextFormField extends StatelessWidget {
       autofocus: autoFocus,
       initialValue: initialValue,
       keyboardType: keyboardType,
-      autovalidateMode: autovalidateMode,
+      autovalidateMode: autoValidateMode,
       inputFormatters: onlyDigits ? [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))] : inputFormatters,
       style: TextStyle(
         color: textColor ?? Colors.white,
@@ -167,7 +167,7 @@ class CustomTextFormField extends StatelessWidget {
         prefixIconConstraints: prefixIconConstraints,
         hintText: hint,
         hintStyle: TextStyle(
-          fontSize: 17,
+          fontSize: textSize ?? SizeUtils.fSize_15(),
           color: hintColor ?? const Color(0xFFAAAAAA),
           fontWeight: FontWeight.w400,
         ),

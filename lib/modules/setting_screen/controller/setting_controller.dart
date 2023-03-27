@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:alarm/alarm.dart';
 import 'package:clock_simple/utils/preferences.dart';
+import 'package:clock_simple/utils/size_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:vibration/vibration.dart';
 
 class SettingController extends GetxController {
   static SettingController get to => SettingController();
@@ -19,6 +21,19 @@ class SettingController extends GetxController {
   String dropDownValue = '0 Second';
 
   var secondList = ["0 Second", "15 Seconds", "30 Seconds", "45 Seconds", "60 Seconds"];
+
+  Timer? timer;
+  final alarmSettings = AlarmSettings(
+    id: 42,
+    dateTime: DateTime.now(),
+    assetAudioPath: 'assets/',
+    loopAudio: false,
+    vibrate: false,
+    fadeDuration: 3.0,
+    notificationTitle: 'This is the title',
+    notificationBody: 'This is the body',
+    enableNotificationOnKill: true,
+  );
 
   @override
   void onInit() {
@@ -35,7 +50,18 @@ class SettingController extends GetxController {
     int minuteToSecond = Duration(minutes: minutes ?? 1).inSeconds;
     int finalSecond = minuteToSecond - (second ?? 0);
 
-    Timer.periodic(Duration(seconds: finalSecond), (Timer t) {
+    timer = Timer.periodic(Duration(seconds: finalSecond), (Timer t) async {
+      if (SizeUtils.screenHeight < 300) {
+        Vibration.vibrate(duration: 4000, repeat: 200, amplitude: 128);
+      } else {
+        log("Interval $finalSecond $minuteToSecond");
+        await Alarm.set(alarmSettings: alarmSettings).then((value) async {
+          await Alarm.setNotificationOnAppKillContent("title", "body");
+        });
+      }
+    });
+
+    /*Timer.periodic(Duration(seconds: finalSecond), (Timer t) {
       log("Interval $finalSecond");
       Fluttertoast.showToast(
           msg: "Interval",
@@ -45,6 +71,25 @@ class SettingController extends GetxController {
           backgroundColor: Colors.white,
           textColor: Colors.black,
           fontSize: 16.0);
-    });
+    });*/
   }
 }
+/*
+setMinuteIntervalRemainder({int? minutes, int? second}) {
+  timer = Timer.periodic(Duration(minutes: minutes ?? 1), (Timer t) async {
+    if(SizeUtils.screenHeight < 300){
+      Vibration.vibrate();
+    }else{
+      Vibration.vibrate();
+    }
+  });
+}
+setSecondIntervalRemainder({int? second}) {
+  timer = Timer.periodic(Duration(seconds: second ?? 0), (Timer t) async {
+    if(SizeUtils.screenHeight < 300){
+      Vibration.vibrate();
+    }else{
+      Vibration.vibrate();
+    }
+  });
+}*/

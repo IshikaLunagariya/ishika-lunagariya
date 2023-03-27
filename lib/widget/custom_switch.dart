@@ -47,7 +47,7 @@ class CustomSwitchWidget extends StatelessWidget {
                 child: AppText(
                   text: subTitle ?? "",
                   color: AppColor.gray,
-                  fontSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_12() : 15,
+                  fontSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_12() : 13,
                 ),
               ),
             ],
