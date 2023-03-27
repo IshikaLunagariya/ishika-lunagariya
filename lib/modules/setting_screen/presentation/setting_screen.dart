@@ -80,7 +80,8 @@ class _SettingScreenState extends State<SettingScreen> {
                             subTitle: AppString.preventLockingDes,
                             onChange: (value) async {
                               settingController.preventLocking.value = value;
-                              await Preferences.instance.prefs?.setBool("preventLocking", settingController.preventLocking.value);
+                              await Preferences.instance.prefs
+                                  ?.setBool("preventLocking", settingController.preventLocking.value);
                             },
                             value: settingController.preventLocking.value,
                           ),
@@ -110,7 +111,8 @@ class _SettingScreenState extends State<SettingScreen> {
                             ),
                             onChange: (value) async {
                               settingController.hourFormat.value = value;
-                              await Preferences.instance.prefs?.setBool("hourFormat", settingController.hourFormat.value);
+                              await Preferences.instance.prefs
+                                  ?.setBool("hourFormat", settingController.hourFormat.value);
                             },
                             value: settingController.hourFormat.value,
                           ),
@@ -122,7 +124,8 @@ class _SettingScreenState extends State<SettingScreen> {
                             ),
                             onChange: (value) async {
                               settingController.leadingZero.value = value;
-                              await Preferences.instance.prefs?.setBool("leadingZero", settingController.leadingZero.value);
+                              await Preferences.instance.prefs
+                                  ?.setBool("leadingZero", settingController.leadingZero.value);
                             },
                             value: settingController.leadingZero.value,
                           ),
@@ -170,11 +173,11 @@ class _SettingScreenState extends State<SettingScreen> {
                                           settingController.minutesController.clear();
                                           settingController.minutesController.text = value;
                                           log("Set Interval");
-                                          if(settingController.secondsUntil.value) {
+                                          if (settingController.secondsUntil.value) {
                                             // settingController.setIntervalRemainder(
                                             // minutes: int.parse(settingController.minutesController.text),
-                                          // );
-                                          }else{
+                                            // );
+                                          } else {
                                             settingController.setIntervalRemainder(
                                               minutes: int.parse(settingController.minutesController.text),
                                               second: 0,
@@ -189,11 +192,13 @@ class _SettingScreenState extends State<SettingScreen> {
                                 : AppText(
                                     text: AppString.interval,
                                     color: AppColor.whiteColor,
-                                    fontSize: SizeUtils.screenHeight < 600 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
+                                    fontSize:
+                                        SizeUtils.screenHeight < 600 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
                                   ),
                             onChange: (value) async {
                               settingController.intervalSwitch.value = value;
-                              await Preferences.instance.prefs?.setBool("intervalSwitch", settingController.intervalSwitch.value);
+                              await Preferences.instance.prefs
+                                  ?.setBool("intervalSwitch", settingController.intervalSwitch.value);
                             },
                             value: settingController.intervalSwitch.value,
                           ),
@@ -202,23 +207,25 @@ class _SettingScreenState extends State<SettingScreen> {
                                 ? DropdownButton<String>(
                                     isExpanded: false,
                                     alignment: Alignment.center,
-                                    value: settingController.dropDownValue,
+                                    value: settingController.dropdownvalue,
                                     items: settingController.secondList.map((String items) {
                                       return DropdownMenuItem(
                                         value: items,
                                         child: AppText(
                                           text: items,
                                           color: AppColor.blackColor,
-                                          fontSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
+                                          fontSize: SizeUtils.screenHeight < 300
+                                              ? SizeUtils.fSize_15()
+                                              : SizeUtils.fSize_20(),
                                         ),
                                       );
                                     }).toList(),
                                     onChanged: (String? newValue) {
                                       setState(() {
-                                        settingController.dropDownValue = newValue!;
+                                        settingController.dropdownvalue = newValue!;
                                         settingController.setIntervalRemainder(
                                           minutes: int.parse(settingController.minutesController.text),
-                                          second: int.parse(settingController.dropDownValue.split(" ").first),
+                                          second: int.parse(settingController.dropdownvalue.split(" ").first),
                                         );
                                       });
                                     },
@@ -229,7 +236,9 @@ class _SettingScreenState extends State<SettingScreen> {
                                           child: AppText(
                                             text: items,
                                             color: AppColor.whiteColor,
-                                            fontSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
+                                            fontSize: SizeUtils.screenHeight < 300
+                                                ? SizeUtils.fSize_15()
+                                                : SizeUtils.fSize_20(),
                                           ),
                                         );
                                       }).toList();
@@ -238,11 +247,13 @@ class _SettingScreenState extends State<SettingScreen> {
                                 : AppText(
                                     text: AppString.secondsUntil,
                                     color: AppColor.whiteColor,
-                                    fontSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
+                                    fontSize:
+                                        SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
                                   ),
                             onChange: (value) async {
                               settingController.secondsUntil.value = value;
-                              await Preferences.instance.prefs?.setBool("secondsUntil", settingController.secondsUntil.value);
+                              await Preferences.instance.prefs
+                                  ?.setBool("secondsUntil", settingController.secondsUntil.value);
                             },
                             value: settingController.secondsUntil.value,
                           ),
