@@ -47,12 +47,14 @@ class SettingController extends GetxController {
   }
 
   setMinuteIntervalRemainder({int? minutes}) {
-    timer = Timer.periodic(Duration(minutes: minutes ?? 1), (Timer t) async {
+    Timer.periodic(Duration(minutes: minutes ?? 1), (Timer t) async {
       if (SizeUtils.screenHeight < 300) {
         Vibration.vibrate(duration: 4000, repeat: 200, amplitude: 128);
       } else {
         print("Interval $minutes");
-        // Vibration.vibrate(duration: 4000, repeat: 200, amplitude: 128);
+        Vibration.vibrate(duration: 4000, repeat: 200, amplitude: 128);
+        setSecondsIntervalRemainder(
+            minutes: int.parse(minutesController.text), second: int.parse(secondController.text));
       }
     });
   }
@@ -66,7 +68,7 @@ class SettingController extends GetxController {
         Vibration.vibrate(duration: 4000, repeat: 200, amplitude: 100);
       } else {
         log("Interval $finalSecond $minuteToSecond");
-        // Vibration.vibrate(duration: 4000, repeat: 200, amplitude: 100);
+        Vibration.vibrate(duration: 4000, repeat: 200, amplitude: 100);
         // await Alarm.set(alarmSettings: alarmSettings).then((value) async {
         //   await Alarm.setNotificationOnAppKillContent("Interval", "body");
         //   await Alarm.stop(42);
@@ -84,6 +86,42 @@ class SettingController extends GetxController {
           textColor: Colors.black,
           fontSize: 16.0);
     });*/
+  }
+
+  setSecondsIntervalRemainder({int? minutes, int? second}) {
+    try {
+      int minuteToSecond = Duration(minutes: minutes ?? 1).inSeconds;
+      log("minuteToSecond---->$minuteToSecond");
+      int finalSecond = minuteToSecond - (second ?? 0);
+      log("finalSecond---->$finalSecond");
+      timer = Timer.periodic(Duration(seconds: finalSecond), (Timer t) async {
+        if (SizeUtils.screenHeight < 300) {
+          Vibration.vibrate(duration: 2000, repeat: 200, amplitude: 100);
+        } else {
+          log("Interval $finalSecond $minuteToSecond");
+          Vibration.vibrate(duration: 2000, repeat: 200, amplitude: 100);
+          // await Alarm.set(alarmSettings: alarmSettings).then((value) async {
+          //   await Alarm.setNotificationOnAppKillContent("Interval", "body");
+          //   await Alarm.stop(42);
+          // });
+        }
+        timer?.cancel();
+      });
+
+      /*Timer.periodic(Duration(seconds: finalSecond), (Timer t) {
+      log("Interval $finalSecond");
+      Fluttertoast.showToast(
+          msg: "Interval",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.TOP,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0);
+    });*/
+    } catch (e) {
+      print("error--->$e");
+    }
   }
 }
 /*

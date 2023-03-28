@@ -7,7 +7,6 @@ import 'package:clock_simple/widget/app_text.dart';
 import 'package:clock_simple/widget/custom_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import '../../../utils/app_color.dart';
@@ -75,7 +74,8 @@ class LandScapeView extends StatelessWidget {
                             subTitle: AppString.preventLockingDes,
                             onChange: (value) async {
                               settingController.preventLocking.value = value;
-                              await Preferences.instance.prefs?.setBool("preventLocking", settingController.preventLocking.value);
+                              await Preferences.instance.prefs
+                                  ?.setBool("preventLocking", settingController.preventLocking.value);
                             },
                             value: settingController.preventLocking.value,
                           ),
@@ -108,7 +108,8 @@ class LandScapeView extends StatelessWidget {
                             ),
                             onChange: (value) async {
                               settingController.hourFormat.value = value;
-                              await Preferences.instance.prefs?.setBool("hourFormat", settingController.hourFormat.value);
+                              await Preferences.instance.prefs
+                                  ?.setBool("hourFormat", settingController.hourFormat.value);
                             },
                             value: settingController.hourFormat.value,
                           ),
@@ -123,7 +124,8 @@ class LandScapeView extends StatelessWidget {
                             ),
                             onChange: (value) async {
                               settingController.leadingZero.value = value;
-                              await Preferences.instance.prefs?.setBool("leadingZero", settingController.leadingZero.value);
+                              await Preferences.instance.prefs
+                                  ?.setBool("leadingZero", settingController.leadingZero.value);
                             },
                             value: settingController.leadingZero.value,
                           ),
@@ -150,7 +152,7 @@ class LandScapeView extends StatelessWidget {
                                   ],
                                   keyboardType: TextInputType.number,
                                   onFieldSubmitted: (value) {
-                                   /* if (value.isEmpty) {
+                                    /* if (value.isEmpty) {
                                       Fluttertoast.showToast(
                                           msg: "Enter Number",
                                           toastLength: Toast.LENGTH_LONG,
@@ -169,13 +171,13 @@ class LandScapeView extends StatelessWidget {
                                           textColor: Colors.black,
                                           fontSize: 16.0);
                                     } else {*/
-                                      settingController.minutesController.clear();
-                                      settingController.minutesController.text = value;
-                                      log("Set Interval");
-                                      settingController.timer?.cancel();
-                                      settingController.setIntervalRemainder(
-                                        minutes: int.parse(settingController.minutesController.text),
-                                      );
+                                    settingController.minutesController.clear();
+                                    settingController.minutesController.text = value;
+                                    log("Set Interval");
+                                    settingController.timer?.cancel();
+                                    settingController.setMinuteIntervalRemainder(
+                                      minutes: int.parse(settingController.minutesController.text),
+                                    );
                                     // }
                                   },
                                   hintColor: AppColor.whiteColor,
@@ -184,7 +186,8 @@ class LandScapeView extends StatelessWidget {
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: SizeUtils.screenHeight < 300 ? 4 : 0, horizontal: SizeUtils.screenHeight < 300 ? 8 : 15),
+                                    vertical: SizeUtils.screenHeight < 300 ? 4 : 0,
+                                    horizontal: SizeUtils.screenHeight < 300 ? 8 : 15),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -214,7 +217,6 @@ class LandScapeView extends StatelessWidget {
                               SizedBox(
                                 width: SizeUtils.screenHeight < 300 ? 70 : 25,
                                 child: CustomTextFormField(
-
                                   textInputAction: TextInputAction.done,
                                   textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
                                   controller: settingController.secondController,
@@ -227,7 +229,7 @@ class LandScapeView extends StatelessWidget {
                                   ],
                                   keyboardType: TextInputType.number,
                                   onFieldSubmitted: (value) {
-                                   /* if (value.isEmpty) {
+                                    /* if (value.isEmpty) {
                                       Fluttertoast.showToast(
                                           msg: "Enter Number",
                                           toastLength: Toast.LENGTH_LONG,
@@ -246,12 +248,17 @@ class LandScapeView extends StatelessWidget {
                                           textColor: Colors.black,
                                           fontSize: 16.0);
                                     } else {*/
-                                      settingController.secondController.clear();
-                                      settingController.secondController.text = value;
-                                      log("Set Interval");
-                                      settingController.setIntervalRemainder(
-                                        second: int.parse(settingController.secondController.text),
-                                      );
+                                    settingController.secondController.clear();
+                                    settingController.secondController.text = value;
+                                    log("Set Interval");
+                                    // settingController.setIntervalRemainder(
+                                    //   second: int.parse(settingController.secondController.text),
+                                    // );
+                                    settingController.timer?.cancel();
+                                    settingController.setSecondsIntervalRemainder(
+                                        minutes: int.parse(settingController.minutesController.text),
+                                        second: int.parse(settingController.secondController.text));
+
                                     // }
                                   },
                                   hint: "00",
@@ -260,7 +267,8 @@ class LandScapeView extends StatelessWidget {
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: SizeUtils.screenHeight < 300 ? 4 : 0, horizontal: SizeUtils.screenHeight < 300 ? 8 : 15),
+                                    vertical: SizeUtils.screenHeight < 300 ? 4 : 0,
+                                    horizontal: SizeUtils.screenHeight < 300 ? 8 : 15),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
