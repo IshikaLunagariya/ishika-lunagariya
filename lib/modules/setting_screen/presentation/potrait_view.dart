@@ -228,9 +228,6 @@ class PotraitView extends StatelessWidget {
                                     child: CustomTextFormField(
                                       textInputAction: TextInputAction.done,
                                       textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_9(),
-                                      keyboardType: SizeUtils.screenHeight < 300
-                                          ? const TextInputType.numberWithOptions(signed: true, decimal: true)
-                                          : TextInputType.number,
                                       controller: settingController.secondController,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.digitsOnly,
@@ -244,6 +241,7 @@ class PotraitView extends StatelessWidget {
                                           settingController.secondController.text = "00";
                                         }
                                       },
+                                      keyboardType: TextInputType.number,
                                       onFieldSubmitted: (value) {
                                         /* if (value.isEmpty) {
                                         Fluttertoast.showToast(

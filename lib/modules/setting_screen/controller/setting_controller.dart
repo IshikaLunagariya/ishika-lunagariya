@@ -26,7 +26,7 @@ class SettingController extends GetxController {
   final alarmSettings = AlarmSettings(
     id: 42,
     dateTime: DateTime.now(),
-    assetAudioPath: 'assets/',
+    assetAudioPath: 'assets/beep_alarm.mp3',
     loopAudio: false,
     vibrate: false,
     fadeDuration: 3.0,
@@ -49,12 +49,11 @@ class SettingController extends GetxController {
   setMinuteIntervalRemainder({int? minutes}) {
     Timer.periodic(Duration(minutes: minutes ?? 1), (Timer t) async {
       if (SizeUtils.screenHeight < 300) {
-        Vibration.vibrate(duration: 4000, repeat: 200, amplitude: 128);
+        Vibration.vibrate(duration: 4000, repeat: 20, amplitude: 128);
       } else {
         print("Interval $minutes");
-        Vibration.vibrate(duration: 4000, repeat: 200, amplitude: 128);
-        setSecondsIntervalRemainder(
-            minutes: int.parse(minutesController.text), second: int.parse(secondController.text));
+        Vibration.vibrate(duration: 4000, repeat: 20, amplitude: 128);
+        setIntervalRemainder(minutes: int.parse(minutesController.text), second: int.parse(secondController.text));
       }
     });
   }
@@ -65,15 +64,14 @@ class SettingController extends GetxController {
 
     timer = Timer.periodic(Duration(seconds: finalSecond), (Timer t) async {
       if (SizeUtils.screenHeight < 300) {
-        Vibration.vibrate(duration: 4000, repeat: 200, amplitude: 100);
+        Vibration.vibrate(duration: 4000, repeat: 20, amplitude: 100);
       } else {
         log("Interval $finalSecond $minuteToSecond");
-        Vibration.vibrate(duration: 4000, repeat: 200, amplitude: 100);
-        // await Alarm.set(alarmSettings: alarmSettings).then((value) async {
-        //   await Alarm.setNotificationOnAppKillContent("Interval", "body");
-        //   await Alarm.stop(42);
-        // });
+        // Vibration.vibrate(duration: 4000, repeat: 20, amplitude: 100);
+        await Alarm.set(alarmSettings: alarmSettings);
+        await Alarm.setNotificationOnAppKillContent("Interval", "body");
       }
+      timer!.cancel();
     });
     /*Timer.periodic(Duration(seconds: finalSecond), (Timer t) {
       log("Interval $finalSecond");

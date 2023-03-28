@@ -174,7 +174,7 @@ class LandScapeView extends StatelessWidget {
                                     settingController.minutesController.clear();
                                     settingController.minutesController.text = value;
                                     log("Set Interval");
-                                    settingController.timer?.cancel();
+                                    // settingController.timer?.cancel();
                                     settingController.setMinuteIntervalRemainder(
                                       minutes: int.parse(settingController.minutesController.text),
                                     );
@@ -227,7 +227,7 @@ class LandScapeView extends StatelessWidget {
                                     FilteringTextInputFormatter.deny("."),
                                     LimitRangeTextInputFormatter(0, 60),
                                   ],
-                                  keyboardType: TextInputType.number,
+                                  keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                                   onFieldSubmitted: (value) {
                                     /* if (value.isEmpty) {
                                       Fluttertoast.showToast(
@@ -251,14 +251,10 @@ class LandScapeView extends StatelessWidget {
                                     settingController.secondController.clear();
                                     settingController.secondController.text = value;
                                     log("Set Interval");
-                                    // settingController.setIntervalRemainder(
-                                    //   second: int.parse(settingController.secondController.text),
-                                    // );
-                                    settingController.timer?.cancel();
-                                    settingController.setSecondsIntervalRemainder(
-                                        minutes: int.parse(settingController.minutesController.text),
-                                        second: int.parse(settingController.secondController.text));
-
+                                    settingController.setIntervalRemainder(
+                                      minutes: int.parse(settingController.minutesController.text),
+                                      second: int.parse(settingController.secondController.text),
+                                    );
                                     // }
                                   },
                                   hint: "00",
