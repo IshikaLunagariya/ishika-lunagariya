@@ -1,11 +1,10 @@
+import 'package:clock_simple/clock_demo.dart';
 import 'package:clock_simple/utils/app_binding.dart';
 import 'package:clock_simple/utils/app_color.dart';
 import 'package:clock_simple/utils/navigation_utils/routes.dart';
 import 'package:clock_simple/utils/string_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'modules/home_screen/presentation/home_screen.dart';
 
 class ClockSimple extends StatefulWidget {
   const ClockSimple({Key? key}) : super(key: key);
@@ -30,10 +29,7 @@ class _ClockSimpleState extends State<ClockSimple> {
           disabledColor: Colors.transparent,
           scaffoldBackgroundColor: AppColor.blackColor),
       initialRoute: Routes.homeScreen,
-      unknownRoute: GetPage(
-        name: Routes.homeScreen,
-        page: () => HomeScreen(),
-      ),
+      unknownRoute: GetPage(name: Routes.homeScreen, page: () => const MyAlwaysDisplayOn()),
     );
   }
 }
