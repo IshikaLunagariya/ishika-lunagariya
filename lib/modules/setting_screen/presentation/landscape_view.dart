@@ -174,7 +174,8 @@ class LandScapeView extends StatelessWidget {
                                     settingController.minutesController.clear();
                                     settingController.minutesController.text = value;
                                     log("Set Interval");
-                                    // settingController.timer?.cancel();
+                                    settingController.secondTimer?.cancel();
+                                    settingController.minuteTimer?.cancel();
                                     settingController.setMinuteIntervalRemainder(
                                       minutes: int.parse(settingController.minutesController.text),
                                     );
@@ -251,6 +252,11 @@ class LandScapeView extends StatelessWidget {
                                     settingController.secondController.clear();
                                     settingController.secondController.text = value;
                                     log("Set Interval");
+                                    settingController.secondTimer?.cancel();
+                                    settingController.minuteTimer?.cancel();
+                                    settingController.setMinuteIntervalRemainder(
+                                      minutes: int.parse(settingController.minutesController.text),
+                                    );
                                     settingController.setIntervalRemainder(
                                       minutes: int.parse(settingController.minutesController.text),
                                       second: int.parse(settingController.secondController.text),
