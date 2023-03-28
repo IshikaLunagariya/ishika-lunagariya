@@ -5,6 +5,7 @@ import 'package:clock_simple/utils/preferences.dart';
 import 'package:clock_simple/utils/string_utils.dart';
 import 'package:clock_simple/widget/app_text.dart';
 import 'package:clock_simple/widget/custom_switch.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -171,6 +172,7 @@ class LandScapeView extends StatelessWidget {
                                           textColor: Colors.black,
                                           fontSize: 16.0);
                                     } else {*/
+                                    settingController.isAlarm.value = true;
                                     settingController.minutesController.clear();
                                     settingController.minutesController.text = value;
                                     log("Set Interval");
@@ -249,6 +251,7 @@ class LandScapeView extends StatelessWidget {
                                           textColor: Colors.black,
                                           fontSize: 16.0);
                                     } else {*/
+                                    settingController.isAlarm.value = true;
                                     settingController.secondController.clear();
                                     settingController.secondController.text = value;
                                     log("Set Interval");

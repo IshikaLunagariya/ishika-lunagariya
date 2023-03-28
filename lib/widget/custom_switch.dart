@@ -5,7 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomSwitchWidget extends StatelessWidget {
-  const CustomSwitchWidget({Key? key, required this.value, required this.onChange, required this.title, this.subTitle}) : super(key: key);
+  const CustomSwitchWidget({Key? key, required this.value, required this.onChange, required this.title, this.subTitle})
+      : super(key: key);
 
   final bool value;
   final Function(bool)? onChange;
@@ -32,7 +33,8 @@ class CustomSwitchWidget extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(vertical: SizeUtils.screenHeight < 300 ? 4 : 0, horizontal: SizeUtils.screenHeight < 300 ? 8 : 15),
+          padding: EdgeInsets.symmetric(
+              vertical: SizeUtils.screenHeight < 300 ? 4 : 0, horizontal: SizeUtils.screenHeight < 300 ? 8 : 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

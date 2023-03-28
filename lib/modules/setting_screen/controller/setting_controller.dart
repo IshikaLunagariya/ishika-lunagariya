@@ -17,6 +17,7 @@ class SettingController extends GetxController {
   RxBool leadingZero = true.obs;
   RxBool intervalSwitch = false.obs;
   RxBool secondsUntil = false.obs;
+  RxBool isAlarm = false.obs;
   TextEditingController minutesController = TextEditingController();
   TextEditingController secondController = TextEditingController();
   String dropDownValue = '0 Second';
@@ -44,6 +45,7 @@ class SettingController extends GetxController {
     leadingZero.value = Preferences.instance.prefs?.getBool("leadingZero") ?? true;
     intervalSwitch.value = Preferences.instance.prefs?.getBool("intervalSwitch") ?? false;
     secondsUntil.value = Preferences.instance.prefs?.getBool("secondsUntil") ?? false;
+    isAlarm.value = Preferences.instance.prefs?.getBool("isAlarm") ?? false;
     super.onInit();
   }
 

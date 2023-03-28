@@ -183,15 +183,14 @@ class PotraitView extends StatelessWidget {
                                               textColor: Colors.black,
                                               fontSize: 16.0);
                                         } else {*/
+                                        settingController.isAlarm.value = true;
                                         settingController.minutesController.clear();
                                         settingController.minutesController.text = value;
                                         log("Set Interval");
                                         settingController.secondTimer?.cancel();
-                                        settingController.setIntervalRemainder(
+                                        settingController.minuteTimer?.cancel();
+                                        settingController.setMinuteIntervalRemainder(
                                           minutes: int.parse(settingController.minutesController.text),
-                                          second: int.parse(settingController.secondController.text.isNumericOnly
-                                              ? settingController.secondController.text
-                                              : "0"),
                                         );
                                         // }
                                       },
@@ -243,12 +242,12 @@ class PotraitView extends StatelessWidget {
                                         FilteringTextInputFormatter.deny("."),
                                         LimitRangeTextInputFormatter(0, 60),
                                       ],
+                                      keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                                       onChanged: (value) {
                                         if (int.parse(value) > 60) {
                                           settingController.secondController.text = "00";
                                         }
                                       },
-                                      keyboardType: TextInputType.number,
                                       onFieldSubmitted: (value) {
                                         /* if (value.isEmpty) {
                                         Fluttertoast.showToast(
@@ -269,14 +268,17 @@ class PotraitView extends StatelessWidget {
                                               textColor: Colors.black,
                                               fontSize: 16.0);
                                         } else {*/
+                                        settingController.isAlarm.value = true;
                                         settingController.secondController.clear();
                                         settingController.secondController.text = value;
                                         log("Set Interval");
                                         settingController.secondTimer?.cancel();
+                                        settingController.minuteTimer?.cancel();
+                                        settingController.setMinuteIntervalRemainder(
+                                          minutes: int.parse(settingController.minutesController.text),
+                                        );
                                         settingController.setIntervalRemainder(
-                                          minutes: int.parse(settingController.minutesController.text.isNumericOnly
-                                              ? settingController.minutesController.text
-                                              : "1"),
+                                          minutes: int.parse(settingController.minutesController.text),
                                           second: int.parse(settingController.secondController.text),
                                         );
                                         // }

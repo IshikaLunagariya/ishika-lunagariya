@@ -1,12 +1,16 @@
 import 'dart:async';
+
 import 'package:clock_simple/modules/home_screen/controller/home_controller.dart';
 import 'package:clock_simple/utils/navigation_utils/navigation.dart';
 import 'package:clock_simple/utils/navigation_utils/routes.dart';
+import 'package:clock_simple/utils/preferences.dart';
 import 'package:clock_simple/utils/size_utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:wakelock/wakelock.dart';
+
 import '../../../utils/app_color.dart';
 import '../../setting_screen/controller/setting_controller.dart';
 
@@ -49,12 +53,29 @@ class HomeScreen extends StatelessWidget {
               width: SizeUtils.screenWidth,
               color: Colors.black.withOpacity(homeController.currentSliderValueForColor.value),
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: SizeUtils.verticalBlockSize * 10),
+                padding: EdgeInsets.symmetric(
+                    vertical: SizeUtils.verticalBlockSize * 9, horizontal: SizeUtils.verticalBlockSize * 2),
                 child: Stack(
                   children: [
                     Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: CupertinoSwitch(
+                            value: settingController.isAlarm.value,
+                            onChanged: (value) async {
+                              settingController.isAlarm.value = false;
+                              settingController.minutesController.clear();
+                              settingController.secondController.clear();
+                              settingController.secondTimer?.cancel();
+                              settingController.minuteTimer?.cancel();
+                              await Preferences.instance.prefs?.setBool("isAlarm", settingController.isAlarm.value);
+                            },
+                            thumbColor: Colors.white,
+                            activeColor: Colors.grey,
+                          ),
+                        ),
                         settingController.dimmer.value
                             ? SizedBox(
                                 height: 30,
@@ -94,7 +115,7 @@ class HomeScreen extends StatelessWidget {
                                     : homeController.timeString.value.substring(0, 8),
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
-                                fontSize:  SizeUtils.screenHeight < 300 ? SizeUtils.fSize_50(): SizeUtils.fSize_60(),
+                                fontSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_50() : SizeUtils.fSize_60(),
                                 color: (homeController.currentSliderValueForColor.value <= 0.5)
                                     ? Colors.black.withOpacity(homeController.currentSliderValue.value)
                                     : AppColor.whiteColor.withOpacity(homeController.currentSliderValue.value)),
@@ -103,7 +124,8 @@ class HomeScreen extends StatelessWidget {
                                 text: " ${homeController.timeString.value.toString().substring(9, 11)}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w300,
-                                    fontSize:SizeUtils.screenHeight < 300 ? SizeUtils.fSize_20():  SizeUtils.fSize_24(),
+                                    fontSize:
+                                        SizeUtils.screenHeight < 300 ? SizeUtils.fSize_20() : SizeUtils.fSize_24(),
                                     color: (homeController.currentSliderValueForColor.value <= 0.5)
                                         ? Colors.black.withOpacity(homeController.currentSliderValue.value)
                                         : AppColor.whiteColor.withOpacity(homeController.currentSliderValue.value)),
@@ -118,7 +140,7 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                     GestureDetector(
-                      behavior: HitTestBehavior.translucent,
+                      behavior: HitTestBehavior.opaque,
                       onTap: () {
                         homeController.isButtonVisible.value = !homeController.isButtonVisible.value;
 
