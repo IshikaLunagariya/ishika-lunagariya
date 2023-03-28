@@ -77,8 +77,7 @@ class PotraitView extends StatelessWidget {
                                 subTitle: AppString.preventLockingDes,
                                 onChange: (value) async {
                                   settingController.preventLocking.value = value;
-                                  await Preferences.instance.prefs
-                                      ?.setBool("preventLocking", settingController.preventLocking.value);
+                                  await Preferences.instance.prefs?.setBool("preventLocking", settingController.preventLocking.value);
                                 },
                                 value: settingController.preventLocking.value,
                               ),
@@ -120,8 +119,7 @@ class PotraitView extends StatelessWidget {
                                 ),
                                 onChange: (value) async {
                                   settingController.hourFormat.value = value;
-                                  await Preferences.instance.prefs
-                                      ?.setBool("hourFormat", settingController.hourFormat.value);
+                                  await Preferences.instance.prefs?.setBool("hourFormat", settingController.hourFormat.value);
                                 },
                                 value: settingController.hourFormat.value,
                               ),
@@ -136,8 +134,7 @@ class PotraitView extends StatelessWidget {
                                 ),
                                 onChange: (value) async {
                                   settingController.leadingZero.value = value;
-                                  await Preferences.instance.prefs
-                                      ?.setBool("leadingZero", settingController.leadingZero.value);
+                                  await Preferences.instance.prefs?.setBool("leadingZero", settingController.leadingZero.value);
                                 },
                                 value: settingController.leadingZero.value,
                               ),
@@ -151,8 +148,8 @@ class PotraitView extends StatelessWidget {
                                   SizedBox(
                                     width: SizeUtils.screenHeight < 300 ? 70 : 25,
                                     child: CustomTextFormField(
-                                      textSize:
-                                          SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_9(),
+                                      textInputAction: TextInputAction.done,
+                                      textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
                                       controller: settingController.minutesController,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.digitsOnly,
@@ -162,28 +159,7 @@ class PotraitView extends StatelessWidget {
                                         LimitRangeTextInputFormatter(1, 60),
                                       ],
                                       keyboardType: TextInputType.number,
-                                      textInputAction: TextInputAction.done,
-                                      onFieldSubmitted: (value) {
-                                        /* if (value.isEmpty) {
-                                          Fluttertoast.showToast(
-                                              msg: "Enter Number",
-                                              toastLength: Toast.LENGTH_LONG,
-                                              gravity: ToastGravity.BOTTOM,
-                                              timeInSecForIosWeb: 1,
-                                              backgroundColor: Colors.white,
-                                              textColor: Colors.black,
-                                              fontSize: 16.0);
-                                        } else if (int.parse(value) > 60 || int.parse(value) < 1) {
-                                          Fluttertoast.showToast(
-                                              msg: "Enter valid Number",
-                                              toastLength: Toast.LENGTH_LONG,
-                                              gravity: ToastGravity.BOTTOM,
-                                              timeInSecForIosWeb: 1,
-                                              backgroundColor: Colors.white,
-                                              textColor: Colors.black,
-                                              fontSize: 16.0);
-                                        } else {*/
-                                        settingController.isAlarm.value = true;
+                                      onFieldSubmitted: (value) async {
                                         settingController.minutesController.clear();
                                         settingController.minutesController.text = value;
                                         log("Set Interval");
@@ -192,16 +168,15 @@ class PotraitView extends StatelessWidget {
                                         settingController.setMinuteIntervalRemainder(
                                           minutes: int.parse(settingController.minutesController.text),
                                         );
-                                        // }
+                                        await Preferences.instance.prefs?.setString("minutes", settingController.minutesController.text);
                                       },
-                                      hint: "00",
                                       hintColor: AppColor.whiteColor,
+                                      hint: "00",
                                     ),
                                   ),
                                   Padding(
                                     padding: EdgeInsets.symmetric(
-                                        vertical: SizeUtils.screenHeight < 300 ? 4 : 0,
-                                        horizontal: SizeUtils.screenHeight < 300 ? 8 : 15),
+                                        vertical: SizeUtils.screenHeight < 300 ? 4 : 0, horizontal: SizeUtils.screenHeight < 300 ? 8 : 15),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -232,8 +207,7 @@ class PotraitView extends StatelessWidget {
                                     width: SizeUtils.screenHeight < 300 ? 70 : 25,
                                     child: CustomTextFormField(
                                       textInputAction: TextInputAction.done,
-                                      textSize:
-                                          SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_9(),
+                                      textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
                                       controller: settingController.secondController,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.digitsOnly,
@@ -243,32 +217,7 @@ class PotraitView extends StatelessWidget {
                                         LimitRangeTextInputFormatter(0, 60),
                                       ],
                                       keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
-                                      onChanged: (value) {
-                                        if (int.parse(value) > 60) {
-                                          settingController.secondController.text = "00";
-                                        }
-                                      },
-                                      onFieldSubmitted: (value) {
-                                        /* if (value.isEmpty) {
-                                        Fluttertoast.showToast(
-                                              msg: "Enter Number",
-                                              toastLength: Toast.LENGTH_LONG,
-                                              gravity: ToastGravity.BOTTOM,
-                                              timeInSecForIosWeb: 1,
-                                              backgroundColor: Colors.white,
-                                              textColor: Colors.black,
-                                              fontSize: 16.0);
-                                        } else if (int.parse(value) > 60 || int.parse(value) < 0) {
-                                          Fluttertoast.showToast(
-                                              msg: "Enter valid Number",
-                                              toastLength: Toast.LENGTH_LONG,
-                                              gravity: ToastGravity.BOTTOM,
-                                              timeInSecForIosWeb: 1,
-                                              backgroundColor: Colors.white,
-                                              textColor: Colors.black,
-                                              fontSize: 16.0);
-                                        } else {*/
-                                        settingController.isAlarm.value = true;
+                                      onFieldSubmitted: (value) async {
                                         settingController.secondController.clear();
                                         settingController.secondController.text = value;
                                         log("Set Interval");
@@ -281,7 +230,8 @@ class PotraitView extends StatelessWidget {
                                           minutes: int.parse(settingController.minutesController.text),
                                           second: int.parse(settingController.secondController.text),
                                         );
-                                        // }
+                                        await Preferences.instance.prefs?.setString("seconds", settingController.secondController.text);
+                                        await Preferences.instance.prefs?.setString("minutes", settingController.minutesController.text);
                                       },
                                       hint: "00",
                                       hintColor: AppColor.whiteColor,
@@ -289,8 +239,7 @@ class PotraitView extends StatelessWidget {
                                   ),
                                   Padding(
                                     padding: EdgeInsets.symmetric(
-                                        vertical: SizeUtils.screenHeight < 300 ? 4 : 0,
-                                        horizontal: SizeUtils.screenHeight < 300 ? 8 : 15),
+                                        vertical: SizeUtils.screenHeight < 300 ? 4 : 0, horizontal: SizeUtils.screenHeight < 300 ? 8 : 15),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
