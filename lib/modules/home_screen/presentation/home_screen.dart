@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:clock_simple/modules/home_screen/controller/home_controller.dart';
 import 'package:clock_simple/utils/navigation_utils/navigation.dart';
 import 'package:clock_simple/utils/navigation_utils/routes.dart';
@@ -60,22 +58,6 @@ class HomeScreen extends StatelessWidget {
                     Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: CupertinoSwitch(
-                            value: settingController.isAlarm.value,
-                            onChanged: (value) async {
-                              settingController.isAlarm.value = false;
-                              settingController.minutesController.clear();
-                              settingController.secondController.clear();
-                              settingController.secondTimer?.cancel();
-                              settingController.minuteTimer?.cancel();
-                              await Preferences.instance.prefs?.setBool("isAlarm", settingController.isAlarm.value);
-                            },
-                            thumbColor: Colors.white,
-                            activeColor: Colors.grey,
-                          ),
-                        ),
                         settingController.dimmer.value
                             ? SizedBox(
                                 height: 30,
@@ -162,6 +144,22 @@ class HomeScreen extends StatelessWidget {
                       child: SizedBox(
                         height: MediaQuery.of(context).size.height,
                         width: MediaQuery.of(context).size.width,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: CupertinoSwitch(
+                        value: settingController.isAlarm.value,
+                        onChanged: (value) async {
+                          settingController.isAlarm.value = false;
+                          settingController.minutesController.clear();
+                          settingController.secondController.clear();
+                          settingController.secondTimer?.cancel();
+                          settingController.minuteTimer?.cancel();
+                          await Preferences.instance.prefs?.setBool("isAlarm", settingController.isAlarm.value);
+                        },
+                        thumbColor: Colors.white,
+                        activeColor: Colors.grey,
                       ),
                     ),
                   ],

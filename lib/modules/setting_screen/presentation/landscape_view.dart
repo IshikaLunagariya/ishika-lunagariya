@@ -141,6 +141,9 @@ class LandScapeView extends StatelessWidget {
                               SizedBox(
                                 width: SizeUtils.screenHeight < 300 ? 70 : 25,
                                 child: CustomTextFormField(
+                                  onTap: () {
+                                    settingController.minutesController.clear();
+                                  },
                                   textInputAction: TextInputAction.done,
                                   textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
                                   controller: settingController.minutesController,
@@ -202,6 +205,9 @@ class LandScapeView extends StatelessWidget {
                               SizedBox(
                                 width: SizeUtils.screenHeight < 300 ? 70 : 25,
                                 child: CustomTextFormField(
+                                  onTap: () {
+                                    settingController.secondController.clear();
+                                  },
                                   textInputAction: TextInputAction.done,
                                   textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
                                   controller: settingController.secondController,

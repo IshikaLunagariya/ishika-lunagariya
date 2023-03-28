@@ -46,7 +46,7 @@ class SettingController extends GetxController {
     intervalSwitch.value = Preferences.instance.prefs?.getBool("intervalSwitch") ?? false;
     secondsUntil.value = Preferences.instance.prefs?.getBool("secondsUntil") ?? false;
     isAlarm.value = Preferences.instance.prefs?.getBool("isAlarm") ?? false;
-    minutesController.text = Preferences.instance.prefs?.getString("minutes") ?? "01";
+    minutesController.text = Preferences.instance.prefs?.getString("minutes") ?? "00";
     secondController.text = Preferences.instance.prefs?.getString("seconds") ?? "00";
     super.onInit();
   }
