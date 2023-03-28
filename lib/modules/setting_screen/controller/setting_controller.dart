@@ -59,7 +59,8 @@ class SettingController extends GetxController {
         Vibration.vibrate(duration: 4000, repeat: 20, amplitude: 128);
         FlutterRingtonePlayer.play(looping: false, volume: 1, asAlarm: true, fromAsset: 'assets/beep_alarm.mp3');
         setIntervalRemainder(
-            minutes: int.parse(minutesController.text), second: secondController.text.isEmpty ? 0 : int.parse(secondController.text));
+            minutes: int.parse(minutesController.text),
+            second: secondController.text.isEmpty ? 0 : int.parse(secondController.text));
       }
     });
   }

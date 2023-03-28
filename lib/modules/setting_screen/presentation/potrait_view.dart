@@ -77,7 +77,8 @@ class PotraitView extends StatelessWidget {
                                 subTitle: AppString.preventLockingDes,
                                 onChange: (value) async {
                                   settingController.preventLocking.value = value;
-                                  await Preferences.instance.prefs?.setBool("preventLocking", settingController.preventLocking.value);
+                                  await Preferences.instance.prefs
+                                      ?.setBool("preventLocking", settingController.preventLocking.value);
                                 },
                                 value: settingController.preventLocking.value,
                               ),
@@ -119,7 +120,8 @@ class PotraitView extends StatelessWidget {
                                 ),
                                 onChange: (value) async {
                                   settingController.hourFormat.value = value;
-                                  await Preferences.instance.prefs?.setBool("hourFormat", settingController.hourFormat.value);
+                                  await Preferences.instance.prefs
+                                      ?.setBool("hourFormat", settingController.hourFormat.value);
                                 },
                                 value: settingController.hourFormat.value,
                               ),
@@ -134,7 +136,8 @@ class PotraitView extends StatelessWidget {
                                 ),
                                 onChange: (value) async {
                                   settingController.leadingZero.value = value;
-                                  await Preferences.instance.prefs?.setBool("leadingZero", settingController.leadingZero.value);
+                                  await Preferences.instance.prefs
+                                      ?.setBool("leadingZero", settingController.leadingZero.value);
                                 },
                                 value: settingController.leadingZero.value,
                               ),
@@ -149,7 +152,8 @@ class PotraitView extends StatelessWidget {
                                     width: SizeUtils.screenHeight < 300 ? 70 : 25,
                                     child: CustomTextFormField(
                                       textInputAction: TextInputAction.done,
-                                      textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
+                                      textSize:
+                                          SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
                                       controller: settingController.minutesController,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.digitsOnly,
@@ -160,6 +164,7 @@ class PotraitView extends StatelessWidget {
                                       ],
                                       keyboardType: TextInputType.number,
                                       onFieldSubmitted: (value) async {
+                                        settingController.isAlarm.value = true;
                                         settingController.minutesController.clear();
                                         settingController.minutesController.text = value;
                                         log("Set Interval");
@@ -168,7 +173,8 @@ class PotraitView extends StatelessWidget {
                                         settingController.setMinuteIntervalRemainder(
                                           minutes: int.parse(settingController.minutesController.text),
                                         );
-                                        await Preferences.instance.prefs?.setString("minutes", settingController.minutesController.text);
+                                        await Preferences.instance.prefs
+                                            ?.setString("minutes", settingController.minutesController.text);
                                       },
                                       hintColor: AppColor.whiteColor,
                                       hint: "00",
@@ -176,7 +182,8 @@ class PotraitView extends StatelessWidget {
                                   ),
                                   Padding(
                                     padding: EdgeInsets.symmetric(
-                                        vertical: SizeUtils.screenHeight < 300 ? 4 : 0, horizontal: SizeUtils.screenHeight < 300 ? 8 : 15),
+                                        vertical: SizeUtils.screenHeight < 300 ? 4 : 0,
+                                        horizontal: SizeUtils.screenHeight < 300 ? 8 : 15),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -207,7 +214,8 @@ class PotraitView extends StatelessWidget {
                                     width: SizeUtils.screenHeight < 300 ? 70 : 25,
                                     child: CustomTextFormField(
                                       textInputAction: TextInputAction.done,
-                                      textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
+                                      textSize:
+                                          SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
                                       controller: settingController.secondController,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.digitsOnly,
@@ -218,6 +226,7 @@ class PotraitView extends StatelessWidget {
                                       ],
                                       keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                                       onFieldSubmitted: (value) async {
+                                        settingController.isAlarm.value = true;
                                         settingController.secondController.clear();
                                         settingController.secondController.text = value;
                                         log("Set Interval");
@@ -230,8 +239,10 @@ class PotraitView extends StatelessWidget {
                                           minutes: int.parse(settingController.minutesController.text),
                                           second: int.parse(settingController.secondController.text),
                                         );
-                                        await Preferences.instance.prefs?.setString("seconds", settingController.secondController.text);
-                                        await Preferences.instance.prefs?.setString("minutes", settingController.minutesController.text);
+                                        await Preferences.instance.prefs
+                                            ?.setString("seconds", settingController.secondController.text);
+                                        await Preferences.instance.prefs
+                                            ?.setString("minutes", settingController.minutesController.text);
                                       },
                                       hint: "00",
                                       hintColor: AppColor.whiteColor,
@@ -239,7 +250,8 @@ class PotraitView extends StatelessWidget {
                                   ),
                                   Padding(
                                     padding: EdgeInsets.symmetric(
-                                        vertical: SizeUtils.screenHeight < 300 ? 4 : 0, horizontal: SizeUtils.screenHeight < 300 ? 8 : 15),
+                                        vertical: SizeUtils.screenHeight < 300 ? 4 : 0,
+                                        horizontal: SizeUtils.screenHeight < 300 ? 8 : 15),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
