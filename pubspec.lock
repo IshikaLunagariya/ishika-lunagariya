@@ -126,6 +126,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_alarm_background_trigger:
+    dependency: "direct main"
+    description:
+      name: flutter_alarm_background_trigger
+      sha256: "81e22bed7e5f86b6ff20aeba16b346e04b429d9147adc755be6f43237b7bc06e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   flutter_fgbg:
     dependency: transitive
     description:

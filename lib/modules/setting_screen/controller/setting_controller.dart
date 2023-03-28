@@ -5,6 +5,7 @@ import 'package:alarm/alarm.dart';
 import 'package:clock_simple/utils/preferences.dart';
 import 'package:clock_simple/utils/size_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_alarm_background_trigger/flutter_alarm_background_trigger.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
 import 'package:vibration/vibration.dart';
@@ -37,6 +38,8 @@ class SettingController extends GetxController {
     enableNotificationOnKill: true,
   );
 
+  // FlutterAlarmBackgroundTrigger alarmPlugin = FlutterAlarmBackgroundTrigger();
+
   @override
   void onInit() {
     preventLocking.value = Preferences.instance.prefs?.getBool("preventLocking") ?? false;
@@ -59,8 +62,7 @@ class SettingController extends GetxController {
         Vibration.vibrate(duration: 4000, repeat: 20, amplitude: 128);
         FlutterRingtonePlayer.play(looping: false, volume: 1, asAlarm: true, fromAsset: 'assets/beep_alarm.mp3');
         setIntervalRemainder(
-            minutes: int.parse(minutesController.text),
-            second: secondController.text.isEmpty ? 0 : int.parse(secondController.text));
+            minutes: int.parse(minutesController.text), second: secondController.text.isEmpty ? 0 : int.parse(secondController.text));
       }
     });
   }

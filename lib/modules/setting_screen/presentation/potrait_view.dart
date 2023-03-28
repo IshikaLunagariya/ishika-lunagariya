@@ -168,6 +168,7 @@ class PotraitView extends StatelessWidget {
                                         settingController.minutesController.clear();
                                         settingController.minutesController.text = value;
                                         log("Set Interval");
+                                        // settingController.alarmPlugin.deleteAllAlarms();
                                         settingController.secondTimer?.cancel();
                                         settingController.minuteTimer?.cancel();
                                         settingController.setMinuteIntervalRemainder(
@@ -230,6 +231,7 @@ class PotraitView extends StatelessWidget {
                                         settingController.secondController.clear();
                                         settingController.secondController.text = value;
                                         log("Set Interval");
+                                        // settingController.alarmPlugin.deleteAllAlarms();
                                         settingController.secondTimer?.cancel();
                                         settingController.minuteTimer?.cancel();
                                         settingController.setMinuteIntervalRemainder(
