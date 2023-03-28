@@ -175,8 +175,6 @@ class LandScapeView extends StatelessWidget {
                                       settingController.timer?.cancel();
                                       settingController.setIntervalRemainder(
                                         minutes: int.parse(settingController.minutesController.text),
-                                        second: int.parse(
-                                            settingController.secondController.text.isNumericOnly ? settingController.secondController.text : "0"),
                                       );
                                     // }
                                   },
@@ -251,10 +249,7 @@ class LandScapeView extends StatelessWidget {
                                       settingController.secondController.clear();
                                       settingController.secondController.text = value;
                                       log("Set Interval");
-                                      settingController.timer?.cancel();
                                       settingController.setIntervalRemainder(
-                                        minutes: int.parse(
-                                            settingController.minutesController.text.isNumericOnly ? settingController.minutesController.text : "1"),
                                         second: int.parse(settingController.secondController.text),
                                       );
                                     // }

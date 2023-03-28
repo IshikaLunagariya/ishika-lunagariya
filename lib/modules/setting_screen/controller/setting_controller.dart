@@ -46,21 +46,33 @@ class SettingController extends GetxController {
     super.onInit();
   }
 
+  setMinuteIntervalRemainder({int? minutes}) {
+    timer = Timer.periodic(Duration(minutes: minutes ?? 1), (Timer t) async {
+      if (SizeUtils.screenHeight < 300) {
+        Vibration.vibrate(duration: 4000, repeat: 200, amplitude: 128);
+      } else {
+        print("Interval $minutes");
+        // Vibration.vibrate(duration: 4000, repeat: 200, amplitude: 128);
+      }
+    });
+  }
+
   setIntervalRemainder({int? minutes, int? second}) {
     int minuteToSecond = Duration(minutes: minutes ?? 1).inSeconds;
     int finalSecond = minuteToSecond - (second ?? 0);
 
     timer = Timer.periodic(Duration(seconds: finalSecond), (Timer t) async {
       if (SizeUtils.screenHeight < 300) {
-        Vibration.vibrate(duration: 4000, repeat: 200, amplitude: 128);
+        Vibration.vibrate(duration: 4000, repeat: 200, amplitude: 100);
       } else {
         log("Interval $finalSecond $minuteToSecond");
-        await Alarm.set(alarmSettings: alarmSettings).then((value) async {
-          await Alarm.setNotificationOnAppKillContent("Interval", "body");
-        });
+        // Vibration.vibrate(duration: 4000, repeat: 200, amplitude: 100);
+        // await Alarm.set(alarmSettings: alarmSettings).then((value) async {
+        //   await Alarm.setNotificationOnAppKillContent("Interval", "body");
+        //   await Alarm.stop(42);
+        // });
       }
     });
-
     /*Timer.periodic(Duration(seconds: finalSecond), (Timer t) {
       log("Interval $finalSecond");
       Fluttertoast.showToast(
