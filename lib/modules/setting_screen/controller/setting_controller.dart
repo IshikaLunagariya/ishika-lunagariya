@@ -58,7 +58,7 @@ class SettingController extends GetxController {
           volume: 1,
           asAlarm: true,
           fromAsset: 'assets/beep_alarm.mp3',
-        )
+        );
         setIntervalRemainder(
             minutes: int.parse(minutesController.text),
             second: secondController.text.isEmpty ? 0 : int.parse(secondController.text));
