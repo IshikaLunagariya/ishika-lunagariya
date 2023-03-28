@@ -118,7 +118,7 @@ class CustomTextFormField extends StatelessWidget {
     this.counterStyle = const TextStyle(),
     this.enableSuggestions = true,
     this.autocorrect = true,
-    this.isEnableToolbarOptions = true,
+    this.isEnableToolbarOptions = false,
     this.padding,
     this.fontWeight,
     this.scrollPadding,

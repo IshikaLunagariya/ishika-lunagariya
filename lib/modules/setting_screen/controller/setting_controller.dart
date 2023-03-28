@@ -44,6 +44,8 @@ class SettingController extends GetxController {
     leadingZero.value = Preferences.instance.prefs?.getBool("leadingZero") ?? true;
     intervalSwitch.value = Preferences.instance.prefs?.getBool("intervalSwitch") ?? false;
     secondsUntil.value = Preferences.instance.prefs?.getBool("secondsUntil") ?? false;
+    minutesController.text = Preferences.instance.prefs?.getString("minutes") ?? "01";
+    secondController.text = Preferences.instance.prefs?.getString("seconds") ?? "00";
     super.onInit();
   }
 
@@ -53,15 +55,9 @@ class SettingController extends GetxController {
         Vibration.vibrate(duration: 4000, repeat: 20, amplitude: 128);
       } else {
         Vibration.vibrate(duration: 4000, repeat: 20, amplitude: 128);
-        FlutterRingtonePlayer.play(
-          looping: false,
-          volume: 1,
-          asAlarm: true,
-          fromAsset: 'assets/beep_alarm.mp3',
-        );
+        FlutterRingtonePlayer.play(looping: false, volume: 1, asAlarm: true, fromAsset: 'assets/beep_alarm.mp3');
         setIntervalRemainder(
-            minutes: int.parse(minutesController.text),
-            second: secondController.text.isEmpty ? 0 : int.parse(secondController.text));
+            minutes: int.parse(minutesController.text), second: secondController.text.isEmpty ? 0 : int.parse(secondController.text));
       }
     });
   }
@@ -78,12 +74,7 @@ class SettingController extends GetxController {
         Vibration.vibrate(duration: 4000, repeat: 20, amplitude: 100);
         // await Alarm.set(alarmSettings: alarmSettings);
         // await Alarm.setNotificationOnAppKillContent("Interval", "body");
-        FlutterRingtonePlayer.play(
-          looping: false,
-          volume: 1,
-          asAlarm: true,
-          fromAsset: 'assets/beep_alarm.mp3',
-        );
+        FlutterRingtonePlayer.play(looping: false, volume: 1, asAlarm: true, fromAsset: 'assets/beep_alarm.mp3');
       }
       secondTimer!.cancel();
     });
