@@ -8,6 +8,6 @@ class AppString {
   static String leadingZero = "Leading Zero";
   static String interval = "Time Intervals";
   static String inMinutes = "In minutes. 1-60";
-  static String inSeconds = "Time before candle close,\nin seconds. 0-60.";
+  static String inSeconds = "Time before candle close\nIn seconds. 0-60";
   static String secondsUntil = "Seconds Until Close";
 }

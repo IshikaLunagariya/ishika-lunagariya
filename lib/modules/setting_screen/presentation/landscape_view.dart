@@ -154,7 +154,7 @@ class LandScapeView extends StatelessWidget {
                                     FilteringTextInputFormatter.deny("."),
                                     LimitRangeTextInputFormatter(1, 60),
                                   ],
-                                  keyboardType: TextInputType.number,
+                                  keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                                   onFieldSubmitted: (value) async {
                                     settingController.isAlarm.value = true;
                                     settingController.minutesController.clear();

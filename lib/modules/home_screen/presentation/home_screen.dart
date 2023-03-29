@@ -29,7 +29,6 @@ class HomeScreen extends StatelessWidget {
     } else {
       Wakelock.disable();
     }
-
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButton: Obx(() => Visibility(
@@ -41,7 +40,8 @@ class HomeScreen extends StatelessWidget {
               },
               icon: Icon(
                 Icons.settings,
-                color: homeController.currentSliderValueForColor.value <= 0.5 ? AppColor.blackColor : AppColor.whiteColor,
+                color:
+                    homeController.currentSliderValueForColor.value <= 0.5 ? AppColor.blackColor : AppColor.whiteColor,
                 size: SizeUtils.screenHeight < 300 ? 10 : 30,
               ),
             ),
@@ -52,7 +52,8 @@ class HomeScreen extends StatelessWidget {
               width: SizeUtils.screenWidth,
               color: Colors.black.withOpacity(homeController.currentSliderValueForColor.value),
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: SizeUtils.verticalBlockSize * 9, horizontal: SizeUtils.verticalBlockSize * 2),
+                padding: EdgeInsets.symmetric(
+                    vertical: SizeUtils.verticalBlockSize * 9, horizontal: SizeUtils.verticalBlockSize * 2),
                 child: Stack(
                   children: [
                     Column(
@@ -71,8 +72,9 @@ class HomeScreen extends StatelessWidget {
                                         trackHeight: 0.5,
                                         overlayShape: SliderComponentShape.noThumb,
                                         inactiveTrackColor: Colors.transparent,
-                                        activeTrackColor:
-                                            homeController.currentSliderValueForColor.value <= 0.5 ? AppColor.blackColor : AppColor.whiteColor,
+                                        activeTrackColor: homeController.currentSliderValueForColor.value <= 0.5
+                                            ? AppColor.blackColor
+                                            : AppColor.whiteColor,
                                       ),
                                       child: Slider(
                                         value: homeController.currentSliderValue.value,
@@ -90,7 +92,8 @@ class HomeScreen extends StatelessWidget {
                           text: TextSpan(
                             text: settingController.hourFormat.value
                                 ? homeController.timeString24.value.substring(0, 8)
-                                : settingController.leadingZero.value == false && homeController.timeString.value.substring(0, 1) == "0"
+                                : settingController.leadingZero.value == false &&
+                                        homeController.timeString.value.substring(0, 1) == "0"
                                     ? homeController.timeString.value.substring(1, 8)
                                     : homeController.timeString.value.substring(0, 8),
                             style: TextStyle(
@@ -104,7 +107,8 @@ class HomeScreen extends StatelessWidget {
                                 text: " ${homeController.timeString.value.toString().substring(9, 11)}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w300,
-                                    fontSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_20() : SizeUtils.fSize_24(),
+                                    fontSize:
+                                        SizeUtils.screenHeight < 300 ? SizeUtils.fSize_20() : SizeUtils.fSize_24(),
                                     color: (homeController.currentSliderValueForColor.value <= 0.5)
                                         ? Colors.black.withOpacity(homeController.currentSliderValue.value)
                                         : AppColor.whiteColor.withOpacity(homeController.currentSliderValue.value)),
@@ -123,7 +127,8 @@ class HomeScreen extends StatelessWidget {
                       onTap: () {
                         homeController.isButtonVisible.value = !homeController.isButtonVisible.value;
 
-                        SystemChrome.setEnabledSystemUIMode(homeController.isButtonVisible.value ? SystemUiMode.manual : SystemUiMode.immersiveSticky,
+                        SystemChrome.setEnabledSystemUIMode(
+                            homeController.isButtonVisible.value ? SystemUiMode.manual : SystemUiMode.immersiveSticky,
                             overlays: SystemUiOverlay.values);
                       },
                       onPanEnd: (val) {
@@ -150,8 +155,6 @@ class HomeScreen extends StatelessWidget {
                           settingController.isAlarm.value = false;
                           settingController.minutesController.clear();
                           settingController.secondController.clear();
-                          FlutterRingtonePlayer.stop();
-                          Vibration.cancel();
                           settingController.secondTimer?.cancel();
                           settingController.minuteTimer?.cancel();
                           FlutterRingtonePlayer.stop();
