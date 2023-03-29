@@ -152,8 +152,26 @@ class HomeScreen extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.topRight,
                         child: Transform.scale(
-                          scale: SizeUtils.screenHeight < 300 ? 0.4 : 1,
-                          child: CupertinoSwitch(
+                            scale: SizeUtils.screenHeight < 300 ? 0.4 : 1,
+                            child: IconButton(
+                              onPressed: () async {
+                                settingController.isAlarm.value = false;
+                                settingController.minutesController.clear();
+                                settingController.secondController.clear();
+                                settingController.secondTimer?.cancel();
+                                settingController.minuteTimer?.cancel();
+                                FlutterRingtonePlayer.stop();
+                                Vibration.cancel();
+                                // settingController.alarmPlugin.deleteAllAlarms();
+                                await Preferences.instance.prefs?.setBool("isAlarm", settingController.isAlarm.value);
+                              },
+                              icon: Icon(
+                                settingController.isAlarm.value ? Icons.notifications : Icons.notifications_off,
+                                color: Colors.white,
+                                size: 30,
+                              ),
+                            )
+                            /*CupertinoSwitch(
                             value: settingController.isAlarm.value,
                             onChanged: (value) async {
                               settingController.isAlarm.value = false;
@@ -168,8 +186,8 @@ class HomeScreen extends StatelessWidget {
                             },
                             thumbColor: Colors.white,
                             activeColor: Colors.grey,
-                          ),
-                        ),
+                          ),*/
+                            ),
                       ),
                     ),
                   ],

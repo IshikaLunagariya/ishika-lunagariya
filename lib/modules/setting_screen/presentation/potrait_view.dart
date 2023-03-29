@@ -4,6 +4,7 @@ import 'package:clock_simple/utils/navigation_utils/navigation.dart';
 import 'package:clock_simple/utils/preferences.dart';
 import 'package:clock_simple/utils/string_utils.dart';
 import 'package:clock_simple/widget/app_text.dart';
+import 'package:clock_simple/widget/custom_keyboard_screen.dart';
 import 'package:clock_simple/widget/custom_switch.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +62,9 @@ class PotraitView extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: SizeUtils.screenHeight<300?EdgeInsets.symmetric(horizontal: Get.width / 6, vertical: Get.height / 37):EdgeInsets.symmetric(horizontal: Get.width / 6, vertical: Get.height / 12),
+                      padding: SizeUtils.screenHeight < 300
+                          ? EdgeInsets.symmetric(horizontal: Get.width / 6, vertical: Get.height / 37)
+                          : EdgeInsets.symmetric(horizontal: Get.width / 6, vertical: Get.height / 12),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,37 +143,60 @@ class PotraitView extends StatelessWidget {
                             children: [
                               SizedBox(
                                 width: SizeUtils.screenHeight < 300 ? 20 : 25,
-                                child: CustomTextFormField(
+                                child: TextField(
+                                  readOnly: true,
                                   onTap: () {
                                     settingController.minutesController.clear();
+                                    // CustomKeyboard(onTextInput: (myText) {
+                                    //   settingController.insertText(
+                                    //     myText,
+                                    //     settingController.minutesController,
+                                    //   );
+                                    // }, onBackspace: () {
+                                    //   settingController.backspace(settingController.minutesController);
+                                    // }, onSubmit: ((value) async {
+                                    //   settingController.isAlarm.value = true;
+                                    //   settingController.minutesController.clear();
+                                    //   settingController.minutesController.text = value;
+                                    //   // settingController.alarmPlugin.deleteAllAlarms();
+                                    //   log("Set Interval");
+                                    //   settingController.secondTimer?.cancel();
+                                    //   settingController.minuteTimer?.cancel();
+                                    //   settingController.setMinuteIntervalRemainder(
+                                    //     minutes: int.parse(settingController.minutesController.text),
+                                    //   );
+                                    //   await Preferences.instance.prefs
+                                    //       ?.setString("minutes", settingController.minutesController.text);
+                                    // }));
                                   },
-                                  textInputAction: TextInputAction.done,
-                                  textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
+                                  // textInputAction: TextInputAction.done,
+                                  // textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
+                                  style: TextStyle(color: Colors.white),
                                   controller: settingController.minutesController,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.digitsOnly,
-                                    LengthLimitingTextInputFormatter(2),
-                                    FilteringTextInputFormatter.deny(" "),
-                                    FilteringTextInputFormatter.deny("."),
-                                    LimitRangeTextInputFormatter(1, 60),
-                                  ],
-                                  keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
-                                  onFieldSubmitted: (value) async {
-                                    settingController.isAlarm.value = true;
-                                    settingController.minutesController.clear();
-                                    settingController.minutesController.text = value;
-                                    // settingController.alarmPlugin.deleteAllAlarms();
-                                    log("Set Interval");
-                                    settingController.secondTimer?.cancel();
-                                    settingController.minuteTimer?.cancel();
-                                    settingController.setMinuteIntervalRemainder(
-                                      minutes: int.parse(settingController.minutesController.text),
-                                    );
-                                    await Preferences.instance.prefs
-                                        ?.setString("minutes", settingController.minutesController.text);
-                                  },
-                                  hintColor: AppColor.whiteColor,
-                                  hint: "00",
+                                  // inputFormatters: [
+                                  //   FilteringTextInputFormatter.digitsOnly,
+                                  //   LengthLimitingTextInputFormatter(2),
+                                  //   FilteringTextInputFormatter.deny(" "),
+                                  //   FilteringTextInputFormatter.deny("."),
+                                  //   LimitRangeTextInputFormatter(1, 60),
+                                  // ],
+                                  // keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
+                                  // onFieldSubmitted: (value) async {
+                                  //   settingController.isAlarm.value = true;
+                                  //   settingController.minutesController.clear();
+                                  //   settingController.minutesController.text = value;
+                                  //   // settingController.alarmPlugin.deleteAllAlarms();
+                                  //   log("Set Interval");
+                                  //   settingController.secondTimer?.cancel();
+                                  //   settingController.minuteTimer?.cancel();
+                                  //   settingController.setMinuteIntervalRemainder(
+                                  //     minutes: int.parse(settingController.minutesController.text),
+                                  //   );
+                                  //   await Preferences.instance.prefs
+                                  //       ?.setString("minutes", settingController.minutesController.text);
+                                  // },
+                                  // hintColor: AppColor.whiteColor,
+                                  // hint: "00",
                                 ),
                               ),
                               Padding(
@@ -209,6 +235,7 @@ class PotraitView extends StatelessWidget {
                                   onTap: () {
                                     settingController.secondController.clear();
                                   },
+                                  readOnly: true,
                                   textInputAction: TextInputAction.done,
                                   textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
                                   controller: settingController.secondController,
@@ -268,7 +295,7 @@ class PotraitView extends StatelessWidget {
                                 ),
                               ),
                             ],
-                          )
+                          ),
                           /*  CustomSwitchWidget(
                             title: settingController.intervalSwitch.value
                                 ? SizedBox(
@@ -377,6 +404,27 @@ class PotraitView extends StatelessWidget {
                             },
                             value: settingController.secondsUntil.value,
                           ),*/
+                          CustomKeyboard(onTextInput: (myText) {
+                            settingController.insertText(
+                              myText,
+                              settingController.minutesController,
+                            );
+                          }, onBackspace: () {
+                            settingController.backspace(settingController.minutesController);
+                          }, onSubmit: ((value) async {
+                            settingController.isAlarm.value = true;
+                            settingController.minutesController.clear();
+                            settingController.minutesController.text = value;
+                            // settingController.alarmPlugin.deleteAllAlarms();
+                            log("Set Interval");
+                            settingController.secondTimer?.cancel();
+                            settingController.minuteTimer?.cancel();
+                            settingController.setMinuteIntervalRemainder(
+                              minutes: int.parse(settingController.minutesController.text),
+                            );
+                            await Preferences.instance.prefs
+                                ?.setString("minutes", settingController.minutesController.text);
+                          })),
                         ],
                       ),
                     ),

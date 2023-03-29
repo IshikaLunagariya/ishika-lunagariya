@@ -18,6 +18,7 @@ class _SettingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: OrientationBuilder(builder: (context, orientation) {
         return SizeUtils.screenHeight < 300
             ? PotraitView()
