@@ -65,7 +65,7 @@ class HomeScreen extends StatelessWidget {
                                 child: Visibility(
                                   visible: homeController.isVisible.value,
                                   child: SizedBox(
-                                    width: SizeUtils.screenHeight < 300 ? 90 : 130,
+                                    width: SizeUtils.screenHeight < 300 ? 50 : 130,
                                     child: SliderTheme(
                                       data: SliderThemeData(
                                         thumbShape: SliderComponentShape.noThumb,
@@ -147,23 +147,29 @@ class HomeScreen extends StatelessWidget {
                         width: MediaQuery.of(context).size.width,
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: CupertinoSwitch(
-                        value: settingController.isAlarm.value,
-                        onChanged: (value) async {
-                          settingController.isAlarm.value = false;
-                          settingController.minutesController.clear();
-                          settingController.secondController.clear();
-                          settingController.secondTimer?.cancel();
-                          settingController.minuteTimer?.cancel();
-                          FlutterRingtonePlayer.stop();
-                          Vibration.cancel();
-                          // settingController.alarmPlugin.deleteAllAlarms();
-                          await Preferences.instance.prefs?.setBool("isAlarm", settingController.isAlarm.value);
-                        },
-                        thumbColor: Colors.white,
-                        activeColor: Colors.grey,
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: Transform.scale(
+                          scale: SizeUtils.screenHeight < 300 ? 0.4 : 1,
+                          child: CupertinoSwitch(
+                            value: settingController.isAlarm.value,
+                            onChanged: (value) async {
+                              settingController.isAlarm.value = false;
+                              settingController.minutesController.clear();
+                              settingController.secondController.clear();
+                              settingController.secondTimer?.cancel();
+                              settingController.minuteTimer?.cancel();
+                              FlutterRingtonePlayer.stop();
+                              Vibration.cancel();
+                              // settingController.alarmPlugin.deleteAllAlarms();
+                              await Preferences.instance.prefs?.setBool("isAlarm", settingController.isAlarm.value);
+                            },
+                            thumbColor: Colors.white,
+                            activeColor: Colors.grey,
+                          ),
+                        ),
                       ),
                     ),
                   ],
