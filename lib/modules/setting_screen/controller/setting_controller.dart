@@ -5,7 +5,6 @@ import 'package:alarm/alarm.dart';
 import 'package:clock_simple/utils/preferences.dart';
 import 'package:clock_simple/utils/size_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
 import 'package:vibration/vibration.dart';
 
@@ -26,11 +25,13 @@ class SettingController extends GetxController {
 
   Timer? secondTimer;
   Timer? minuteTimer;
+
   final alarmSettings = AlarmSettings(
     id: 42,
     dateTime: DateTime.now(),
-    assetAudioPath: 'assets/beep_alarm.mp3',
-    loopAudio: false,
+    assetAudioPath: 'assets/note_alarm.mp3',
+    loopAudio: true,
+    vibrate: false,
     fadeDuration: 3.0,
     notificationTitle: 'This is the title',
     notificationBody: 'This is the body',
@@ -121,15 +122,15 @@ class SettingController extends GetxController {
         Vibration.vibrate(duration: 4000, repeat: 20, amplitude: 128);
       } else {
         Vibration.vibrate(duration: 4000, repeat: 20, amplitude: 128);
-        FlutterRingtonePlayer.play(looping: false, volume: 1, asAlarm: true, fromAsset: 'assets/beep_alarm.mp3');
-        setIntervalRemainder(
+        // FlutterRingtonePlayer.play(looping: false, volume: 1, asAlarm: true, fromAsset: 'assets/beep_alarm.mp3');
+        setSecondIntervalRemainder(
             minutes: int.parse(minutesController.text),
             second: secondController.text.isEmpty ? 0 : int.parse(secondController.text));
       }
     });
   }
 
-  setIntervalRemainder({int? minutes, int? second}) {
+  setSecondIntervalRemainder({int? minutes, int? second}) {
     int minuteToSecond = Duration(minutes: minutes ?? 1).inSeconds;
     int finalSecond = minuteToSecond - (second ?? 0);
 
@@ -139,9 +140,12 @@ class SettingController extends GetxController {
       } else {
         log("Interval $finalSecond $minuteToSecond");
         Vibration.vibrate(duration: 4000, repeat: 20, amplitude: 100);
-        // await Alarm.set(alarmSettings: alarmSettings);
-        // await Alarm.setNotificationOnAppKillContent("Interval", "body");
-        FlutterRingtonePlayer.play(looping: false, volume: 1, asAlarm: true, fromAsset: 'assets/beep_alarm.mp3');
+        await Alarm.set(alarmSettings: alarmSettings);
+        await Alarm.setNotificationOnAppKillContent("Interval", "body");
+        Future.delayed(Duration(seconds: second ?? 0)).then((value) {
+          Alarm.stop(42);
+        });
+        // FlutterRingtonePlayer.play(looping: true, volume: 1, asAlarm: true, fromAsset: 'assets/beep_alarm.mp3');
       }
       secondTimer!.cancel();
     });

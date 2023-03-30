@@ -1,3 +1,4 @@
+import 'package:alarm/alarm.dart';
 import 'package:clock_simple/modules/home_screen/controller/home_controller.dart';
 import 'package:clock_simple/utils/navigation_utils/navigation.dart';
 import 'package:clock_simple/utils/navigation_utils/routes.dart';
@@ -6,9 +7,7 @@ import 'package:clock_simple/utils/size_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
-import 'package:vibration/vibration.dart';
 import 'package:wakelock/wakelock.dart';
 
 import '../../../utils/app_color.dart';
@@ -160,8 +159,9 @@ class HomeScreen extends StatelessWidget {
                                 settingController.secondController.clear();
                                 settingController.secondTimer?.cancel();
                                 settingController.minuteTimer?.cancel();
-                                FlutterRingtonePlayer.stop();
-                                Vibration.cancel();
+                                Alarm.stop(42);
+                                // FlutterRingtonePlayer.stop();
+                                // Vibration.cancel();
                                 // settingController.alarmPlugin.deleteAllAlarms();
                                 await Preferences.instance.prefs?.setBool("isAlarm", settingController.isAlarm.value);
                               },

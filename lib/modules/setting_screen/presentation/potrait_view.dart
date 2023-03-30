@@ -257,7 +257,7 @@ class PotraitView extends StatelessWidget {
                                     settingController.setMinuteIntervalRemainder(
                                       minutes: int.parse(settingController.minutesController.text),
                                     );
-                                    settingController.setIntervalRemainder(
+                                    settingController.setSecondIntervalRemainder(
                                       minutes: int.parse(settingController.minutesController.text),
                                       second: int.parse(settingController.secondController.text),
                                     );
