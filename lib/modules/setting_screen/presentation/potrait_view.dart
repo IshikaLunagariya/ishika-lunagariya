@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:clock_simple/utils/navigation_utils/navigation.dart';
 import 'package:clock_simple/utils/preferences.dart';
 import 'package:clock_simple/utils/string_utils.dart';
@@ -13,8 +11,6 @@ import 'package:get/get.dart';
 import '../../../utils/app_color.dart';
 import '../../../utils/navigation_utils/routes.dart';
 import '../../../utils/size_utils.dart';
-import '../../../widget/custom_keyboard_screen.dart';
-import '../../../widget/custom_text_feild.dart';
 import '../../home_screen/controller/limit_range_text_input formatter.dart';
 import '../controller/setting_controller.dart';
 
@@ -35,7 +31,12 @@ class PotraitView extends StatelessWidget {
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
-                    // Navigation.pushNamed(Routes.homeScreen);
+                    if (settingController.intervalSwitch.value || settingController.secondsUntil.value) {
+                      settingController.intervalSwitch.value = false;
+                      settingController.secondsUntil.value = false;
+                    } else {
+                      Navigation.pushNamed(Routes.homeScreen);
+                    }
                   },
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height,
@@ -143,10 +144,11 @@ class PotraitView extends StatelessWidget {
                             children: [
                               SizedBox(
                                 width: SizeUtils.screenHeight < 300 ? 20 : 25,
-                                child: CustomTextFormField(
+                                child: TextField(
                                   readOnly: true,
                                   onTap: () {
                                     settingController.minutesController.clear();
+                                    settingController.intervalSwitch.value = true;
                                     // CustomKeyboard(onTextInput: (myText) {
                                     //   settingController.insertText(
                                     //     myText,
@@ -169,8 +171,8 @@ class PotraitView extends StatelessWidget {
                                     //       ?.setString("minutes", settingController.minutesController.text);
                                     // }));
                                   },
-                                  textInputAction: TextInputAction.done,
-                                  textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
+                                  // textInputAction: TextInputAction.done,
+                                  // textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
                                   style: TextStyle(color: Colors.white),
                                   controller: settingController.minutesController,
                                   inputFormatters: [
@@ -181,24 +183,24 @@ class PotraitView extends StatelessWidget {
                                     LimitRangeTextInputFormatter(1, 60),
                                   ],
                                   keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
-                                  onFieldSubmitted: (value) async {
-                                    settingController.isAlarm.value = true;
-                                    await Preferences.instance.prefs
-                                        ?.setBool("isAlarm", settingController.isAlarm.value);
-                                    settingController.minutesController.clear();
-                                    settingController.minutesController.text = value;
-                                    // settingController.alarmPlugin.deleteAllAlarms();
-                                    log("Set Interval");
-                                    settingController.secondTimer?.cancel();
-                                    settingController.minuteTimer?.cancel();
-                                    settingController.setMinuteIntervalRemainder(
-                                      minutes: int.parse(settingController.minutesController.text),
-                                    );
-                                    await Preferences.instance.prefs
-                                        ?.setString("minutes", settingController.minutesController.text);
-                                  },
-                                  hintColor: AppColor.whiteColor,
-                                  hint: "00",
+                                  // onFieldSubmitted: (value) async {
+                                  //   settingController.isAlarm.value = true;
+                                  //   await Preferences.instance.prefs
+                                  //       ?.setBool("isAlarm", settingController.isAlarm.value);
+                                  //   settingController.minutesController.clear();
+                                  //   settingController.minutesController.text = value;
+                                  //   // settingController.alarmPlugin.deleteAllAlarms();
+                                  //   log("Set Interval");
+                                  //   settingController.secondTimer?.cancel();
+                                  //   settingController.minuteTimer?.cancel();
+                                  //   settingController.setMinuteIntervalRemainder(
+                                  //     minutes: int.parse(settingController.minutesController.text),
+                                  //   );
+                                  //   await Preferences.instance.prefs
+                                  //       ?.setString("minutes", settingController.minutesController.text);
+                                  // },
+                                  // hintColor: AppColor.whiteColor,
+                                  // hint: "00",
                                 ),
                               ),
                               Padding(
@@ -234,35 +236,35 @@ class PotraitView extends StatelessWidget {
                               SizedBox(
                                 width: SizeUtils.screenHeight < 300 ? 20 : 25,
                                 child: TextField(
-                                  style: TextStyle(
-                                    color: Colors.white
-                                  ),
+                                  style: TextStyle(color: Colors.white),
                                   onTap: () {
                                     settingController.secondController.clear();
-                                    showModalBottomSheet(
-                                        context: context, builder: (context){
-                                      return  CustomKeyboard(onTextInput: (myText) {
-                                        settingController.insertText(
-                                          myText,
-                                          settingController.secondController,
-                                        );
-                                      }, onBackspace: () {
-                                        settingController.backspace(settingController.secondController);
-                                      }, onSubmit: (() async {
-                                        print("Hello");
-                                        settingController.isAlarm.value = true;
-                                        // settingController.secondController.clear();
-
-                                        log("Set Interval");
-                                        settingController.secondTimer?.cancel();
-                                        settingController.minuteTimer?.cancel();
-                                        // settingController.setMinuteIntervalRemainder(
-                                        //   minutes: int.parse(settingController.minutesController.text),
-                                        // );
-                                        // await Preferences.instance.prefs
-                                        //     ?.setString("minutes", settingController.minutesController.text);
-                                      }));
-                                    });
+                                    settingController.secondsUntil.value = true;
+                                    // showModalBottomSheet(
+                                    //     context: context,
+                                    //     builder: (context) {
+                                    //       return CustomKeyboard(onTextInput: (myText) {
+                                    //         settingController.insertText(
+                                    //           myText,
+                                    //           settingController.secondController,
+                                    //         );
+                                    //       }, onBackspace: () {
+                                    //         settingController.backspace(settingController.secondController);
+                                    //       }, onSubmit: (() async {
+                                    //         print("Hello");
+                                    //         settingController.isAlarm.value = true;
+                                    //         // settingController.secondController.clear();
+                                    //
+                                    //         log("Set Interval");
+                                    //         settingController.secondTimer?.cancel();
+                                    //         settingController.minuteTimer?.cancel();
+                                    //         // settingController.setMinuteIntervalRemainder(
+                                    //         //   minutes: int.parse(settingController.minutesController.text),
+                                    //         // );
+                                    //         // await Preferences.instance.prefs
+                                    //         //     ?.setString("minutes", settingController.minutesController.text);
+                                    //       }));
+                                    //     });
                                   },
                                   readOnly: true,
                                   textInputAction: TextInputAction.done,
@@ -276,9 +278,10 @@ class PotraitView extends StatelessWidget {
                                     LimitRangeTextInputFormatter(0, 60),
                                   ],
                                   keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
-                                  onChanged: (value){
+                                  onChanged: (value) {
                                     print("value---->$value");
                                   },
+
                                   // onFieldSubmitted: (value) async {
                                   //   settingController.isAlarm.value = true;
                                   //   await Preferences.instance.prefs
@@ -437,7 +440,6 @@ class PotraitView extends StatelessWidget {
                             },
                             value: settingController.secondsUntil.value,
                           ),*/
-
                         ],
                       ),
                     ),

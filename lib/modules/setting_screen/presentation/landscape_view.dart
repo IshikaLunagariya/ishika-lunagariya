@@ -212,7 +212,7 @@ class LandscapeView extends StatelessWidget {
                                 children: [
                                   SizedBox(
                                     width: SizeUtils.screenHeight < 300 ? 20 : 25,
-                                    child: CustomTextFormField(
+                                    child: /*CustomTextFormField(
                                       textInputAction: TextInputAction.done,
                                       textSize: SizeUtils.screenHeight < 300 ? 15 : 20,
                                       controller: settingController.secondController,
@@ -246,6 +246,76 @@ class LandscapeView extends StatelessWidget {
                                       },
                                       hint: "00",
                                       hintColor: AppColor.whiteColor,
+                                    ),*/
+                                        TextField(
+                                      style: TextStyle(color: Colors.white),
+                                      onTap: () {
+                                        settingController.secondController.clear();
+                                        settingController.secondsUntil.value = true;
+                                        // showModalBottomSheet(
+                                        //     context: context,
+                                        //     builder: (context) {
+                                        //       return CustomKeyboard(onTextInput: (myText) {
+                                        //         settingController.insertText(
+                                        //           myText,
+                                        //           settingController.secondController,
+                                        //         );
+                                        //       }, onBackspace: () {
+                                        //         settingController.backspace(settingController.secondController);
+                                        //       }, onSubmit: (() async {
+                                        //         print("Hello");
+                                        //         settingController.isAlarm.value = true;
+                                        //         // settingController.secondController.clear();
+                                        //
+                                        //         log("Set Interval");
+                                        //         settingController.secondTimer?.cancel();
+                                        //         settingController.minuteTimer?.cancel();
+                                        //         // settingController.setMinuteIntervalRemainder(
+                                        //         //   minutes: int.parse(settingController.minutesController.text),
+                                        //         // );
+                                        //         // await Preferences.instance.prefs
+                                        //         //     ?.setString("minutes", settingController.minutesController.text);
+                                        //       }));
+                                        //     });
+                                      },
+                                      readOnly: true,
+                                      textInputAction: TextInputAction.done,
+                                      // textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
+                                      controller: settingController.secondController,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly,
+                                        LengthLimitingTextInputFormatter(2),
+                                        FilteringTextInputFormatter.deny(" "),
+                                        FilteringTextInputFormatter.deny("."),
+                                        LimitRangeTextInputFormatter(0, 60),
+                                      ],
+                                      keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
+                                      onChanged: (value) {
+                                        print("value---->$value");
+                                      },
+                                      // onFieldSubmitted: (value) async {
+                                      //   settingController.isAlarm.value = true;
+                                      //   await Preferences.instance.prefs
+                                      //       ?.setBool("isAlarm", settingController.isAlarm.value);
+                                      //   settingController.secondController.clear();
+                                      //   settingController.secondController.text = value;
+                                      //   log("Set Interval");
+                                      //   settingController.secondTimer?.cancel();
+                                      //   settingController.minuteTimer?.cancel();
+                                      //   settingController.setMinuteIntervalRemainder(
+                                      //     minutes: int.parse(settingController.minutesController.text),
+                                      //   );
+                                      //   settingController.setSecondIntervalRemainder(
+                                      //     minutes: int.parse(settingController.minutesController.text),
+                                      //     second: int.parse(settingController.secondController.text),
+                                      //   );
+                                      //   await Preferences.instance.prefs
+                                      //       ?.setString("seconds", settingController.secondController.text);
+                                      //   await Preferences.instance.prefs
+                                      //       ?.setString("minutes", settingController.minutesController.text);
+                                      // },
+                                      // hint: "00",
+                                      // hintColor: AppColor.whiteColor,
                                     ),
                                   ),
                                   Padding(
