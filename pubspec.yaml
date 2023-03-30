@@ -44,7 +44,6 @@ dependencies:
   vibration: ^1.7.6
   alarm: ^0.2.3
   flutter_ringtone_player: ^3.2.0
-  flutter_alarm_background_trigger: ^1.0.1
   keyboard_actions: ^4.2.0
 
 

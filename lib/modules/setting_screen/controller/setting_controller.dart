@@ -5,6 +5,7 @@ import 'package:alarm/alarm.dart';
 import 'package:clock_simple/utils/preferences.dart';
 import 'package:clock_simple/utils/size_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
 import 'package:vibration/vibration.dart';
 
@@ -37,8 +38,6 @@ class SettingController extends GetxController {
     notificationBody: 'This is the body',
     enableNotificationOnKill: true,
   );
-
-  // FlutterAlarmBackgroundTrigger alarmPlugin = FlutterAlarmBackgroundTrigger();
 
   @override
   void onInit() {
@@ -122,7 +121,9 @@ class SettingController extends GetxController {
         Vibration.vibrate(duration: 4000, repeat: 20, amplitude: 128);
       } else {
         Vibration.vibrate(duration: 4000, repeat: 20, amplitude: 128);
-        // FlutterRingtonePlayer.play(looping: false, volume: 1, asAlarm: true, fromAsset: 'assets/beep_alarm.mp3');
+        // await Alarm.set(alarmSettings: alarmSettings);
+        // await Alarm.setNotificationOnAppKillContent("Interval", "body");
+        FlutterRingtonePlayer.play(looping: false, volume: 1, asAlarm: true, fromAsset: 'assets/note_alarm.mp3');
         setSecondIntervalRemainder(
             minutes: int.parse(minutesController.text),
             second: secondController.text.isEmpty ? 0 : int.parse(secondController.text));

@@ -182,6 +182,8 @@ class PotraitView extends StatelessWidget {
                                   keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                                   onFieldSubmitted: (value) async {
                                     settingController.isAlarm.value = true;
+                                    await Preferences.instance.prefs
+                                        ?.setBool("isAlarm", settingController.isAlarm.value);
                                     settingController.minutesController.clear();
                                     settingController.minutesController.text = value;
                                     // settingController.alarmPlugin.deleteAllAlarms();
@@ -248,12 +250,13 @@ class PotraitView extends StatelessWidget {
                                   keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                                   onFieldSubmitted: (value) async {
                                     settingController.isAlarm.value = true;
+                                    await Preferences.instance.prefs
+                                        ?.setBool("isAlarm", settingController.isAlarm.value);
                                     settingController.secondController.clear();
                                     settingController.secondController.text = value;
                                     log("Set Interval");
                                     settingController.secondTimer?.cancel();
                                     settingController.minuteTimer?.cancel();
-                                    // settingController.alarmPlugin.deleteAllAlarms();
                                     settingController.setMinuteIntervalRemainder(
                                       minutes: int.parse(settingController.minutesController.text),
                                     );
