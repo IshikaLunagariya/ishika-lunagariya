@@ -4,7 +4,6 @@ import 'package:clock_simple/utils/navigation_utils/navigation.dart';
 import 'package:clock_simple/utils/preferences.dart';
 import 'package:clock_simple/utils/string_utils.dart';
 import 'package:clock_simple/widget/app_text.dart';
-import 'package:clock_simple/widget/custom_keyboard_screen.dart';
 import 'package:clock_simple/widget/custom_switch.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -404,27 +403,27 @@ class PotraitView extends StatelessWidget {
                             },
                             value: settingController.secondsUntil.value,
                           ),*/
-                          CustomKeyboard(onTextInput: (myText) {
-                            settingController.insertText(
-                              myText,
-                              settingController.minutesController,
-                            );
-                          }, onBackspace: () {
-                            settingController.backspace(settingController.minutesController);
-                          }, onSubmit: ((value) async {
-                            settingController.isAlarm.value = true;
-                            settingController.minutesController.clear();
-                            settingController.minutesController.text = value;
-                            // settingController.alarmPlugin.deleteAllAlarms();
-                            log("Set Interval");
-                            settingController.secondTimer?.cancel();
-                            settingController.minuteTimer?.cancel();
-                            settingController.setMinuteIntervalRemainder(
-                              minutes: int.parse(settingController.minutesController.text),
-                            );
-                            await Preferences.instance.prefs
-                                ?.setString("minutes", settingController.minutesController.text);
-                          })),
+                          // CustomKeyboard(onTextInput: (myText) {
+                          //   settingController.insertText(
+                          //     myText,
+                          //     settingController.minutesController,
+                          //   );
+                          // }, onBackspace: () {
+                          //   settingController.backspace(settingController.minutesController);
+                          // }, onSubmit: ((value) async {
+                          //   settingController.isAlarm.value = true;
+                          //   settingController.minutesController.clear();
+                          //   settingController.minutesController.text = value;
+                          //   // settingController.alarmPlugin.deleteAllAlarms();
+                          //   log("Set Interval");
+                          //   settingController.secondTimer?.cancel();
+                          //   settingController.minuteTimer?.cancel();
+                          //   settingController.setMinuteIntervalRemainder(
+                          //     minutes: int.parse(settingController.minutesController.text),
+                          //   );
+                          //   await Preferences.instance.prefs
+                          //       ?.setString("minutes", settingController.minutesController.text);
+                          // })),
                         ],
                       ),
                     ),
