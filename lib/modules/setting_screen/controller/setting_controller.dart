@@ -48,8 +48,21 @@ class SettingController extends GetxController {
     intervalSwitch.value = Preferences.instance.prefs?.getBool("intervalSwitch") ?? false;
     secondsUntil.value = Preferences.instance.prefs?.getBool("secondsUntil") ?? false;
     isAlarm.value = Preferences.instance.prefs?.getBool("isAlarm") ?? false;
-    minutesController.text = Preferences.instance.prefs?.getString("minutes") ?? "00";
-    secondController.text = Preferences.instance.prefs?.getString("seconds") ?? "00";
+    String? min;
+    min = Preferences.instance.prefs?.getString("minutes");
+    if (min != "00") {
+      minutesController.text = min ?? "";
+    } else {
+      minutesController.clear();
+    }
+    String? second;
+    second = Preferences.instance.prefs?.getString("seconds");
+    if (second != "00") {
+      secondController.text = second ?? "";
+    } else {
+      secondController.clear();
+    }
+
     super.onInit();
   }
 
@@ -66,11 +79,69 @@ class SettingController extends GetxController {
       myText,
     );
     final myTextLength = myText.length;
-    controller.text = newText;
-    controller.selection = textSelection.copyWith(
-      baseOffset: textSelection.start + myTextLength,
-      extentOffset: textSelection.start + myTextLength,
-    );
+
+    if (secondsUntil.value) {
+      if (newText.length == 1) {
+        if (int.parse(newText.substring(0, 1)) < 7) {
+          controller.text = newText;
+          controller.selection = textSelection.copyWith(
+            baseOffset: textSelection.start + myTextLength,
+            extentOffset: textSelection.start + myTextLength,
+          );
+        }
+      } else if (newText.length <= 2) {
+        if (int.parse(newText.substring(0, 1)) == 6 && int.parse(newText.substring(1, 2)) == 0) {
+          controller.text = newText;
+          controller.selection = textSelection.copyWith(
+            baseOffset: textSelection.start + myTextLength,
+            extentOffset: textSelection.start + myTextLength,
+          );
+        } else if (int.parse(newText.substring(0, 1)) < 6) {
+          controller.text = newText;
+          controller.selection = textSelection.copyWith(
+            baseOffset: textSelection.start + myTextLength,
+            extentOffset: textSelection.start + myTextLength,
+          );
+        }
+      }
+    } else {
+      if (newText.length == 1) {
+        if (int.parse(newText.substring(0, 1)) > 0 && int.parse(newText.substring(0, 1)) < 7) {
+          controller.text = newText;
+          controller.selection = textSelection.copyWith(
+            baseOffset: textSelection.start + myTextLength,
+            extentOffset: textSelection.start + myTextLength,
+          );
+        }
+      } else if (newText.length <= 2) {
+        if (int.parse(newText.substring(0, 1)) == 6 && int.parse(newText.substring(1, 2)) == 0) {
+          controller.text = newText;
+          controller.selection = textSelection.copyWith(
+            baseOffset: textSelection.start + myTextLength,
+            extentOffset: textSelection.start + myTextLength,
+          );
+        } else if (int.parse(newText.substring(0, 1)) < 6) {
+          controller.text = newText;
+          controller.selection = textSelection.copyWith(
+            baseOffset: textSelection.start + myTextLength,
+            extentOffset: textSelection.start + myTextLength,
+          );
+        }
+      }
+    }
+
+    // if (newText.length <= 2) {
+    //   if (int.parse(newText.substring(0, 1)) < 7 && int.parse(newText.substring(1, 2)) < 10) {
+    //     if ((int.parse(newText.substring(0, 1)) == 6)) {
+    // int.parse(newText.substring(1, 2)) == 0
+    //       controller.text = newText.length <= 2 ? newText : "00";
+    //       controller.selection = textSelection.copyWith(
+    //         baseOffset: textSelection.start + myTextLength,
+    //         extentOffset: textSelection.start + myTextLength,
+    //       );
+    //     }
+    //   }
+    // }
   }
 
   void backspace(TextEditingController controller) {
@@ -144,6 +215,7 @@ class SettingController extends GetxController {
         await Alarm.set(alarmSettings: alarmSettings);
         await Alarm.setNotificationOnAppKillContent("Interval", "body");
         Future.delayed(Duration(seconds: second ?? 0)).then((value) {
+          print("Future.delayed");
           Alarm.stop(42);
         });
         // FlutterRingtonePlayer.play(looping: true, volume: 1, asAlarm: true, fromAsset: 'assets/beep_alarm.mp3');

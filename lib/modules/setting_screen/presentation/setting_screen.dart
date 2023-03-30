@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:clock_simple/modules/setting_screen/controller/setting_controller.dart';
 import 'package:clock_simple/modules/setting_screen/presentation/landscape_view.dart';
 import 'package:clock_simple/modules/setting_screen/presentation/potrait_view.dart';
@@ -27,7 +25,7 @@ class _SettingScreenState extends State<SettingScreen> {
         bottomSheet: (settingController.intervalSwitch.value || settingController.secondsUntil.value)
             ? CustomKeyboard(onTextInput: (myText) {
                 settingController.insertText(
-                  myText.length <= 2 ? myText : "00",
+                  myText,
                   settingController.secondsUntil.value
                       ? settingController.secondController
                       : settingController.minutesController,
@@ -39,11 +37,9 @@ class _SettingScreenState extends State<SettingScreen> {
                       : settingController.minutesController,
                 );
               }, onSubmit: (() async {
-                print("Hello");
                 settingController.isAlarm.value = true;
                 // settingController.secondController.clear();
-
-                log("Set Interval");
+                // settingController.minutesController.clear();
                 settingController.secondTimer?.cancel();
                 settingController.minuteTimer?.cancel();
                 if (settingController.secondsUntil.value) {
@@ -66,7 +62,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   await Preferences.instance.prefs?.setString("minutes", settingController.minutesController.text);
                 }
               }))
-            : SizedBox(),
+            : const SizedBox(),
         body: OrientationBuilder(builder: (context, orientation) {
           return SizeUtils.screenHeight < 300
               ? PotraitView()

@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../utils/app_color.dart';
 import '../../../utils/navigation_utils/routes.dart';
@@ -53,6 +54,7 @@ class PotraitView extends StatelessWidget {
                       child: IconButton(
                         splashColor: Colors.transparent,
                         onPressed: () {
+                          // openRingtoneSettings();
                           Navigation.pushNamed(Routes.homeScreen);
                         },
                         icon: Icon(
@@ -146,9 +148,46 @@ class PotraitView extends StatelessWidget {
                                 width: SizeUtils.screenHeight < 300 ? 20 : 25,
                                 child: TextField(
                                   readOnly: true,
+                                  cursorColor: Colors.white,
+                                  showCursor: true,
+                                  decoration: InputDecoration(
+                                    hintText: "00",
+                                    hintStyle: const TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    hintMaxLines: 1,
+                                    focusedErrorBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColor.whiteColor,
+                                      ),
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColor.whiteColor,
+                                      ),
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColor.whiteColor,
+                                      ),
+                                    ),
+                                    errorBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColor.whiteColor,
+                                      ),
+                                    ),
+                                    disabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColor.whiteColor,
+                                      ),
+                                    ),
+                                  ),
                                   onTap: () {
-                                    settingController.minutesController.clear();
+                                    // settingController.minutesController.clear();
                                     settingController.intervalSwitch.value = true;
+                                    settingController.secondsUntil.value = false;
                                     // CustomKeyboard(onTextInput: (myText) {
                                     //   settingController.insertText(
                                     //     myText,
@@ -173,16 +212,16 @@ class PotraitView extends StatelessWidget {
                                   },
                                   // textInputAction: TextInputAction.done,
                                   // textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
-                                  style: TextStyle(color: Colors.white),
+                                  style: const TextStyle(color: Colors.white, fontSize: 20),
                                   controller: settingController.minutesController,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.digitsOnly,
-                                    LengthLimitingTextInputFormatter(2),
-                                    FilteringTextInputFormatter.deny(" "),
-                                    FilteringTextInputFormatter.deny("."),
-                                    LimitRangeTextInputFormatter(1, 60),
-                                  ],
-                                  keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
+                                  // inputFormatters: [
+                                  //   FilteringTextInputFormatter.digitsOnly,
+                                  //   LengthLimitingTextInputFormatter(2),
+                                  //   FilteringTextInputFormatter.deny(" "),
+                                  //   FilteringTextInputFormatter.deny("."),
+                                  //   LimitRangeTextInputFormatter(1, 60),
+                                  // ],
+                                  // keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                                   // onFieldSubmitted: (value) async {
                                   //   settingController.isAlarm.value = true;
                                   //   await Preferences.instance.prefs
@@ -236,10 +275,47 @@ class PotraitView extends StatelessWidget {
                               SizedBox(
                                 width: SizeUtils.screenHeight < 300 ? 20 : 25,
                                 child: TextField(
-                                  style: TextStyle(color: Colors.white),
+                                  cursorColor: Colors.white,
+                                  showCursor: true,
+                                  style: const TextStyle(color: Colors.white, fontSize: 20),
+                                  decoration: InputDecoration(
+                                    hintText: "00",
+                                    hintStyle: const TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    hintMaxLines: 1,
+                                    focusedErrorBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColor.whiteColor,
+                                      ),
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColor.whiteColor,
+                                      ),
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColor.whiteColor,
+                                      ),
+                                    ),
+                                    errorBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColor.whiteColor,
+                                      ),
+                                    ),
+                                    disabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColor.whiteColor,
+                                      ),
+                                    ),
+                                  ),
                                   onTap: () {
-                                    settingController.secondController.clear();
+                                    // settingController.secondController.clear();
                                     settingController.secondsUntil.value = true;
+                                    settingController.intervalSwitch.value = false;
                                     // showModalBottomSheet(
                                     //     context: context,
                                     //     builder: (context) {
@@ -268,6 +344,7 @@ class PotraitView extends StatelessWidget {
                                   },
                                   readOnly: true,
                                   textInputAction: TextInputAction.done,
+
                                   // textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
                                   controller: settingController.secondController,
                                   inputFormatters: [
@@ -449,5 +526,14 @@ class PotraitView extends StatelessWidget {
             ),
           ),
         ));
+  }
+
+  void openRingtoneSettings() async {
+    const url = 'package:Settings.ACTION_SOUND_SETTINGS';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

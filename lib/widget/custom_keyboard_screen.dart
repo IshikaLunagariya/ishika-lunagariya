@@ -140,7 +140,8 @@ class CustomKeyboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 220,
-      color: const Color(0xffEBF0EA),
+      // color: const Color(0xffEBF0EA),
+      color: const Color(0xff1D1A1A),
       child: Column(
         children: [
           buildRowOne(),
@@ -257,16 +258,21 @@ class TextKey extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(1.0),
         child: Material(
-          color: const Color(0xffEBF0EA),
+          // color: const Color(0xffEBF0EA),
+          color: const Color(0xff1D1A1A),
           child: InkWell(
-            onTap: onSubmit ?? () {
-              onTextInput?.call(text ?? "");
-            },
+            onTap: onSubmit ??
+                () {
+                  onTextInput?.call(text ?? "");
+                },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
               child: Container(
-                decoration:
-                    const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(50)), color: Color(0xffFCFDF8)),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(50)),
+                  // color: /*Color(0xffFCFDF8)*/ Colors.grey.withOpacity(0.5),
+                  color: Color(0xff4B4442),
+                ),
                 child: Center(
                     child: Text(
                   text ?? "",
@@ -298,7 +304,8 @@ class BackspaceKey extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(1.0),
         child: Material(
-          color: const Color(0xffEBF0EA),
+          // color: const Color(0xffEBF0EA),
+          color: const Color(0xff1D1A1A),
           child: InkWell(
             onTap: () {
               onBackspace?.call();
@@ -306,8 +313,11 @@ class BackspaceKey extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
               child: Container(
-                decoration:
-                    const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(50)), color: Color(0xffFCFDF8)),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                  // color: /*Color(0xffFCFDF8)*/ Colors.grey.withOpacity(0.5),
+                  color: Color(0xff4B4442),
+                ),
                 child: const Center(
                   child: Icon(
                     Icons.backspace,

@@ -45,6 +45,7 @@ dependencies:
   alarm: ^0.2.3
   flutter_ringtone_player: ^3.2.0
   keyboard_actions: ^4.2.0
+  url_launcher: ^6.0.3
 
 
 dev_dependencies:
