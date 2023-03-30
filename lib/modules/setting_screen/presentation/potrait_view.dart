@@ -143,7 +143,7 @@ class PotraitView extends StatelessWidget {
                             children: [
                               SizedBox(
                                 width: SizeUtils.screenHeight < 300 ? 20 : 25,
-                                child: TextField(
+                                child: CustomTextFormField(
                                   readOnly: true,
                                   onTap: () {
                                     settingController.minutesController.clear();
@@ -169,34 +169,34 @@ class PotraitView extends StatelessWidget {
                                     //       ?.setString("minutes", settingController.minutesController.text);
                                     // }));
                                   },
-                                  // textInputAction: TextInputAction.done,
-                                  // textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
+                                  textInputAction: TextInputAction.done,
+                                  textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
                                   style: TextStyle(color: Colors.white),
                                   controller: settingController.minutesController,
-                                  // inputFormatters: [
-                                  //   FilteringTextInputFormatter.digitsOnly,
-                                  //   LengthLimitingTextInputFormatter(2),
-                                  //   FilteringTextInputFormatter.deny(" "),
-                                  //   FilteringTextInputFormatter.deny("."),
-                                  //   LimitRangeTextInputFormatter(1, 60),
-                                  // ],
-                                  // keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
-                                  // onFieldSubmitted: (value) async {
-                                  //   settingController.isAlarm.value = true;
-                                  //   settingController.minutesController.clear();
-                                  //   settingController.minutesController.text = value;
-                                  //   // settingController.alarmPlugin.deleteAllAlarms();
-                                  //   log("Set Interval");
-                                  //   settingController.secondTimer?.cancel();
-                                  //   settingController.minuteTimer?.cancel();
-                                  //   settingController.setMinuteIntervalRemainder(
-                                  //     minutes: int.parse(settingController.minutesController.text),
-                                  //   );
-                                  //   await Preferences.instance.prefs
-                                  //       ?.setString("minutes", settingController.minutesController.text);
-                                  // },
-                                  // hintColor: AppColor.whiteColor,
-                                  // hint: "00",
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    LengthLimitingTextInputFormatter(2),
+                                    FilteringTextInputFormatter.deny(" "),
+                                    FilteringTextInputFormatter.deny("."),
+                                    LimitRangeTextInputFormatter(1, 60),
+                                  ],
+                                  keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
+                                  onFieldSubmitted: (value) async {
+                                    settingController.isAlarm.value = true;
+                                    settingController.minutesController.clear();
+                                    settingController.minutesController.text = value;
+                                    // settingController.alarmPlugin.deleteAllAlarms();
+                                    log("Set Interval");
+                                    settingController.secondTimer?.cancel();
+                                    settingController.minuteTimer?.cancel();
+                                    settingController.setMinuteIntervalRemainder(
+                                      minutes: int.parse(settingController.minutesController.text),
+                                    );
+                                    await Preferences.instance.prefs
+                                        ?.setString("minutes", settingController.minutesController.text);
+                                  },
+                                  hintColor: AppColor.whiteColor,
+                                  hint: "00",
                                 ),
                               ),
                               Padding(
