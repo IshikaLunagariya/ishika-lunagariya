@@ -239,6 +239,30 @@ class PotraitView extends StatelessWidget {
                                   ),
                                   onTap: () {
                                     settingController.secondController.clear();
+                                    showModalBottomSheet(
+                                        context: context, builder: (context){
+                                      return  CustomKeyboard(onTextInput: (myText) {
+                                        settingController.insertText(
+                                          myText,
+                                          settingController.secondController,
+                                        );
+                                      }, onBackspace: () {
+                                        settingController.backspace(settingController.secondController);
+                                      }, onSubmit: (() async {
+                                        print("Hello");
+                                        settingController.isAlarm.value = true;
+                                        // settingController.secondController.clear();
+
+                                        log("Set Interval");
+                                        settingController.secondTimer?.cancel();
+                                        settingController.minuteTimer?.cancel();
+                                        // settingController.setMinuteIntervalRemainder(
+                                        //   minutes: int.parse(settingController.minutesController.text),
+                                        // );
+                                        // await Preferences.instance.prefs
+                                        //     ?.setString("minutes", settingController.minutesController.text);
+                                      }));
+                                    });
                                   },
                                   readOnly: true,
                                   textInputAction: TextInputAction.done,
@@ -413,27 +437,7 @@ class PotraitView extends StatelessWidget {
                             },
                             value: settingController.secondsUntil.value,
                           ),*/
-                          CustomKeyboard(onTextInput: (myText) {
-                            settingController.insertText(
-                              myText,
-                              settingController.secondController,
-                            );
-                          }, onBackspace: () {
-                            settingController.backspace(settingController.secondController);
-                          }, onSubmit: (() async {
-                            print("Hello");
-                            settingController.isAlarm.value = true;
-                            // settingController.secondController.clear();
 
-                            log("Set Interval");
-                            settingController.secondTimer?.cancel();
-                            settingController.minuteTimer?.cancel();
-                            // settingController.setMinuteIntervalRemainder(
-                            //   minutes: int.parse(settingController.minutesController.text),
-                            // );
-                            // await Preferences.instance.prefs
-                            //     ?.setString("minutes", settingController.minutesController.text);
-                          })),
                         ],
                       ),
                     ),
