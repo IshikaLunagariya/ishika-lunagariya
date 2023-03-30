@@ -130,7 +130,7 @@ class CustomKeyboard extends StatelessWidget {
 
   final ValueSetter<String>? onTextInput;
   final VoidCallback? onBackspace;
-  final Function? onSubmit;
+  final void Function()? onSubmit;
 
   void _textInputHandler(String text) => onTextInput?.call(text);
 
@@ -215,7 +215,7 @@ class CustomKeyboard extends StatelessWidget {
     );
   }
 
-  Expanded buildRowFour({Function? onSubmit}) {
+  Expanded buildRowFour({void Function()? onSubmit}) {
     return Expanded(
       child: Row(
         children: [
@@ -248,7 +248,7 @@ class TextKey extends StatelessWidget {
   final String? text;
   final ValueSetter<String>? onTextInput;
   final int? flex;
-  Function? onSubmit;
+  void Function()? onSubmit;
 
   @override
   Widget build(BuildContext context) {
@@ -259,7 +259,7 @@ class TextKey extends StatelessWidget {
         child: Material(
           color: const Color(0xffEBF0EA),
           child: InkWell(
-            onTap: () {
+            onTap: onSubmit ?? () {
               onTextInput?.call(text ?? "");
             },
             child: Padding(

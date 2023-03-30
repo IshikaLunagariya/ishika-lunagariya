@@ -13,6 +13,7 @@ import 'package:get/get.dart';
 import '../../../utils/app_color.dart';
 import '../../../utils/navigation_utils/routes.dart';
 import '../../../utils/size_utils.dart';
+import '../../../widget/custom_keyboard_screen.dart';
 import '../../../widget/custom_text_feild.dart';
 import '../../home_screen/controller/limit_range_text_input formatter.dart';
 import '../controller/setting_controller.dart';
@@ -34,7 +35,7 @@ class PotraitView extends StatelessWidget {
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
-                    Navigation.pushNamed(Routes.homeScreen);
+                    // Navigation.pushNamed(Routes.homeScreen);
                   },
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height,
@@ -232,13 +233,16 @@ class PotraitView extends StatelessWidget {
                             children: [
                               SizedBox(
                                 width: SizeUtils.screenHeight < 300 ? 20 : 25,
-                                child: CustomTextFormField(
+                                child: TextField(
+                                  style: TextStyle(
+                                    color: Colors.white
+                                  ),
                                   onTap: () {
                                     settingController.secondController.clear();
                                   },
                                   readOnly: true,
                                   textInputAction: TextInputAction.done,
-                                  textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
+                                  // textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
                                   controller: settingController.secondController,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.digitsOnly,
@@ -248,29 +252,32 @@ class PotraitView extends StatelessWidget {
                                     LimitRangeTextInputFormatter(0, 60),
                                   ],
                                   keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
-                                  onFieldSubmitted: (value) async {
-                                    settingController.isAlarm.value = true;
-                                    await Preferences.instance.prefs
-                                        ?.setBool("isAlarm", settingController.isAlarm.value);
-                                    settingController.secondController.clear();
-                                    settingController.secondController.text = value;
-                                    log("Set Interval");
-                                    settingController.secondTimer?.cancel();
-                                    settingController.minuteTimer?.cancel();
-                                    settingController.setMinuteIntervalRemainder(
-                                      minutes: int.parse(settingController.minutesController.text),
-                                    );
-                                    settingController.setSecondIntervalRemainder(
-                                      minutes: int.parse(settingController.minutesController.text),
-                                      second: int.parse(settingController.secondController.text),
-                                    );
-                                    await Preferences.instance.prefs
-                                        ?.setString("seconds", settingController.secondController.text);
-                                    await Preferences.instance.prefs
-                                        ?.setString("minutes", settingController.minutesController.text);
+                                  onChanged: (value){
+                                    print("value---->$value");
                                   },
-                                  hint: "00",
-                                  hintColor: AppColor.whiteColor,
+                                  // onFieldSubmitted: (value) async {
+                                  //   settingController.isAlarm.value = true;
+                                  //   await Preferences.instance.prefs
+                                  //       ?.setBool("isAlarm", settingController.isAlarm.value);
+                                  //   settingController.secondController.clear();
+                                  //   settingController.secondController.text = value;
+                                  //   log("Set Interval");
+                                  //   settingController.secondTimer?.cancel();
+                                  //   settingController.minuteTimer?.cancel();
+                                  //   settingController.setMinuteIntervalRemainder(
+                                  //     minutes: int.parse(settingController.minutesController.text),
+                                  //   );
+                                  //   settingController.setSecondIntervalRemainder(
+                                  //     minutes: int.parse(settingController.minutesController.text),
+                                  //     second: int.parse(settingController.secondController.text),
+                                  //   );
+                                  //   await Preferences.instance.prefs
+                                  //       ?.setString("seconds", settingController.secondController.text);
+                                  //   await Preferences.instance.prefs
+                                  //       ?.setString("minutes", settingController.minutesController.text);
+                                  // },
+                                  // hint: "00",
+                                  // hintColor: AppColor.whiteColor,
                                 ),
                               ),
                               Padding(
@@ -406,27 +413,27 @@ class PotraitView extends StatelessWidget {
                             },
                             value: settingController.secondsUntil.value,
                           ),*/
-                          // CustomKeyboard(onTextInput: (myText) {
-                          //   settingController.insertText(
-                          //     myText,
-                          //     settingController.minutesController,
-                          //   );
-                          // }, onBackspace: () {
-                          //   settingController.backspace(settingController.minutesController);
-                          // }, onSubmit: ((value) async {
-                          //   settingController.isAlarm.value = true;
-                          //   settingController.minutesController.clear();
-                          //   settingController.minutesController.text = value;
-                          //   // settingController.alarmPlugin.deleteAllAlarms();
-                          //   log("Set Interval");
-                          //   settingController.secondTimer?.cancel();
-                          //   settingController.minuteTimer?.cancel();
-                          //   settingController.setMinuteIntervalRemainder(
-                          //     minutes: int.parse(settingController.minutesController.text),
-                          //   );
-                          //   await Preferences.instance.prefs
-                          //       ?.setString("minutes", settingController.minutesController.text);
-                          // })),
+                          CustomKeyboard(onTextInput: (myText) {
+                            settingController.insertText(
+                              myText,
+                              settingController.secondController,
+                            );
+                          }, onBackspace: () {
+                            settingController.backspace(settingController.secondController);
+                          }, onSubmit: (() async {
+                            print("Hello");
+                            settingController.isAlarm.value = true;
+                            // settingController.secondController.clear();
+
+                            log("Set Interval");
+                            settingController.secondTimer?.cancel();
+                            settingController.minuteTimer?.cancel();
+                            // settingController.setMinuteIntervalRemainder(
+                            //   minutes: int.parse(settingController.minutesController.text),
+                            // );
+                            // await Preferences.instance.prefs
+                            //     ?.setString("minutes", settingController.minutesController.text);
+                          })),
                         ],
                       ),
                     ),

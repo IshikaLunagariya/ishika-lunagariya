@@ -161,6 +161,8 @@ class HomeScreen extends StatelessWidget {
                                 settingController.secondController.clear();
                                 settingController.secondTimer?.cancel();
                                 settingController.minuteTimer?.cancel();
+                                Preferences.instance.prefs?.setString("minutes", "00");
+                                Preferences.instance.prefs?.setString("seconds", "00");
                                 Alarm.stop(42);
                                 FlutterRingtonePlayer.stop();
                                 Vibration.cancel();
