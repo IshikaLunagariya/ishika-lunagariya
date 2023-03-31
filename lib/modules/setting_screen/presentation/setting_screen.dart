@@ -37,16 +37,16 @@ class _SettingScreenState extends State<SettingScreen> {
                       : settingController.minutesController,
                 );
               }, onSubmit: (() async {
+                print(settingController.minutesController.text);
+                print(settingController.secondController.text);
                 settingController.isAlarm.value = true;
+                await Preferences.instance.prefs?.setBool("isAlarm", settingController.isAlarm.value);
                 // settingController.secondController.clear();
                 // settingController.minutesController.clear();
                 settingController.secondTimer?.cancel();
                 settingController.minuteTimer?.cancel();
                 if (settingController.secondsUntil.value) {
                   settingController.secondsUntil.value = false;
-                  settingController.setMinuteIntervalRemainder(
-                    minutes: int.parse(settingController.minutesController.text),
-                  );
                   settingController.setSecondIntervalRemainder(
                     minutes: int.parse(settingController.minutesController.text),
                     second: int.parse(settingController.secondController.text),
@@ -54,7 +54,6 @@ class _SettingScreenState extends State<SettingScreen> {
                   await Preferences.instance.prefs?.setString("seconds", settingController.secondController.text);
                   await Preferences.instance.prefs?.setString("minutes", settingController.minutesController.text);
                 } else if (settingController.intervalSwitch.value) {
-                  print("set intermnam in minute");
                   settingController.intervalSwitch.value = false;
                   settingController.setMinuteIntervalRemainder(
                     minutes: int.parse(settingController.minutesController.text),

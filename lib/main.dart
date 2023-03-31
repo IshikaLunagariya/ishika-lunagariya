@@ -9,6 +9,7 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Preferences().initialAppPreference();
   await Alarm.init();
+
   // FlutterAlarmBackgroundTrigger.initialize();
   // await SystemChrome.setPreferredOrientations(
   //   [

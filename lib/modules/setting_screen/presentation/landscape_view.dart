@@ -164,6 +164,8 @@ class LandscapeView extends StatelessWidget {
                                       keyboardType: TextInputType.number,
                                       onFieldSubmitted: (value) async {
                                         settingController.isAlarm.value = true;
+                                        await Preferences.instance.prefs
+                                            ?.setBool("isAlarm", settingController.isAlarm.value);
                                         settingController.minutesController.clear();
                                         settingController.minutesController.text = value;
                                         log("Set Interval");

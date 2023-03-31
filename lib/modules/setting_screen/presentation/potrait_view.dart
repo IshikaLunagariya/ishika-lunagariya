@@ -54,7 +54,6 @@ class PotraitView extends StatelessWidget {
                       child: IconButton(
                         splashColor: Colors.transparent,
                         onPressed: () {
-                          // openRingtoneSettings();
                           Navigation.pushNamed(Routes.homeScreen);
                         },
                         icon: Icon(
@@ -151,7 +150,7 @@ class PotraitView extends StatelessWidget {
                                   cursorColor: Colors.white,
                                   showCursor: true,
                                   decoration: InputDecoration(
-                                    hintText: "00",
+                                    hintText: "01",
                                     hintStyle: const TextStyle(
                                       fontSize: 20,
                                       color: Colors.grey,
@@ -188,6 +187,7 @@ class PotraitView extends StatelessWidget {
                                     // settingController.minutesController.clear();
                                     settingController.intervalSwitch.value = true;
                                     settingController.secondsUntil.value = false;
+
                                     // CustomKeyboard(onTextInput: (myText) {
                                     //   settingController.insertText(
                                     //     myText,
@@ -314,8 +314,12 @@ class PotraitView extends StatelessWidget {
                                   ),
                                   onTap: () {
                                     // settingController.secondController.clear();
-                                    settingController.secondsUntil.value = true;
-                                    settingController.intervalSwitch.value = false;
+                                    if (settingController.minutesController.text.isEmpty) {
+                                      settingController.intervalSwitch.value = false;
+                                      settingController.secondsUntil.value = false;
+                                    } else {
+                                      settingController.secondsUntil.value = true;
+                                    }
                                     // showModalBottomSheet(
                                     //     context: context,
                                     //     builder: (context) {

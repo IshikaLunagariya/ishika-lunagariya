@@ -30,10 +30,9 @@ class SettingController extends GetxController {
   final alarmSettings = AlarmSettings(
     id: 42,
     dateTime: DateTime.now(),
-    assetAudioPath: 'assets/note_alarm.mp3',
+    assetAudioPath: 'assets/beep_alarm.mp3',
     loopAudio: true,
-    vibrate: false,
-    fadeDuration: 3.0,
+    vibrate: true,
     notificationTitle: 'This is the title',
     notificationBody: 'This is the body',
     enableNotificationOnKill: true,
@@ -50,8 +49,15 @@ class SettingController extends GetxController {
     isAlarm.value = Preferences.instance.prefs?.getBool("isAlarm") ?? false;
     String? min;
     min = Preferences.instance.prefs?.getString("minutes");
-    if (min != "00") {
+    if (min != "01") {
       minutesController.text = min ?? "";
+      if (isAlarm.value) {
+        secondTimer?.cancel();
+        minuteTimer?.cancel();
+        setMinuteIntervalRemainder(
+          minutes: int.parse(minutesController.text),
+        );
+      }
     } else {
       minutesController.clear();
     }
@@ -59,6 +65,14 @@ class SettingController extends GetxController {
     second = Preferences.instance.prefs?.getString("seconds");
     if (second != "00") {
       secondController.text = second ?? "";
+      if (isAlarm.value) {
+        secondTimer?.cancel();
+        minuteTimer?.cancel();
+        setSecondIntervalRemainder(
+          minutes: int.parse(minutesController.text),
+          second: int.parse(secondController.text),
+        );
+      }
     } else {
       secondController.clear();
     }
@@ -187,6 +201,7 @@ class SettingController extends GetxController {
   }
 
   setMinuteIntervalRemainder({int? minutes}) {
+    secondTimer?.cancel();
     minuteTimer = Timer.periodic(Duration(minutes: minutes ?? 1), (Timer t) async {
       if (SizeUtils.screenHeight < 300) {
         Vibration.vibrate(duration: 4000, repeat: 20, amplitude: 128);
@@ -194,10 +209,10 @@ class SettingController extends GetxController {
         Vibration.vibrate(duration: 4000, repeat: 20, amplitude: 128);
         // await Alarm.set(alarmSettings: alarmSettings);
         // await Alarm.setNotificationOnAppKillContent("Interval", "body");
-        FlutterRingtonePlayer.play(looping: false, volume: 1, asAlarm: true, fromAsset: 'assets/note_alarm.mp3');
-        setSecondIntervalRemainder(
-            minutes: int.parse(minutesController.text),
-            second: secondController.text.isEmpty ? 0 : int.parse(secondController.text));
+        FlutterRingtonePlayer.play(looping: false, volume: 1, asAlarm: true, fromAsset: 'assets/beep_alarm.mp3');
+        // setSecondIntervalRemainder(
+        //     minutes: int.parse(minutesController.text),
+        //     second: secondController.text.isEmpty ? 0 : int.parse(secondController.text));
       }
     });
   }
@@ -205,28 +220,38 @@ class SettingController extends GetxController {
   setSecondIntervalRemainder({int? minutes, int? second}) {
     int minuteToSecond = Duration(minutes: minutes ?? 1).inSeconds;
     int finalSecond = minuteToSecond - (second ?? 0);
-
+    log("finalSecond--->$finalSecond");
     secondTimer = Timer.periodic(Duration(seconds: finalSecond), (Timer t) async {
       if (SizeUtils.screenHeight < 300) {
         Vibration.vibrate(duration: 4000, repeat: 20, amplitude: 100);
       } else {
         log("Interval $finalSecond $minuteToSecond");
         Vibration.vibrate(duration: 4000, repeat: 20, amplitude: 100);
-        await Alarm.set(alarmSettings: alarmSettings);
-        await Alarm.setNotificationOnAppKillContent("Interval", "body");
+        // await Alarm.set(alarmSettings: alarmSettings);
+        // await Alarm.setNotificationOnAppKillContent("Interval", "body");
+        FlutterRingtonePlayer.play(looping: true, volume: 1, asAlarm: true, fromAsset: 'assets/beep_alarm.mp3');
+
         Future.delayed(Duration(seconds: second ?? 0)).then((value) {
           print("Future.delayed");
-          Alarm.stop(42);
+          // Alarm.stop(42);
+          FlutterRingtonePlayer.stop();
+          Vibration.cancel();
+          secondTimer?.cancel();
+          setSecondIntervalRemainder(
+            minutes: int.parse(minutesController.text),
+            second: int.parse(secondController.text),
+          );
+          // secondTimer!.cancel();
         });
-        // FlutterRingtonePlayer.play(looping: true, volume: 1, asAlarm: true, fromAsset: 'assets/beep_alarm.mp3');
+
+        // secondTimer?.cancel();
       }
-      secondTimer!.cancel();
     });
   }
-  // @override
-  // void dispose() {
-  //   secondController.dispose();
-  //   minutesController.dispose();
-  //   super.dispose();
-  // }
+// @override
+// void dispose() {
+//   secondController.dispose();
+//   minutesController.dispose();
+//   super.dispose();
+// }
 }

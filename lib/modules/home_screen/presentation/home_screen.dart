@@ -20,11 +20,10 @@ class HomeScreen extends StatelessWidget {
 
   final HomeController homeController = Get.find();
 
-  final SettingController settingController = Get.find();
-
   @override
   Widget build(BuildContext context) {
     SizeUtils().init(context);
+    final SettingController settingController = Get.put(SettingController());
     if (settingController.preventLocking.value) {
       Wakelock.enable();
     } else {
@@ -157,17 +156,17 @@ class HomeScreen extends StatelessWidget {
                             child: IconButton(
                               onPressed: () async {
                                 settingController.isAlarm.value = false;
+                                await Preferences.instance.prefs?.setBool("isAlarm", settingController.isAlarm.value);
                                 settingController.minutesController.clear();
                                 settingController.secondController.clear();
                                 settingController.secondTimer?.cancel();
                                 settingController.minuteTimer?.cancel();
-                                Preferences.instance.prefs?.setString("minutes", "00");
+                                Preferences.instance.prefs?.setString("minutes", "01");
                                 Preferences.instance.prefs?.setString("seconds", "00");
                                 Alarm.stop(42);
                                 FlutterRingtonePlayer.stop();
                                 Vibration.cancel();
                                 // settingController.alarmPlugin.deleteAllAlarms();
-                                await Preferences.instance.prefs?.setBool("isAlarm", settingController.isAlarm.value);
                               },
                               icon: Icon(
                                 settingController.isAlarm.value ? Icons.notifications : Icons.notifications_off,
