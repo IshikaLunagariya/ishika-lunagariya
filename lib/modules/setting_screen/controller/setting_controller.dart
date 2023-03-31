@@ -28,9 +28,9 @@ class SettingController extends GetxController {
   Timer? minuteTimer;
 
   final alarmSettings = AlarmSettings(
-    id: 42,
+    id: 40,
     dateTime: DateTime.now(),
-    assetAudioPath: 'assets/beep_alarm.mp3',
+    assetAudioPath: 'assets/note_alarm.mp3',
     loopAudio: true,
     vibrate: true,
     notificationTitle: 'This is the title',
@@ -209,7 +209,7 @@ class SettingController extends GetxController {
         Vibration.vibrate(duration: 4000, repeat: 20, amplitude: 128);
         // await Alarm.set(alarmSettings: alarmSettings);
         // await Alarm.setNotificationOnAppKillContent("Interval", "body");
-        FlutterRingtonePlayer.play(looping: false, volume: 1, asAlarm: true, fromAsset: 'assets/beep_alarm.mp3');
+        FlutterRingtonePlayer.play(looping: false, volume: 1, asAlarm: true, fromAsset: 'assets/note_alarm.mp3');
         // setSecondIntervalRemainder(
         //     minutes: int.parse(minutesController.text),
         //     second: secondController.text.isEmpty ? 0 : int.parse(secondController.text));
@@ -229,7 +229,7 @@ class SettingController extends GetxController {
         Vibration.vibrate(duration: 4000, repeat: 20, amplitude: 100);
         // await Alarm.set(alarmSettings: alarmSettings);
         // await Alarm.setNotificationOnAppKillContent("Interval", "body");
-        FlutterRingtonePlayer.play(looping: true, volume: 1, asAlarm: true, fromAsset: 'assets/beep_alarm.mp3');
+        FlutterRingtonePlayer.play(looping: true, volume: 1, asAlarm: true, fromAsset: 'assets/note_alarm.mp3');
 
         Future.delayed(Duration(seconds: second ?? 0)).then((value) {
           print("Future.delayed");

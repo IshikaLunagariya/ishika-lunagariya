@@ -1,4 +1,5 @@
 import 'package:clock_simple/clock_demo.dart';
+import 'package:clock_simple/modules/demo.dart';
 import 'package:clock_simple/utils/app_binding.dart';
 import 'package:clock_simple/utils/app_color.dart';
 import 'package:clock_simple/utils/navigation_utils/routes.dart';
@@ -29,6 +30,7 @@ class _ClockSimpleState extends State<ClockSimple> {
           disabledColor: Colors.transparent,
           scaffoldBackgroundColor: AppColor.blackColor),
       initialRoute: Routes.homeScreen,
+      // home: MyApp(),
       unknownRoute: GetPage(name: Routes.homeScreen, page: () => const MyAlwaysDisplayOn()),
     );
   }
