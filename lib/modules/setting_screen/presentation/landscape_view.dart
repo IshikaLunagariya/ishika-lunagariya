@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:clock_simple/utils/navigation_utils/navigation.dart';
 import 'package:clock_simple/utils/preferences.dart';
 import 'package:clock_simple/utils/string_utils.dart';
@@ -12,7 +10,6 @@ import 'package:get/get.dart';
 import '../../../utils/app_color.dart';
 import '../../../utils/navigation_utils/routes.dart';
 import '../../../utils/size_utils.dart';
-import '../../../widget/custom_text_feild.dart';
 import '../../home_screen/controller/limit_range_text_input formatter.dart';
 import '../controller/setting_controller.dart';
 
@@ -33,7 +30,12 @@ class LandscapeView extends StatelessWidget {
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
-                    Navigation.pushNamed(Routes.homeScreen);
+                    if (settingController.intervalSwitch.value || settingController.secondsUntil.value) {
+                      settingController.intervalSwitch.value = false;
+                      settingController.secondsUntil.value = false;
+                    } else {
+                      Navigation.pushNamed(Routes.homeScreen);
+                    }
                   },
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height,
@@ -150,36 +152,101 @@ class LandscapeView extends StatelessWidget {
                                 children: [
                                   SizedBox(
                                     width: SizeUtils.screenHeight < 300 ? 20 : 25,
-                                    child: CustomTextFormField(
-                                      textInputAction: TextInputAction.done,
-                                      textSize: SizeUtils.screenHeight < 300 ? 15 : 20,
-                                      controller: settingController.minutesController,
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.digitsOnly,
-                                        LengthLimitingTextInputFormatter(2),
-                                        FilteringTextInputFormatter.deny(" "),
-                                        FilteringTextInputFormatter.deny("."),
-                                        LimitRangeTextInputFormatter(1, 60),
-                                      ],
-                                      keyboardType: TextInputType.number,
-                                      onFieldSubmitted: (value) async {
-                                        settingController.isAlarm.value = true;
-                                        await Preferences.instance.prefs
-                                            ?.setBool("isAlarm", settingController.isAlarm.value);
-                                        settingController.minutesController.clear();
-                                        settingController.minutesController.text = value;
-                                        log("Set Interval");
-                                        // settingController.alarmPlugin.deleteAllAlarms();
-                                        settingController.secondTimer?.cancel();
-                                        settingController.minuteTimer?.cancel();
-                                        settingController.setMinuteIntervalRemainder(
-                                          minutes: int.parse(settingController.minutesController.text),
-                                        );
-                                        await Preferences.instance.prefs
-                                            ?.setString("minutes", settingController.minutesController.text);
+                                    child: TextField(
+                                      readOnly: true,
+                                      cursorColor: Colors.white,
+                                      showCursor: true,
+                                      decoration: InputDecoration(
+                                        hintText: "01",
+                                        hintStyle: const TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        hintMaxLines: 1,
+                                        focusedErrorBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: AppColor.whiteColor,
+                                          ),
+                                        ),
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: AppColor.whiteColor,
+                                          ),
+                                        ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: AppColor.whiteColor,
+                                          ),
+                                        ),
+                                        errorBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: AppColor.whiteColor,
+                                          ),
+                                        ),
+                                        disabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: AppColor.whiteColor,
+                                          ),
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        // settingController.minutesController.clear();
+                                        settingController.intervalSwitch.value = true;
+                                        settingController.secondsUntil.value = false;
+
+                                        // CustomKeyboard(onTextInput: (myText) {
+                                        //   settingController.insertText(
+                                        //     myText,
+                                        //     settingController.minutesController,
+                                        //   );
+                                        // }, onBackspace: () {
+                                        //   settingController.backspace(settingController.minutesController);
+                                        // }, onSubmit: ((value) async {
+                                        //   settingController.isAlarm.value = true;
+                                        //   settingController.minutesController.clear();
+                                        //   settingController.minutesController.text = value;
+                                        //   // settingController.alarmPlugin.deleteAllAlarms();
+                                        //   log("Set Interval");
+                                        //   settingController.secondTimer?.cancel();
+                                        //   settingController.minuteTimer?.cancel();
+                                        //   settingController.setMinuteIntervalRemainder(
+                                        //     minutes: int.parse(settingController.minutesController.text),
+                                        //   );
+                                        //   await Preferences.instance.prefs
+                                        //       ?.setString("minutes", settingController.minutesController.text);
+                                        // }));
                                       },
-                                      hintColor: AppColor.whiteColor,
-                                      hint: "00",
+                                      // textInputAction: TextInputAction.done,
+                                      // textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
+                                      style: const TextStyle(color: Colors.white, fontSize: 20),
+                                      controller: settingController.minutesController,
+                                      // inputFormatters: [
+                                      //   FilteringTextInputFormatter.digitsOnly,
+                                      //   LengthLimitingTextInputFormatter(2),
+                                      //   FilteringTextInputFormatter.deny(" "),
+                                      //   FilteringTextInputFormatter.deny("."),
+                                      //   LimitRangeTextInputFormatter(1, 60),
+                                      // ],
+                                      // keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
+                                      // onFieldSubmitted: (value) async {
+                                      //   settingController.isAlarm.value = true;
+                                      //   await Preferences.instance.prefs
+                                      //       ?.setBool("isAlarm", settingController.isAlarm.value);
+                                      //   settingController.minutesController.clear();
+                                      //   settingController.minutesController.text = value;
+                                      //   // settingController.alarmPlugin.deleteAllAlarms();
+                                      //   log("Set Interval");
+                                      //   settingController.secondTimer?.cancel();
+                                      //   settingController.minuteTimer?.cancel();
+                                      //   settingController.setMinuteIntervalRemainder(
+                                      //     minutes: int.parse(settingController.minutesController.text),
+                                      //   );
+                                      //   await Preferences.instance.prefs
+                                      //       ?.setString("minutes", settingController.minutesController.text);
+                                      // },
+                                      // hintColor: AppColor.whiteColor,
+                                      // hint: "00",
                                     ),
                                   ),
                                   Padding(
@@ -250,10 +317,51 @@ class LandscapeView extends StatelessWidget {
                                       hintColor: AppColor.whiteColor,
                                     ),*/
                                         TextField(
-                                      style: TextStyle(color: Colors.white),
+                                      cursorColor: Colors.white,
+                                      showCursor: true,
+                                      style: const TextStyle(color: Colors.white, fontSize: 20),
+                                      decoration: InputDecoration(
+                                        hintText: "00",
+                                        hintStyle: const TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        hintMaxLines: 1,
+                                        focusedErrorBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: AppColor.whiteColor,
+                                          ),
+                                        ),
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: AppColor.whiteColor,
+                                          ),
+                                        ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: AppColor.whiteColor,
+                                          ),
+                                        ),
+                                        errorBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: AppColor.whiteColor,
+                                          ),
+                                        ),
+                                        disabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: AppColor.whiteColor,
+                                          ),
+                                        ),
+                                      ),
                                       onTap: () {
-                                        settingController.secondController.clear();
-                                        settingController.secondsUntil.value = true;
+                                        // settingController.secondController.clear();
+                                        if (settingController.minutesController.text.isEmpty) {
+                                          settingController.intervalSwitch.value = false;
+                                          settingController.secondsUntil.value = false;
+                                        } else {
+                                          settingController.secondsUntil.value = true;
+                                        }
                                         // showModalBottomSheet(
                                         //     context: context,
                                         //     builder: (context) {
@@ -282,6 +390,7 @@ class LandscapeView extends StatelessWidget {
                                       },
                                       readOnly: true,
                                       textInputAction: TextInputAction.done,
+
                                       // textSize: SizeUtils.screenHeight < 300 ? SizeUtils.fSize_15() : SizeUtils.fSize_20(),
                                       controller: settingController.secondController,
                                       inputFormatters: [
@@ -295,6 +404,7 @@ class LandscapeView extends StatelessWidget {
                                       onChanged: (value) {
                                         print("value---->$value");
                                       },
+
                                       // onFieldSubmitted: (value) async {
                                       //   settingController.isAlarm.value = true;
                                       //   await Preferences.instance.prefs

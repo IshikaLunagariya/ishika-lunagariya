@@ -5,7 +5,9 @@ import 'package:alarm/alarm.dart';
 import 'package:clock_simple/utils/preferences.dart';
 import 'package:clock_simple/utils/size_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:flutter_system_ringtones/flutter_system_ringtones.dart';
 import 'package:get/get.dart';
 import 'package:vibration/vibration.dart';
 
@@ -21,6 +23,7 @@ class SettingController extends GetxController {
   TextEditingController minutesController = TextEditingController();
   TextEditingController secondController = TextEditingController();
   String dropDownValue = '0 Second';
+  RxList<Ringtone> ringtones = <Ringtone>[].obs;
 
   var secondList = ["0 Second", "15 Seconds", "30 Seconds", "45 Seconds", "60 Seconds"];
 
@@ -39,7 +42,8 @@ class SettingController extends GetxController {
   );
 
   @override
-  void onInit() {
+  void onInit() async {
+    await getRingtones();
     preventLocking.value = Preferences.instance.prefs?.getBool("preventLocking") ?? false;
     dimmer.value = Preferences.instance.prefs?.getBool("dimmer") ?? false;
     hourFormat.value = Preferences.instance.prefs?.getBool("hourFormat") ?? false;
@@ -248,10 +252,13 @@ class SettingController extends GetxController {
       }
     });
   }
-// @override
-// void dispose() {
-//   secondController.dispose();
-//   minutesController.dispose();
-//   super.dispose();
-// }
+
+  Future<void> getRingtones() async {
+    try {
+      final temp = await FlutterSystemRingtones.getRingtoneSounds();
+      ringtones.value = temp;
+    } on PlatformException {
+      debugPrint('Failed to get platform version.');
+    }
+  }
 }

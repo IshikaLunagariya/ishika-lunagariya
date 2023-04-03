@@ -413,6 +413,22 @@ class PotraitView extends StatelessWidget {
                               ),
                             ],
                           ),
+
+                          /// ringtone page
+                          /*SizedBox(
+                            height: SizeUtils.verticalBlockSize * 2,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(Routes.ringtonePage);
+                            },
+                            child: AppText(
+                              text: "Select Sound",
+                              color: AppColor.whiteColor,
+                              fontSize: 15,
+                            ),
+                          )*/
+                          /// switch for interval
                           /*  CustomSwitchWidget(
                             title: settingController.intervalSwitch.value
                                 ? SizedBox(

@@ -153,27 +153,34 @@ class HomeScreen extends StatelessWidget {
                         alignment: Alignment.topRight,
                         child: Transform.scale(
                             scale: SizeUtils.screenHeight < 300 ? 0.4 : 1,
-                            child: IconButton(
-                              onPressed: () async {
-                                settingController.isAlarm.value = false;
-                                await Preferences.instance.prefs?.setBool("isAlarm", settingController.isAlarm.value);
-                                settingController.minutesController.clear();
-                                settingController.secondController.clear();
-                                settingController.secondTimer?.cancel();
-                                settingController.minuteTimer?.cancel();
-                                Preferences.instance.prefs?.setString("minutes", "01");
-                                Preferences.instance.prefs?.setString("seconds", "00");
-                                Alarm.stop(42);
-                                FlutterRingtonePlayer.stop();
-                                Vibration.cancel();
-                                // settingController.alarmPlugin.deleteAllAlarms();
-                              },
-                              icon: Icon(
-                                settingController.isAlarm.value ? Icons.notifications : Icons.notifications_off,
-                                color: Colors.white,
-                                size: 30,
+                            child: Visibility(
+                              visible: homeController.isButtonVisible.value,
+                              child: IconButton(
+                                onPressed: () async {
+                                  settingController.isAlarm.value = false;
+                                  await Preferences.instance.prefs?.setBool("isAlarm", settingController.isAlarm.value);
+                                  settingController.minutesController.clear();
+                                  settingController.secondController.clear();
+                                  settingController.secondTimer?.cancel();
+                                  settingController.minuteTimer?.cancel();
+                                  Preferences.instance.prefs?.setString("minutes", "01");
+                                  Preferences.instance.prefs?.setString("seconds", "00");
+                                  Alarm.stop(42);
+                                  FlutterRingtonePlayer.stop();
+                                  Vibration.cancel();
+                                  // settingController.alarmPlugin.deleteAllAlarms();
+                                },
+                                icon: Icon(
+                                  settingController.isAlarm.value ? Icons.notifications : Icons.notifications_off,
+                                  color: homeController.currentSliderValueForColor.value <= 0.5
+                                      ? AppColor.blackColor
+                                      : AppColor.whiteColor,
+                                  size: 30,
+                                ),
                               ),
                             )
+
+                            /// switch for alarm off
                             /*CupertinoSwitch(
                             value: settingController.isAlarm.value,
                             onChanged: (value) async {
